@@ -67,11 +67,19 @@ esac
 # Python3 update all pip3 packages
 type pip3 2&>1 > /dev/null
 if [ $? = 0 ]; then
-    echo "Updating pip"
-    pip3 freeze --local \
-        | grep -v '^\-e' \
-        | cut -d = -f 1  \
-        | xargs -n1 pip3 install -U
+    if [ -z $(pip3 freeze --local) ]; then
+        echo "No pip packages installed so far. Updating only pip3 itself."
+    else
+        echo "Updating pip3 packages."
+        pip3 freeze --local \
+            | grep -v '^\-e' \
+            | cut -d = -f 1  \
+            | xargs -n1 pip3 install --upgrade
+    fi
+    pip3 install --upgrade pip || {
+        echo "Running pip3 upgrade again with sudo"
+        sudo pip3 install --upgrade pip
+    }
 else
     echo "Missing pip3, skipping."
 fi
