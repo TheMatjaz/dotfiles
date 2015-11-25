@@ -46,11 +46,11 @@ case $(uname) in
         if [ -f /etc/debian_version ] ; then
             # based on Debian, so has apt-get
             echo "Updating apt-get"
-            apt-get update
-            apt-get -y dist-upgrade
-            apt-get autoremove
-            apt-get clean
-            apt-get autoclean
+            sudo apt-get update
+            sudo apt-get -y dist-upgrade
+            sudo apt-get autoremove
+            sudo apt-get clean
+            sudo apt-get autoclean
         else
             echo 'Not implemented for this Linux.
 Please update this script $(basename $0)'
