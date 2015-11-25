@@ -34,6 +34,7 @@ fi
 # Create dotfiles directory and clone repository into it
 dotfiles_dir="$HOME/Development/Dotfiles/"
 backup_dir="$dotfiles_dir.original_dotfiles/"
+mkdir -p $dotfiles_dir
 cd $dotfiles_dir
 echo "A folder $dotfiles_dir has been created to store all the dotfiles in it."
 if [ -d .git ]; then
@@ -81,6 +82,13 @@ symlink_dotfile mc_ini ~/.config/mc/ini
 symlink_dotfile mc_panels.ini ~/.config/mc/panels.ini
 symlink_dotfile emacs_init.el ~/.emacs.d/init.el
 
+# Move backup made by Oh My ZSH installer to $backup_dir
+if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
+    echo "Moved old zshrc backupped by Oh My ZSH to $backup_dir"
+    mkdir -p $backup_dir
+    mv ~/.zshrc.pre-oh-my-zsh $backup_dir
+fi
+
 # Symlink the htop configuration file as well, but place it in ~/.htoprc on Macs
 # and in ~/.config/htop/htoprc on Linux.
 case $(uname) in
@@ -107,3 +115,4 @@ To install more useful packages, launch the useful packages installer:
 # Clean some variables
 unset backup_dir
 unset dotfiles_dir
+
