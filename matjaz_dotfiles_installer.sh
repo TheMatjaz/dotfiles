@@ -26,7 +26,8 @@ in your home directory. Before that it will also install a few packages from the
 packaging system of your system: homebrew or apt-get and the shell framework Oh
 My ZSH! as well. All those are the packages that the dotifiles are for."
 read -p "Are you ready? (y/n) " -n 1 -r
-echo if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Well, another time. See ya!"
     exit 2
 fi
