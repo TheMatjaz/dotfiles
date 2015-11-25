@@ -53,12 +53,14 @@ case $(uname) in
             sudo apt-get clean
             sudo apt-get autoclean
         else
-            echo "Not implemented for this Linux operative system. Please update this script $(basename $0)"
+            echo "Not implemented for this Linux operative system.
+Please update this script $(basename $0)"
             exit 100
         fi
         ;;
     *)
-        echo "Not implemented for this operative system. Please update this script $(basename $0)"
+        echo "Not implemented for this operative system.
+Please update this script $(basename $0)"
         exit 100
         ;;
 esac
