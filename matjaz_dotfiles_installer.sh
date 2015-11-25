@@ -1,12 +1,23 @@
 #!/bin/bash
-################################################################################
-# Matjaž dotfiles installer script
-# Copyright (c) 2015 Matjaž <dev@matjaz.it> matjaz.it
+# ------------------------------------------------------------------------------
+# Matjaž's dotfiles installer script
 #
-# Execute this script anywhere on the system. It downloads the dotfiles git
-# repository in ~/Development/Dotfiles and creates symlinks from the home
-# directory to the files in the dotfiles repository.
-################################################################################
+# >> LICENSE
+# Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This Source Code Form is subject to the terms of the BSD 3-clause license. 
+# If a copy of the license was not distributed with this file, You can obtain
+# one at http://directory.fsf.org/wiki/License:BSD_3Clause
+#
+# >> USAGE
+# Execute this script anywhere on the system. There are no parameters.
+#
+# >> WHAT IT DOES
+# It downloads the Matjaž's dotfiles git repository (which may be found on
+# Github: https://github.com/TheMatjaz/dotfiles) to ~/Development/Dotfiles and
+# applies those dotfiles to the user, by creating symlinks to them from the
+# home directory. Also installs the packages to be configured by the dotfiles
+# by calling new_system_packages_installer.sh
+# ------------------------------------------------------------------------------
 
 # Install Oh My ZSH if not already installed
 if [ -d ~/.oh-my-zsh ]; then
