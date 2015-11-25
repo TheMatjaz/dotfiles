@@ -24,7 +24,7 @@ from GitHub and create symlinks to them in your home directory. Before that it
 will also install a few packages from the packaging system of your system:
 homebrew or apt-get and the shell framework Oh My ZSH! as well. All those are 
 the packages that the dotifiles are for."
-read -p "Are you ready? (y/n)" -n 1 -r
+read -p "Are you ready? (y/n) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Well, another time. See ya!"
@@ -49,7 +49,7 @@ Please try running this script again."
 fi
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
-bash new_system_packages_installer.sh
+bash $dotfiles_dir"new_system_packages_installer.sh"
 
 # Creates a symbolic link to the file specified in the first argument $1
 # pointing to the file specified in the second argument $2. Backups any existing
@@ -98,12 +98,11 @@ esac
 
 echo "Completed.
 A full update of the system is suggested. Launch it with:
-
-bash full_system_updater.sh
+    bash full_system_updater.sh
 
 To install more useful packages, launch the useful packages installer:
-
-bash useful_packages_installer.sh"
+    bash useful_packages_installer.sh
+"
 
 # Clean some variables
 unset backup_dir
