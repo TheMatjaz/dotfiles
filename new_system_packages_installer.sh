@@ -21,66 +21,52 @@
 
 
 # Find the current operating system
+echo "Installing some packages to be set with the dotfiles."
 case $(uname) in
     'Darwin')
-        
+        echo "OS X detected."
         # Install Homebrew if not already installed
         type brew 2>&1 > /dev/null
         if [ $? != 0 ]; then
-            echo "Installing Homebrew."
+            echo "Installing Homebrew, will be used to install the packages."
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        else
+            echo "Homebrew already installed, skipping installation."
         fi
-
-        # Make sure we’re using the latest Homebrew.
+        echo "Updating Homebrew local repository..."
         brew update
-
-        # Upgrade any already-installed formulae.
-        brew upgrade --all
-
-        # Install packages that have already been in use on other OS X systems
-        brew install \
-             brew-cask diff-pdf doxygen ecj emacs figlet frotz gcc git \
-             git-flow gnuplot htop-osx hugo keybase maven midnight-commander \
-             nmap pandoc pgformatter python3 sqlite tree wget coreutils \
-             findutils moreutils imagemagick --with-webp rename speedtest_cli
-
-        #sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
-
-        # Remove outdated versions from the cellar.
+        echo "Installing the packages."
+        brew install brew-cask emacs git git-flow htop-osx midnight-commander python3 sqlite wget
+        echo "Performing some cleaning."
         brew cleanup --force -s   
         brew cask cleanup
         ;;
     'Linux')
         if [ -f /etc/debian_version ] ; then
-            # based on Debian, so has apt-get
-            echo "Updating apt-get"
-            # Keep-alive: update existing `sudo` time stamp until the script has finished.
-            sudo -v
-            while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-            apt-get update
-            apt-get -y upgrade
-            apt-get -y install \
-                    build-essential git-core git-flow htop mc emacs zsh sqlite3 python3-pip
-            apt-get autoremove
-            apt-get clean
-            apt-get autoclean
+            echo "Debian/Ubuntu detected."
+            echo "Updating apt-get."
+            sudo apt-get update
+            echo "Installing the packages."
+            sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen
+            echo "Performing some cleaning."
+            sudo apt-get autoremove
+            sudo apt-get clean
+            sudo apt-get autoclean
         else
-            echo 'Not implemented for this operative system. Please update the script.'
+            echo "Not implemented for this Linux operative system. Please update this script $(basename $0)"
             exit 100
         fi
         ;;
     *)
-        echo 'Not implemented for this operative system. Please update the script.'
+        echo "Not implemented for this operative system. Please update this script $(basename $0)"
         exit 100
         ;;
 esac
 
-type pip3 2>&1 > /dev/null
-if [ $? = 0 ]; then
-    echo "Installing pip3 packages"
-    pip3 install --update pip3
-    pip3 install grip Markdown numpy
+# Install Oh My ZSH if not already installed
+if [ -d ~/.oh-my-zsh ]; then
+    echo "Oh My ZSH installation found, skipping install."
 else
-    echo "Missing pip3, skipping."
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    chsh -s $(which zsh)
 fi
