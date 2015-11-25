@@ -1,0 +1,10 @@
+[ui]  
+username = Matjaž <dev@matjaz.it>
+ignore = ~/.gitignore_global        # uses the gitignore file
+editor = e                          # alias for emacsclient -t -a''
+    
+[hostfingerprints]
+bitbucket.org = 45:AD:AE:1A:CF:0E:73:47:06:07:E0:88:F5:CC:10:E5:FA:1C:F7:99
+
+[extensions]
+strip = !
