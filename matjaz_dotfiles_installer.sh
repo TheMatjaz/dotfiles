@@ -19,6 +19,16 @@
 # by calling new_system_packages_installer.sh
 # ------------------------------------------------------------------------------
 
+echo "Ready to set up a new system? This script will pull Matjaž's dotfiles \
+from GitHub and create symlinks to them in your home directory. Before that it\
+will also install a few packages from the packaging system of your system:\
+homebrew or apt-get and the shell framework Oh My ZSH! as well.\
+All those are the packages that the dotifiles are for."
+read -p "Are you ready? " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Well, another time. See ya!"
+    exit 2
 fi
 
 # Create dotfiles directory and clone repository into it
@@ -85,12 +95,20 @@ case $(uname) in
         symlink_dotfile htoprc ~/.config/htop/htoprc
         ;;
     *)
-        echo 'Cannot symlink htoprc on proper position on this operative system. Please update this script or perform the symlink yourself.'
-    ;;
+        echo "Cannot symlink htoprc on proper position on this operative system.\
+Please update this script $(basename $0) or perform the symlink manually."
+        ;;
 esac
 
+echo "Completed.
+A full update of the system is suggested. Launch it with:\
 
+bash full_system_updater.sh
 
+To install more useful packages, launch the useful packages installer:
 
+bash useful_packages_installer.sh"
+
+# Clean some variables
 unset backup_dir
 unset dotfiles_dir
