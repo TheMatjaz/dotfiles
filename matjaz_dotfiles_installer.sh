@@ -106,10 +106,13 @@ if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
     mv ~/.zshrc.pre-oh-my-zsh $backup_dir
 fi
 
-printf "Completed.
-A full update of the system is suggested. Launch it with
-    bash %sfull_system_updater.sh
-" $dotfiles_dir
+echo "Dotfiles installation completed."
+read -p "Do you want to perform an update+upgrade of all package managers? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    printf "You can peform it manually by launching
+    bash %sfull_system_updater.sh\n" $dotfiles_dir
+fi
 
 # Clean some variables
 unset backup_dir
