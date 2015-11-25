@@ -33,11 +33,7 @@ fi
 
 # Create dotfiles directory and clone repository into it
 dotfiles_dir="$HOME/Development/Dotfiles/"
-backup_dir="$HOME/Development/Dotfiles/.original_dotfiles/"
-mkdir -p $backup_dir || {
-    echo "Cannot create the $dotfiles_dir directory"
-    exit 1
-}
+backup_dir="$dotfiles_dir.original_dotfiles/"
 cd $dotfiles_dir
 echo "A folder $dotfiles_dir has been created to store all the dotfiles in it."
 if [ -d .git ]; then
@@ -62,10 +58,9 @@ function symlink_dotfile() {
     local file_in_repo=$dotfiles_dir$1
     local file_in_home=$2
     if [[ -e $file_in_home && ! -L $file_in_home ]]; then
+        mkdir -p $backup_dir   # prepare backup directory if not exists
         echo "Backing up existing $file_in_home into $backup_dir"
         mv $file_in_home $backup_dir
-    #elif [ ! -e $file_in_home ]; them
-    #     touch_with_create_path($file_in_home)
     fi
     ln -s -v -f -F $file_in_repo $file_in_home
 }
