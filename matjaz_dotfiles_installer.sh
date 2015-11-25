@@ -105,13 +105,10 @@ if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
     mv ~/.zshrc.pre-oh-my-zsh $backup_dir
 fi
 
-echo "Completed.
-A full update of the system is suggested. Launch it with:
-    bash full_system_updater.sh
-
-To install more useful packages, launch the useful packages installer:
-    bash useful_packages_installer.sh
-"
+printf "Completed.
+A full update of the system is suggested. Launch it with
+    bash %sfull_system_updater.sh
+" $dotfiles_dir
 
 # Clean some variables
 unset backup_dir
