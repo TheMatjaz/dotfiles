@@ -22,9 +22,12 @@
 fi
 
 # Create dotfiles directory and clone repository into it
-dotfiles_dir="$HOME/Development/Dotfiles"
+dotfiles_dir="$HOME/Development/Dotfiles/"
 backup_dir="$HOME/Development/Dotfiles/.original_dotfiles/"
-mkdir -p $backup_dir
+mkdir -p $backup_dir || {
+    echo "Cannot create the $dotfiles_dir directory"
+    exit 1
+}
 cd $dotfiles_dir
 #git clone --recursive git://github.com/TheMatjaz/dotfiles.git . || exit 1
 
