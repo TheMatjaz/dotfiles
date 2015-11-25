@@ -1,0 +1,24 @@
+# SHELL PATH VARIABLE
+# ===================
+# Including: Homebrew Cellar, X11, MacGPG, TeX, PostgreSQL (psql), SQLite3
+# (from Homebrew), RVM
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/MacGPG2/bin:/usr/texbin:/Applications/Postgres.app/Contents/Versions/9.4/bin:$(brew --prefix sqlite)/bin:~/.rvm/bin"
+# export MANPATH="/usr/local/man:$MANPATH"
+
+
+# EXPORTS
+# =======
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR="emacsclient -t -a ''"
+else
+  export EDITOR="emacsclient -t -a ''"
+fi
+export VISUAL="emacsclient -c -a ''"
+export ALTERNATE_EDITOR="nano"
+export GIT_EDITOR="emacsclient -t -a ''"
+# Make Pyhton use UTF-8 for stdin, stdout and stderr.
+export PYTHONIOENCODING='UTF-8';
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";

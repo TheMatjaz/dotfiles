@@ -1,7 +1,12 @@
-Matjaž's dotfiles license (BSD 3-clause)
-----------------------------------------
+Matjaž's dotfiles license
+-------------------------
 
-_Copyright © 2015, Matjaž Guštin <dev@matjaz.it> [matjaz.it](http://matjaz.it)_  
+_BSD 3-clause License_, also known as _Revised BSD License_, _New BSD License_
+or _Modified BSD License_.
+
+********************************************************************************
+
+_Copyright © 2015, Matjaž Guštin <dev@matjaz.it> <http://matjaz.it>_  
 _All rights reserved._
 
 Redistribution and use in source and binary forms, with or without modification,
