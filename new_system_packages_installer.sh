@@ -77,7 +77,7 @@ else
 fi
 
 # Install the live syntax highlighting for Oh My ZSH
-zshsyntax_dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+zshsyntax_dir="~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 if [ -d $zshsyntax_dir/.git ]; then
     echo "Updating existing zsh-syntax-highlighting repository."
     cd $zshsyntax_dir

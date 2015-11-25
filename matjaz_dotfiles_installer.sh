@@ -33,7 +33,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # Create dotfiles directory and clone repository into it
-dotfiles_dir="$HOME/Development/Dotfiles/"
+dotfiles_dir="~/Development/Dotfiles/"
 backup_dir="$dotfiles_dir.original_dotfiles/"
 mkdir -p $dotfiles_dir
 cd $dotfiles_dir
