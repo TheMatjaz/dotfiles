@@ -74,6 +74,7 @@ symlink_dotfile gitignore_global ~/.gitignore_global
 symlink_dotfile hgrc ~/.hgrc
 symlink_dotfile screenrc ~/.screenrc
 symlink_dotfile wgetrc ~/.wgetrc
+mkdir -p ~/.oh-my-zsh/custom/themes/  # it does not exist by default
 symlink_dotfile zsh_fino_custom.zsh-theme ~/.oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
 symlink_dotfile zsh_aliases ~/.zsh_aliases
 symlink_dotfile zsh_path ~/.zsh_path
@@ -81,13 +82,6 @@ symlink_dotfile zshrc ~/.zshrc
 symlink_dotfile mc_ini ~/.config/mc/ini
 symlink_dotfile mc_panels.ini ~/.config/mc/panels.ini
 symlink_dotfile emacs_init.el ~/.emacs.d/init.el
-
-# Move backup made by Oh My ZSH installer to $backup_dir
-if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
-    echo "Moved old zshrc backupped by Oh My ZSH to $backup_dir"
-    mkdir -p $backup_dir
-    mv ~/.zshrc.pre-oh-my-zsh $backup_dir
-fi
 
 # Symlink the htop configuration file as well, but place it in ~/.htoprc on Macs
 # and in ~/.config/htop/htoprc on Linux.
@@ -103,6 +97,13 @@ case $(uname) in
 Please update this script $(basename $0) or perform the symlink manually."
         ;;
 esac
+
+# Move backup made by Oh My ZSH installer to $backup_dir
+if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
+    echo "Moved old zshrc backupped by Oh My ZSH to $backup_dir"
+    mkdir -p $backup_dir
+    mv ~/.zshrc.pre-oh-my-zsh $backup_dir
+fi
 
 echo "Completed.
 A full update of the system is suggested. Launch it with:
