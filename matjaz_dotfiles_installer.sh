@@ -19,12 +19,6 @@
 # by calling new_system_packages_installer.sh
 # ------------------------------------------------------------------------------
 
-# Install Oh My ZSH if not already installed
-if [ -d ~/.oh-my-zsh ]; then
-    echo "Oh My ZSH installation found, skipping install."
-else
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    chsh -s $(which zsh)
 fi
 
 # Create dotfiles directory and clone repository into it
@@ -38,6 +32,8 @@ cd $dotfiles_dir
 # htop configuration file and midnight commander (mc) configuration file.
 # The last two are needed since their position is not the same on different OS.
 symlinkables=$(ls -1 | egrep --invert-match --regexp='(^.+\.(sh|md)$)|(^mc_.+$)|(^htoprc$)')
+# Install a set of basic packages on newly set systems, along with Oh My ZSH!
+bash new_system_packages_installer.sh
 
 # Create symlinks in the home directory that point to the files in the
 # dotfiles repository. Backup any existing dotfile.
