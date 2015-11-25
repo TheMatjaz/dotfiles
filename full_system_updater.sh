@@ -1,19 +1,9 @@
 #!/bin/zsh
 # This script runs all possible upgrades on a Unix-like system. Run it as root.
 
-# Find current OS and act accordingly, updating their package manager
-# http://stackoverflow.com/a/3792848
-
-# Make sure only root can run our script
-#if [[ $EUID -ne 0 ]]; then
-#    echo "This script must be run as root" 1>&2
-#    exit 1
-#fi
-
-# Find the current operating system
+# Find the current operating system as seen: http://stackoverflow.com/a/3792848
 case $(uname) in
     'Darwin')
-        # Mac App store update
         echo "Updating Apple App Store software."
         softwareupdate -i -a
         # If HomeBrew is installed, run its updates
@@ -23,19 +13,7 @@ case $(uname) in
             brew update
             brew missing
             brew upgrade --all
-            brew cleanup --force -s # '-s' = remove even the latest version cache
-            # here add clean all unused dependencies
-            #list="/tmp/brew_installed_formulas.db"
-            #rm -r $list
-            #touch $list
-            #sqlite3 $list "CREATE TABLE brew_formulas (formula_name text PRIMARY KEY, used_by int);"
-            #for formula in $(brew list); do
-            #    sqlite3 $list "INSERT INTO brew_formulas (formula_name) VALUES ('$formula');"
-            #    for dependency in $(brew uses --installed $formula); do
-            #        sqlite3 $list "UPDATE brew_formulas SET (used_by) = (used_by + 1) WHERE formula_name = '$dependency';"
-            #    done
-            #done
-            #grep -v 'used' < $list
+            brew cleanup --force -s # '-s'= remove even the latest version cache
         else
             echo "Missing Homebrew, skipping."
         fi
@@ -43,7 +21,6 @@ case $(uname) in
         if [ $? = 0 ]; then
             echo "Cleaning up Homebrew Cask."
             brew cask cleanup
-            # here add clean all unused dependencies
         else
             echo "Missing Homebrew Cask, skipping."
         fi
@@ -53,17 +30,17 @@ case $(uname) in
             # based on Debian, so has apt-get
             echo "Updating apt-get"
             apt-get update
-            apt-get -y upgrade
+            apt-get -y dist-upgrade
             apt-get autoremove
             apt-get clean
             apt-get autoclean
         else
-            echo 'Not implemented for this operative system. Please update the script.'
+            echo 'Not implemented for this Linux. Please update this script $(basename $0)'
             exit 100
         fi
         ;;
     *)
-        echo 'Not implemented for this operative system. Please update the script.'
+        echo 'Not implemented for this operative system. Please update this script $(basename $0)'
         exit 100
         ;;
 esac
