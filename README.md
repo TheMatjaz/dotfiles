@@ -1,7 +1,7 @@
 Matjaž Dotfiles Repository
 ==========================
 
-_a.k.a. yet another dotfiles repo_
+_a.k.a. yet another dotfiles repo but now with powerful installer scripts_
 
 Features
 --------
@@ -18,8 +18,8 @@ Features
 - [`gitconfig`](gitconfig): general Git settings
 - [`gitignore_global`](gitignore_global): a list of files Git should ignore in
   any repository
-- [`init.el`](init.el): Emacs configuration that also installs some ELPA
-  packages, if not already installed, to completely clone an existing
+- [`emacs_init.el`](emacs_init.el): Emacs configuration that also installs some
+  ELPA packages, if not already installed, to completely clone an existing
   configuration
 - [`hgrc`](hgrc): general Mercurial settings
 - [`htoprc`](htoprc): looks and columns for `htop` process viewer
@@ -34,16 +34,16 @@ Those scripts are meant to be portable, so they react differently based on the
 operative system. Currently are implemented for OS X and Linux Debian/Ubuntu.
 
 - [`matjaz_dotfiles_installer.sh`](matjaz_dotfiles_installer.sh) installs _Oh My
-  ZSH!_, if not already installed, clones this dotfiles repository and creates
-  symlinks in the home directory to the just git-cloned dotfiles configuration
-  files.
+  ZSH!_, if not already installed, clones this dotfiles repository and applies
+  those dotfiles to the user, by creating symlinks to them from the home
+  directory.
 - [`new_system_packages_installer.sh`](new_system_packages_installer.sh) which
-  installs some basic packages from the main package manager of the current
-  operating system. Currently only for `brew` + `brew cask` or `apt-get` and
-  `pip3` installed, and a bunch of basic useful formulas.
+  installs some packages which the Matjaž's dotfiles are for. It calls the
+  system's package manager. Currently only for `brew` + `brew cask` or
+  `apt-get`.
 - [`full_system_updater.sh`](full_system_updater.sh) just like
   `new_system_packages_installs.sh` detects the operative system and updates
-  all the packages of its package managers: currently only for `brew` + `brew
+  all the packages of its package managers. Currently only for `brew` + `brew
   cask` or `apt-get`, `pip3` and `gem`.
 
 
@@ -53,24 +53,22 @@ Installation
 All you need to do is download and run the
 [`matjaz_dotfiles_installer.sh`](matjaz_dotfiles_installer.sh) which should
 handle all the rest. It installs the dotfiles repository in
-`~/Development/Dotfiles`. Change that setting in the file, if needed.
+`~/Development/Dotfiles`, the necessary packages, HomeBrew and _Oh My ZSH!_.
 
-Run the following command to perform the whole job:
+Run the following command to download the installer and run it:
 
 ```bash
 bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh -O -)"
 ```
 
 After that I suggest running the
-[`new_system_packages_installer.sh`](new_system_packages_installer.sh), which is
-located in the dotfiles repository (default in `~/Development/Dotfiles`),
-especially on freshly installed systems:
+[`full_system_updater.sh`](full_system_updater.sh), which will be
+located in the just downloaded dotfiles repository (default in `~/Development/Dotfiles`), to update and upgrade everything. It ask for root password just for `gem` updates.
 
 ```bash
-bash new_system_packages_installer.sh
+bash full_system_updater.sh
 ```
 
-It ask for root password just for `gem` updates.
 
 License
 -------
