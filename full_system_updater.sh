@@ -65,7 +65,7 @@ Please update this script $(basename $0)'
 esac
 
 # Python3 update all pip3 packages
-type pip3 2>&1 > /dev/null
+type pip3 2&>1 > /dev/null
 if [ $? = 0 ]; then
     echo "Updating pip"
     pip3 freeze --local \
@@ -77,7 +77,7 @@ else
 fi
 
 # Ruby gems
-type gem 2>&1 > /dev/null
+type gem 2&>1 > /dev/null
 if [ $? = 0 ]; then
     echo "Updating gem."
     sudo gem update --system
