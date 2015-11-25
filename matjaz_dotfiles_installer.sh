@@ -29,7 +29,17 @@ mkdir -p $backup_dir || {
     exit 1
 }
 cd $dotfiles_dir
-#git clone --recursive git://github.com/TheMatjaz/dotfiles.git . || exit 1
+echo "A folder $dotfiles_dir has been created to store all the dotfiles in it."
+if [ -d .git ]; then
+    echo "Updating existing dotfiles repository."
+else
+    echo "Cloning the dotfiles repository."
+    git clone https://github.com/TheMatjaz/dotfiles.git . || {
+        echo "An error occurred during the cloning of the dotfiles repository.\
+Please try running this script again."
+        exit 1
+    }
+fi
 
 # Pick configuration files to symlink, ignore makrdown, shell scripts,
 # htop configuration file and midnight commander (mc) configuration file.
