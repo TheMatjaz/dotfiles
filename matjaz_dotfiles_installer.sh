@@ -52,6 +52,7 @@ fi
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
 bash $dotfiles_dir"new_system_packages_installer.sh"
+cd $dotfiles_dir
 
 # Creates a symbolic link to the file specified in the first argument $1
 # pointing to the file specified in the second argument $2. Backups any existing

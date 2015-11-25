@@ -81,6 +81,7 @@ plugins=(
     # copydir
     # compleat
     # autojump
+    zsh-syntax-highlighting # must be the last one
 )
 
 
@@ -97,9 +98,6 @@ source ~/.zsh_path
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# enable zsh-syntax-highlighting installed from Homebrew
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ALIASES
 # =======
