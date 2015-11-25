@@ -118,3 +118,5 @@ fi
 unset backup_dir
 unset dotfiles_dir
 
+echo "Switching to zsh"
+env zsh
