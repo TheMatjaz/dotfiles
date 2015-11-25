@@ -69,6 +69,9 @@ esac
 if [ -d ~/.oh-my-zsh ]; then
     echo "Oh My ZSH installation found, skipping install."
 else
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    chsh -s $(which zsh)
+    # Download and run Oh My ZSH installer without letting them enter the zsh
+    # so the script may continue
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed '/env zsh/d')"
+    echo "It may ask you for a password to set zsh as default shell:"
+    sudo chsh -s $(which zsh)
 fi
