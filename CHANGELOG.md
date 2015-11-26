@@ -1,3 +1,17 @@
+v1.1.1
+======
+
+Fixed
+-----
+
+- _Emacs_ installs packages without errors when they are already installed
+- Ensured execution of correct _Emacs_ init file
+- Portable upgrade of `pip3`, removed errors with permissions
+- Terminate dotfiles repository installation if git is not installed, but show
+  a possible solution by running the `new_system_packages_installer.sh`
+- `curl` installation command in Readme
+- `.original_dotfiles/` is now git-ignored
+
 v1.1.0
 ======
 

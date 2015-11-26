@@ -67,11 +67,19 @@ handle all the rest with an **interactive command line interface**. It installs
 the dotfiles repository in `~/Development/Dotfiles` (by default), all the
 required packages, _HomeBrew_ and _Oh My ZSH!_.
 
-**Just run the following command to download, install and activate this dotfiles
-  repository:**
+_Git_ is obviously required to clone the repository.
 
+**Just run one of the following commands** to download, install and activate this dotfiles
+  repository, either by `wget` or `curl`.
+
+##### Using `wget`
 ```bash
 bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh -O -)"
+```
+
+##### Using `curl`
+```bash
+bash -c "$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh)"
 ```
 
 License

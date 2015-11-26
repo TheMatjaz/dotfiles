@@ -65,6 +65,15 @@ function pick_installation_directory() {
 # Create dotfiles directory and clone repository into it or update it, if it
 # already exists
 function install_dotfiles_repo() {
+    which git 2>&1 > /dev/null
+    if [ $? != 0 ]; then  # no git installed
+        echo "Git not found. Please install it first, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] - just without Git)
+    bash -c '$(wget https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh -O -)'
+or use curl, if you don't have wget:
+    bash -c '$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh)'
+"
+        exit 1
+    fi
     mkdir -p $dotfiles_dir || {
         echo "An error occured during the creation of the repository directory. Is the path correctly formatted?
     $dotfiles_dir
@@ -161,8 +170,8 @@ function run_full_system_update() {
 function start_emacs() {
     which emacs 2>&1 > /dev/null
     if [ $? == 0 ]; then  # if emacs exists
-        echo "Making emacs start so it can evalueate the init.el file to download all required packages and set the correct configuration."
-        emacsclient --tty --alternate-editor=""
+        echo "Making emacs start so it can evaluate the emacs_init.el file to download all required packages and set the correct configuration."
+        emacsclient --tty --alternate-editor="" $dotfiles_dir/emacs_init.el
     else
         echo "Emacs not installed. Try running [3]"
         return
