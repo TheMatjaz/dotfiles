@@ -24,7 +24,7 @@ case $(uname) in
         echo "Updating Apple App Store software."
         softwareupdate -i -a
         # If HomeBrew is installed, run its updates
-        type brew 2>&1 > /dev/null
+        which brew 2>&1 > /dev/null
         if [ $? = 0 ]; then
             echo "Updating Homebrew."
             brew update
@@ -34,7 +34,7 @@ case $(uname) in
         else
             echo "Missing Homebrew, skipping."
         fi
-        type brew-cask 2>&1 > /dev/null
+        which brew-cask 2>&1 > /dev/null
         if [ $? = 0 ]; then
             echo "Cleaning up Homebrew Cask."
             brew cask cleanup
@@ -65,8 +65,8 @@ Please update this script $(basename $0)'
 esac
 
 # Python3 update all pip3 packages
-type pip3 --help 2&>1 > /dev/null
-if [ $? = 0 ]; then
+which pip3 2&>1 > /dev/null
+if [ $? = 0 ]; then  # if pip exists
     if [ -z $(pip3 freeze --local) ]; then
         echo "No pip packages installed so far. Updating only pip3 itself."
     else
@@ -85,9 +85,9 @@ else
 fi
 
 # Ruby gems
-type gem --help 2&>1 > /dev/null
-if [ $? = 0 ]; then
     echo "Updating gem."
+which gem 2&>1 > /dev/null
+if [ $? = 0 ]; then  # if gem exists
     sudo gem update --system
     sudo gem update
 else
