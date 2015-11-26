@@ -3,48 +3,59 @@ Matjaž Dotfiles Repository
 
 _a.k.a. yet another dotfiles repo but now with powerful installer scripts_
 
-Features
---------
+Contained files
+---------------
 
-### Configuration files
+#### Configuration files
 
 - [`zshrc`](zshrc): general
-  [_Oh My ZSH!_](https://github.com/robbyrussell/oh-my-zsh) settings
+  [Oh My ZSH!](https://github.com/robbyrussell/oh-my-zsh) settings
 - [`zsh_path`](zsh_path): `$PATH` variable setting and `export` settings, like
   default text editors and so on
 - [`zsh_aliases`](zsh_aliases): custom aliases and functions for the zsh
 - [`zsh_fino_custom.zsh-theme`](zsh_fino_custom.zsh-theme): a customized `fino`
   theme for _Oh My ZSH!_
-- [`gitconfig`](gitconfig): general Git settings
-- [`gitignore_global`](gitignore_global): a list of files Git should ignore in
+- [`gitconfig`](gitconfig): general _Git_ settings
+- [`gitignore_global`](gitignore_global): a list of files _Git_ should ignore in
   any repository
-- [`emacs_init.el`](emacs_init.el): Emacs configuration that also installs some
+- [`hgrc`](hgrc): general _Mercurial_ settings
+- [`emacs_init.el`](emacs_init.el): _Emacs_ configuration that also installs some
   ELPA packages, if not already installed, to completely clone an existing
   configuration
-- [`hgrc`](hgrc): general Mercurial settings
 - [`htoprc`](htoprc): looks and columns for `htop` process viewer
 - [`screenrc`](screenrc): basic settings of `screen` terminal multiplexer
 - [`wgetrc`](wgetrc): global configurations of the `wget` command line
   downloader
 
 
-### Installer/automation scripts
+#### Installer/automation scripts
 
 Those scripts are meant to be portable, so they react differently based on the
-operative system. Currently are implemented for OS X and Linux Debian/Ubuntu.
+operative system. Currently are implemented for _OS X_ and _Linux
+Debian/Ubuntu_.
 
-- [`matjaz_dotfiles_installer.sh`](matjaz_dotfiles_installer.sh) installs _Oh My
-  ZSH!_, if not already installed, clones this dotfiles repository and applies
-  those dotfiles to the user, by creating symlinks to them from the home
-  directory.
-- [`new_system_packages_installer.sh`](new_system_packages_installer.sh) which
+- [`matjaz_dotfiles_installer.sh`](matjaz_dotfiles_installer.sh) **does all the
+  work for you** (see _Installation_ section below). It's an interactive installer
+  which allows:
+    - downloading this repository
+    - downloading all the required packages for the dotfiles, like _Emacs_ or
+      _Oh My ZSH!_
+    - placing the proper symlinks to activate the dotfiles
+    - performing system updates
+    - and a few more small things
+- [`new_system_packages_installer.sh`](new_system_packages_installer.sh)
   installs some packages which the Matjaž's dotfiles are for. It calls the
   system's package manager. Currently only for `brew` + `brew cask` or
-  `apt-get`.
+  `apt-get`. Can be run stand-alone but the `matjaz_dotfiles_installer.sh` calls
+  it for you as well.
 - [`full_system_updater.sh`](full_system_updater.sh) just like
-  `new_system_packages_installs.sh` detects the operative system and updates
-  all the packages of its package managers. Currently only for `brew` + `brew
-  cask` or `apt-get`, `pip3` and `gem`.
+  `new_system_packages_installs.sh` detects the operative system and updates all
+  the packages of its package managers. Currently only for `brew` + `brew cask`
+  or `apt-get`, `pip3` and `gem`. Can be run stand-alone but the
+  `matjaz_dotfiles_installer.sh` calls it for you as well.
+- [`useful_packages.md`](useful_packages.md) is a simple list containing
+  packages generally worth installing on any system (it's not an executable,
+  just a memo).
 
 
 Installation
@@ -52,23 +63,16 @@ Installation
 
 All you need to do is download and run the
 [`matjaz_dotfiles_installer.sh`](matjaz_dotfiles_installer.sh) which should
-handle all the rest. It installs the dotfiles repository in
-`~/Development/Dotfiles`, the necessary packages, HomeBrew and _Oh My ZSH!_.
+handle all the rest with an **interactive command line interface**. It installs
+the dotfiles repository in `~/Development/Dotfiles` (by default), all the
+required packages, _HomeBrew_ and _Oh My ZSH!_.
 
-Run the following command to download the installer and run it:
+**Just run the following command to download, install and activate this dotfiles
+  repository:**
 
 ```bash
 bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh -O -)"
 ```
-
-After that I suggest running the
-[`full_system_updater.sh`](full_system_updater.sh), which will be
-located in the just downloaded dotfiles repository (default in `~/Development/Dotfiles`), to update and upgrade everything. It ask for root password just for `gem` updates.
-
-```bash
-bash full_system_updater.sh
-```
-
 
 License
 -------
@@ -88,6 +92,7 @@ owners.
 - [Mathias Bynens's dotfiles](https://github.com/mathiasbynens/dotfiles)
 - [Holman's dotfiles](https://github.com/holman/dotfiles)
 - [Joined's dotfiles](https://github.com/joined/dotfiles)
+- [Oh My ZSH installation scripts](http://github.com/robbyrussell/oh-my-zsh/tree/master/tools)
 
 Some really useful documentation about the dotfiles repositories may be found
 here:
