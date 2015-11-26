@@ -25,18 +25,6 @@
 #   full_system_update.sh
 # ------------------------------------------------------------------------------
 
-echo "Ready to set up a new system?
-
-This script will pull Matjaž's dotfiles from GitHub and create symlinks to them
-in your home directory. Before that it will also install a few packages from the
-packaging system of your system: homebrew or apt-get and the shell framework Oh
-My ZSH! as well. All those are the packages that the dotifiles are for."
-read -p "Are you ready? (y/n) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Well, another time. See ya!"
-    exit 2
-fi
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
