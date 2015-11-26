@@ -33,7 +33,7 @@ case $(uname) in
         else
             echo "Homebrew already installed, skipping installation."
         fi
-        echo "Updating Homebrew local repository..."
+        echo "Updating Homebrew local repository."
         brew update
         echo "Installing the packages."
         brew install brew-cask emacs git git-flow htop-osx midnight-commander python3 sqlite wget
@@ -66,7 +66,7 @@ Please update this script $(basename $0)"
 esac
 
 # Install Oh My ZSH if not already installed
-if [ -d ~/.oh-my-zsh ]; then
+if [ -d $HOME/.oh-my-zsh ]; then
     echo "Oh My ZSH installation found, skipping install."
 else
     # Download and run Oh My ZSH installer without letting them enter the zsh
@@ -74,4 +74,19 @@ else
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed '/env zsh/d')"
     echo "It may ask you for a password to set zsh as default shell:"
     sudo chsh -s $(which zsh)
+fi
+
+# Install the live syntax highlighting for Oh My ZSH
+zshsyntax_dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+if [ -d $zshsyntax_dir/.git ]; then
+    echo "Updating existing zsh-syntax-highlighting repository."
+    cd $zshsyntax_dir
+    git pull
+else
+    echo "Cloning the zsh-syntax-highlighting repository."
+    git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshsyntax_dir || {
+        echo "An error occurred during the cloning of the zsh-syntax-highlighting repository.
+Please try running this script again."
+        exit 1
+    }
 fi

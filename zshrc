@@ -6,7 +6,7 @@
 # ===================
 #
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/matjaz/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -81,6 +81,7 @@ plugins=(
     # copydir
     # compleat
     # autojump
+    zsh-syntax-highlighting # must be the last one
 )
 
 
@@ -97,9 +98,6 @@ source ~/.zsh_path
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# enable zsh-syntax-highlighting installed from Homebrew
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ALIASES
 # =======
