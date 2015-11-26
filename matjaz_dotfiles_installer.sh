@@ -131,3 +131,45 @@ rm $dotfiles_dir/1
 echo "Switching to zsh"
 cd
 env zsh
+
+# STARTING EXECUTION HERE
+# =======================
+
+echo "\
+Matjaž's dotfiles installer script
+==================================
+
+This script may perform various tasks. For freshly set systems it's raccomended
+to run them all [0]. Choose your option:
+"
+
+function repl() {
+    choise_menu="\
+[0] all tasks
+[1] pick installation directory different than default
+[2] install or update dotfiles repository
+[3] install packages that are beeing configured by the dotfiles
+[4] create or refresh symlinks to the dotfiles in the home directory
+[5] perform a complete update&upgrade of all package managers found
+[6] start emacs once to make it install all the packages. Exit it with 'C-x C-c'
+[7] get more information about this installer and the dotfiles
+[8] exit installer"
+    i=0
+    while [ $i -e 100 ]; do  # prevent any misfortunate infinite loops
+        i=$i+1
+        case $(ask_user "What do you want to do? [0/1/.../8]") in
+            0) run_all_tasks ;;
+            1) pick_installation_directory ;;
+            2) install_dotfiles_repo ;;
+            3) install_packages_for_dotfiles ;;
+            4) install_dotfiles_to_home ;;
+            5) run_full_system_update ;;
+            6) start_emacs ;;
+            7) get_info ;;
+            8) exit_installer ;;
+            *) echo "Illegal command, try again.";;
+        esac
+    done
+}
+
+repl
