@@ -65,8 +65,21 @@ esac
 # Python3 update all pip3 packages
 which pip3 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if pip exists
+    echo "Updating pip3 itself."
+    case $(uname) in
+        'Darwin')
+            pip3 install --upgrade pip
+            ;;
+        'Linux')
+            echo "Root password may be asked to upgrade pip itself."
+            sudo pip3 install --upgrade pip
+            ;;
+        *)
+            echo "Unable to upgrade pip for this operating system."
+            ;;
+    esac 
     if [[ -z $(pip3 freeze --local) ]]; then
-        echo "No pip packages installed so far. Updating only pip3 itself."
+        echo "No pip packages installed so far."
     else
         echo "Updating pip3 packages."
         pip3 freeze --local \
@@ -74,10 +87,6 @@ if [ $? = 0 ]; then  # if pip exists
             | cut -d = -f 1  \
             | xargs -n1 pip3 install --upgrade
     fi
-    pip3 install --upgrade pip || {
-        echo "Running pip3 upgrade again with sudo. Root password is needed."
-        sudo pip3 install --upgrade pip
-    }
 else
     echo "Missing pip3, skipping."
 fi
