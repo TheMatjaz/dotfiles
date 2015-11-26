@@ -70,8 +70,14 @@ required packages, _HomeBrew_ and _Oh My ZSH!_.
 **Just run the following command to download, install and activate this dotfiles
   repository:**
 
+##### Using `wget`
 ```bash
 bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh -O -)"
+```
+
+##### Using `curl`
+```bash
+bash -c "$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/master/matjaz_dotfiles_installer.sh)"
 ```
 
 License
