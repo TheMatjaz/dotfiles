@@ -33,7 +33,7 @@ backup_dir="$dotfiles_dir/.original_dotfiles/"
 # Call it with a string as prompt string, otherwise it uses the default one.
 function ask_user() {
     read -r -p "${1:-Are you sure? [y/N]} " response
-    return $response
+    echo $response
 }
 
 function get_info() {
