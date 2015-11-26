@@ -31,7 +31,7 @@ case $(uname) in
             echo "Installing Homebrew, will be used to install the packages."
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         else
-            echo "Homebrew already installed, skipping installation."
+            echo "Found Homebrew, skipping installation."
         fi
         echo "Updating Homebrew local repository."
         brew update
@@ -54,13 +54,13 @@ case $(uname) in
             sudo apt-get autoclean
         else
             echo "Not implemented for this Linux operative system.
-Please update this script $(basename $0)"
+Please update this script $0"
             exit 100
         fi
         ;;
     *)
         echo "Not implemented for this operative system.
-Please update this script $(basename $0)"
+Please update this script $0"
         exit 100
         ;;
 esac
@@ -69,24 +69,23 @@ esac
 if [ -d $HOME/.oh-my-zsh ]; then
     echo "Oh My ZSH installation found, skipping install."
 else
-    # Download and run Oh My ZSH installer without letting them enter the zsh
-    # so the script may continue
+    # Download and run Oh My ZSH installer without letting it enter the zsh
+    # so the script may continue. It's done by cutting off the "env zsh" line.
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed '/env zsh/d')"
-    echo "It may ask you for a password to set zsh as default shell:"
+    echo "Setting zsh as default shell. It may ask you for the root password."
     sudo chsh -s $(which zsh)
 fi
 
 # Install the live syntax highlighting for Oh My ZSH
 zshsyntax_dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 if [ -d $zshsyntax_dir/.git ]; then
-    echo "Updating existing zsh-syntax-highlighting repository."
+    echo "Found zsh-syntax-highlighting plugin, updating it."
     cd $zshsyntax_dir
     git pull
 else
-    echo "Cloning the zsh-syntax-highlighting repository."
+    echo "Installing the zsh-syntax-highlighting plugin."
     git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshsyntax_dir || {
-        echo "An error occurred during the cloning of the zsh-syntax-highlighting repository.
-Please try running this script again."
+        echo "An error occurred during the cloning of the zsh-syntax-highlighting repository. Please try running this script again."
         exit 1
     }
 fi
