@@ -68,6 +68,7 @@ function install_dotfiles_repo() {
         echo "An error occured during the creation of the repository directory. Is the path correctly formatted?
     $dotfiles_dir
 Try running [1]"
+        return
     }
     echo "Dotfiles will be stored in $dotfiles_dir"
     if [ -d $dotfiles_dir/.git ]; then
@@ -78,7 +79,7 @@ Try running [1]"
         echo "Cloning the dotfiles repository from GitHub."
         git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
             echo "An error occurred during the cloning of the dotfiles repository. Please try running this script again."
-            exit 1
+            return
         }
     fi
 }
@@ -161,6 +162,7 @@ function start_emacs() {
         emacsclient -t -a'' --eval ~/.emacs.d/init.el
     else
         echo "Emacs not installed. Try running [3]"
+        return
     fi
 }
 
