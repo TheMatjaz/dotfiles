@@ -65,6 +65,10 @@ function pick_installation_directory() {
 # Create dotfiles directory and clone repository into it or update it, if it
 # already exists
 function install_dotfiles_repo() {
+    which git 2>&1 > /dev/null
+    if [ $? != 0 ]; then  # no git installed
+        echo "Git not found. Please install it first, the repository cannot be cloned without it."
+        return
     mkdir -p $dotfiles_dir || {
         echo "An error occured during the creation of the repository directory. Is the path correctly formatted?
     $dotfiles_dir
