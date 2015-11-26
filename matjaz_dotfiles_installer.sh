@@ -38,7 +38,7 @@ function ask_user() {
 }
 
 function get_info() {
-    echo "\
+    echo "
 Matjaž's dotfiles
 Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> http://matjaz.it
 Project page with more info: https://github.com/TheMatjaz/dotfiles
@@ -202,7 +202,7 @@ function run_all_tasks() {
 # STARTING EXECUTION HERE
 # =======================
 
-echo "\
+echo "
 Matjaž's dotfiles installer script
 ==================================
 
@@ -210,20 +210,22 @@ This script may perform various tasks. For freshly set systems it's raccomended
 to run them all [0]. Choose your option:"
 
 function repl() {
-    choise_menu="\n
-[0] all tasks\n
-[1] pick installation directory different than default\n
-[2] install or update dotfiles repository\n
-[3] install packages that are beeing configured by the dotfiles\n
-[4] create or refresh symlinks to the dotfiles in the home directory\n
-[5] perform a complete update&upgrade of all package managers found\n
-[6] start emacs once to make it install all the packages. Exit it with 'C-x C-c'\n
-[7] get more information about this installer and the dotfiles\n
-[8] exit installer\n"
-    i=0
+    local choise_menu="
+-------------
+[0] all tasks
+[1] pick installation directory different than default
+[2] install or update dotfiles repository
+[3] install packages that are beeing configured by the dotfiles
+[4] create or refresh symlinks to the dotfiles in the home directory
+[5] perform a complete update&upgrade of all package managers found
+[6] start emacs once to make it install all the packages. Exit it with 'C-x C-c'
+[7] get more information about this installer and the dotfiles
+[8] exit installer
+"
+    local i=0
     while [ $i -le 100 ]; do  # prevent any misfortunate infinite loops
         ((i++))
-        echo -e $choise_menu
+        echo "$choise_menu"
         case $(ask_user "What do you want to do? [0/1/.../8]") in
             0) run_all_tasks ;;
             1) pick_installation_directory ;;
