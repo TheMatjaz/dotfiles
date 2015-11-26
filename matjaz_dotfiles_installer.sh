@@ -160,7 +160,7 @@ function run_full_system_update() {
 
 function start_emacs() {
     which emacs 2>&1 > /dev/null
-    if [[ $? == 0 ]]; then  # if emacs exists
+    if [ $? == 0 ]; then  # if emacs exists
         echo "Making emacs start so it can evalueate the init.el file to download all required packages and set the correct configuration."
         emacsclient --tty --alternate-editor=""
     else
