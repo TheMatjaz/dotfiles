@@ -1,3 +1,14 @@
+v1.1.1
+======
+
+Fixed
+-----
+
+- _Emacs_ installs packages without errors when they are already installed
+- Ensured execution of correct _Emacs_ init file
+- Portable upgrade of `pip3`
+- Terminate dotfiles repository installation if git is not installed.
+
 v1.1.0
 ======
 
