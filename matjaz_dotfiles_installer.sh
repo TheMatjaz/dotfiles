@@ -12,11 +12,17 @@
 # Execute this script anywhere on the system. There are no parameters.
 #
 # >> WHAT IT DOES
-# It downloads the Matjaž's dotfiles git repository (which may be found on
-# Github: https://github.com/TheMatjaz/dotfiles) to ~/Development/Dotfiles and
-# applies those dotfiles to the user, by creating symlinks to them from the
-# home directory. Also installs the packages to be configured by the dotfiles
-# by calling new_system_packages_installer.sh
+# It's an interactive installer of the Matjaž's dotfiles.
+#
+# - It downloads the git repository (which may be found on Github:
+#   https://github.com/TheMatjaz/dotfiles) to an installation directory
+#   (default is ~/Development/Dotfiles)
+# - applies those dotfiles to the user by creating symlinks to them from the
+#   home directory
+# - installs the packages to be configured by the dotfiles by calling
+#   new_system_packages_installer.sh
+# - allows performing an update of all package managers installed by calling
+#   full_system_update.sh
 # ------------------------------------------------------------------------------
 
 echo "Ready to set up a new system?
