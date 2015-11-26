@@ -159,10 +159,10 @@ function run_full_system_update() {
 }
 
 function start_emacs() {
-    which emacs 2&>1 > /dev/null
-    if [ $? = 0 ]; then  # if emacs exists
-        echo "Making emacs evaluate the init.el file so it can download all required packages and set the correct configuration."
-        emacsclient -t -a'' --eval ~/.emacs.d/init.el
+    which emacs 2>&1 > /dev/null
+    if [[ $? == 0 ]]; then  # if emacs exists
+        echo "Making emacs start so it can evalueate the init.el file to download all required packages and set the correct configuration."
+        emacsclient --tty --alternate-editor=""
     else
         echo "Emacs not installed. Try running [3]"
         return
@@ -174,8 +174,6 @@ function start_emacs() {
 function finalize() {
     unset backup_dir
     unset dotfiles_dir
-    rm -rf $dotfiles_dir/1  # sometimes this strange directory appears
-    cd
     cd $initial_dir
     unset initial_dir
 }
