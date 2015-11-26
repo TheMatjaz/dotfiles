@@ -33,11 +33,11 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # Create dotfiles directory and clone repository into it
-dotfiles_dir="$HOME/Development/Dotfiles/"
-backup_dir="$dotfiles_dir"".original_dotfiles/"
+dotfiles_dir="$HOME/Development/Dotfiles"
+backup_dir="$dotfiles_dir/.original_dotfiles/"
 mkdir -p $dotfiles_dir
 echo "Dotfiles are stored in $dotfiles_dir"
-if [ -d "$dotfiles_dir"".git" ]; then
+if [ -d $dotfiles_dir/.git ]; then
     echo "Updating existing dotfiles repository."
     cd $dotfiles_dir
     git pull
@@ -51,15 +51,15 @@ Please try running this script again."
 fi
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
-bash "$dotfiles_dir""new_system_packages_installer.sh"
+bash $dotfiles_dir/new_system_packages_installer.sh
 cd $dotfiles_dir
 
 # Creates a symbolic link to the file specified in the first argument $1
 # pointing to the file specified in the second argument $2. Backups any existing
 # file at the position $2 to the backup directory.
 function symlink_dotfile() {
-    local file_in_repo=$dotfiles_dir$1
-    local file_in_home=$2
+    local file_in_repo=$dotfiles_dir/$1
+    local file_in_home=$HOME/$2
     if [[ -e $file_in_home && ! -L $file_in_home ]]; then
         mkdir -p $backup_dir   # prepare backup directory if not exists
         echo "Backing up existing $file_in_home into $backup_dir"
@@ -71,28 +71,28 @@ function symlink_dotfile() {
 # Create symlinks in the home directory that point to the files in the
 # dotfiles repository. Any existing dotfiles get backupped.
 echo "Symlinking..."
-symlink_dotfile gitconfig ~/.gitconfig
-symlink_dotfile gitignore_global ~/.gitignore_global
-symlink_dotfile hgrc ~/.hgrc
-symlink_dotfile screenrc ~/.screenrc
-symlink_dotfile wgetrc ~/.wgetrc
-mkdir -p ~/.oh-my-zsh/custom/themes/  # it does not exist by default
-symlink_dotfile zsh_fino_custom.zsh-theme ~/.oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
-symlink_dotfile zsh_aliases ~/.zsh_aliases
-symlink_dotfile zsh_path ~/.zsh_path
-symlink_dotfile zshrc ~/.zshrc
-symlink_dotfile mc_ini ~/.config/mc/ini
-symlink_dotfile mc_panels.ini ~/.config/mc/panels.ini
-symlink_dotfile emacs_init.el ~/.emacs.d/init.el
+symlink_dotfile gitconfig .gitconfig
+symlink_dotfile gitignore_global .gitignore_global
+symlink_dotfile hgrc .hgrc
+symlink_dotfile screenrc .screenrc
+symlink_dotfile wgetrc .wgetrc
+mkdir -p $HOME/.oh-my-zsh/custom/themes/  # it does not exist by default
+symlink_dotfile zsh_fino_custom.zsh-theme .oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
+symlink_dotfile zsh_aliases .zsh_aliases
+symlink_dotfile zsh_path .zsh_path
+symlink_dotfile zshrc .zshrc
+symlink_dotfile mc_ini .config/mc/ini
+symlink_dotfile mc_panels.ini .config/mc/panels.ini
+symlink_dotfile emacs_init.el .emacs.d/init.el
 
 # Symlink the htop configuration file as well, but place it in ~/.htoprc on Macs
 # and in ~/.config/htop/htoprc on Linux.
 case $(uname) in
     'Darwin')
-        symlink_dotfile htoprc ~/.htoprc
+        symlink_dotfile htoprc .htoprc
         ;;
     'Linux')
-        symlink_dotfile htoprc ~/.config/htop/htoprc
+        symlink_dotfile htoprc .config/htop/htoprc
         ;;
     *)
         echo "Cannot symlink htoprc on proper position on this operative system.
@@ -101,20 +101,20 @@ Please update this script $(basename $0) or perform the symlink manually."
 esac
 
 # Move backup made by Oh My ZSH installer to $backup_dir
-if [ -e ~/.zshrc.pre-oh-my-zsh ]; then
+if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
     echo "Moved old zshrc backupped by Oh My ZSH to $backup_dir"
     mkdir -p $backup_dir
-    mv ~/.zshrc.pre-oh-my-zsh $backup_dir
+    mv $HOME/.zshrc.pre-oh-my-zsh $backup_dir
 fi
 
 echo "Dotfiles installation completed."
 read -p "Do you want to perform an update+upgrade of all package managers? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    bash "$dotfiles_dir""full_system_updater.sh"
+    bash $dotfiles_dir/full_system_updater.sh
 else
-    printf "You can peform it manually by launching
-    bash %sfull_system_updater.sh\n" $dotfiles_dir
+    echo "You can peform it manually by launching
+    bash $dotfiles_dir/full_system_updater.sh"
 fi
 
 # Clean some variables
