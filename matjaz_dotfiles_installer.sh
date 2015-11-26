@@ -185,7 +185,6 @@ function exit_installer() {
 }
 
 function run_all_tasks() {
-    run_all_tasks
     pick_installation_directory
     install_dotfiles_repo
     install_packages_for_dotfiles
