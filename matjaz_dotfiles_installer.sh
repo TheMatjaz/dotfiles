@@ -28,6 +28,7 @@
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
+initial_dir=$PWD
 
 # Prompts a confirmation question to get the user's choice and returns it.
 # Call it with a string as prompt string, otherwise it uses the default one.
@@ -168,12 +169,15 @@ function start_emacs() {
     fi
 }
 
-# Clean some variables, files and return to home directory
+# Clean some variables, files and return to initial directory where the script
+# was called
 function finalize() {
     unset backup_dir
     unset dotfiles_dir
     rm -rf $dotfiles_dir/1  # sometimes this strange directory appears
     cd
+    cd $initial_dir
+    unset initial_dir
 }
 
 function exit_installer() {
