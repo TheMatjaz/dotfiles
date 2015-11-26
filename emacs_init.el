@@ -40,7 +40,7 @@ backupFilePath
   (package-refresh-contents))
 
 ;;; List necessary/useful pakcages to be installed
-(setq my-package-list '(
+(defvar my-package-list '(
 s
 f
 2048-game
@@ -69,10 +69,14 @@ org
 pg
 popup
 yasnippet
-))
+) "A list of packages to ensure are installed at launch.")
 
-;;; Install the packages on previous list
-(mapc #'package-install my-package-list)
+;;; Install the missing packages from previous list
+(dolist (pack my-package-list)
+    (when (not (package-installed-p pack))
+        (package-install pack)))
+
+(package-initialize)
 
 ;;; ====================================================================
 ;;; EDITOR LOOK
