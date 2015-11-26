@@ -1,3 +1,17 @@
+v1.1.0
+======
+
+Added
+-----
+
+- Installer interactivity (REPL): offer 8 possible task to choose at run-time
+to allow user to perform just some (like only symlinking or git-cloning the
+repository) or all of them.
+- Installer also starts Emacs to make the daemon run + to make it download all
+the packages it needs for the setup (as specified in `emacs_init.el`)
+- Improved quality of console output strings
+
+
 v1.0.1
 ======
 
