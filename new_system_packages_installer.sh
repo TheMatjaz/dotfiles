@@ -81,7 +81,9 @@ zshsyntax_dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 if [ -d $zshsyntax_dir/.git ]; then
     echo "Found zsh-syntax-highlighting plugin, updating it."
     cd $zshsyntax_dir
+    git checkout master
     git pull
+    git checkout -
 else
     echo "Installing the zsh-syntax-highlighting plugin."
     git clone git://github.com/zsh-users/zsh-syntax-highlighting.git $zshsyntax_dir || {
