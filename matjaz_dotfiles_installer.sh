@@ -165,8 +165,8 @@ function run_full_system_update() {
 function start_emacs() {
     which emacs 2>&1 > /dev/null
     if [ $? == 0 ]; then  # if emacs exists
-        echo "Making emacs start so it can evalueate the init.el file to download all required packages and set the correct configuration."
-        emacsclient --tty --alternate-editor=""
+        echo "Making emacs start so it can evaluate the emacs_init.el file to download all required packages and set the correct configuration."
+        emacsclient --tty --alternate-editor="" $dotfiles_dir/emacs_init.el
     else
         echo "Emacs not installed. Try running [3]"
         return
