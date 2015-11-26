@@ -63,7 +63,7 @@ case $(uname) in
 esac
 
 # Python3 update all pip3 packages
-which pip3 2&>1 > /dev/null
+which pip3 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if pip exists
     if [ -z $(pip3 freeze --local) ]; then
         echo "No pip packages installed so far. Updating only pip3 itself."
@@ -83,7 +83,7 @@ else
 fi
 
 # Ruby gems
-which gem 2&>1 > /dev/null
+which gem 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
     echo "Updating gem. Root password is needed."
     sudo gem update --system
