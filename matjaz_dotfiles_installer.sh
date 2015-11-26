@@ -120,6 +120,8 @@ fi
 # Clean some variables
 unset backup_dir
 unset dotfiles_dir
+rm $dotfiles_dir/1
 
 echo "Switching to zsh"
+cd
 env zsh
