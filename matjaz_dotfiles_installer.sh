@@ -28,12 +28,66 @@
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
+
+# Prompts a confirmation question to get the user's choice and returns it.
+# Call it with a string as prompt string, otherwise it uses the default one.
+function ask_user() {
+    read -r -p "${1:-Are you sure? [y/N]} " response
+    return $response
+}
+
+function get_info() {
+    echo "\
+Matjaž's dotfiles
+Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> http://matjaz.it
+Project page with more info: https://github.com/TheMatjaz/dotfiles
+BSD 3-clause license
+
+This is an installer for the dotfiles (configuration files for many programs
+and shells found in *nix systems) for my usage. The installer works on OS X
+or Linux. It also installs the necessary packages that are beeing configured
+by the dotfiles themselves."
+}
+
+function pick_installation_directory() {
+    echo "The installation directory is set to:
+    $dotfiles_dir"
+    case $(ask_user "Is it ok for you? [Y/n]") in
+        [nN]|[nN][oO])
+            dotfiles_dir=$(ask_user "Type a correctly formatted path for the installation directory, even if it does not exist yet:
+    ") ;;
+        *)
+            echo "Installation directory unchanged." ;;
+    esac
+}
+
+# Create dotfiles directory and clone repository into it or update it, if it
+# already exists
+function install_dotfiles_repo() {
+    mkdir -p $dotfiles_dir || {
+        echo "An error occured during the creation of the repository directory. Is the path correctly formatted?
+    $dotfiles_dir
+Try running [1]"
     }
-fi
+    echo "Dotfiles will be stored in $dotfiles_dir"
+    if [ -d $dotfiles_dir/.git ]; then
+        echo "Found existing dotfiles repository. Updating it."
+        cd $dotfiles_dir
+        git pull
+    else
+        echo "Cloning the dotfiles repository from GitHub."
+        git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
+            echo "An error occurred during the cloning of the dotfiles repository. Please try running this script again."
+            exit 1
+        }
+    fi
+}
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
-bash $dotfiles_dir/new_system_packages_installer.sh
-cd $dotfiles_dir
+function install_packages_for_dotfiles() {
+    bash $dotfiles_dir/new_system_packages_installer.sh
+    cd $dotfiles_dir
+}
 
 # Creates a symbolic link to the file specified in the first argument $1
 # pointing to the file specified in the second argument $2. Backups any existing
@@ -53,61 +107,89 @@ function symlink_dotfile() {
 
 # Create symlinks in the home directory that point to the files in the
 # dotfiles repository. Any existing dotfiles get backupped.
-echo "Symlinking..."
-symlink_dotfile gitconfig .gitconfig
-symlink_dotfile gitignore_global .gitignore_global
-symlink_dotfile hgrc .hgrc
-symlink_dotfile screenrc .screenrc
-symlink_dotfile wgetrc .wgetrc
-mkdir -p $HOME/.oh-my-zsh/custom/themes/  # it does not exist by default
-symlink_dotfile zsh_fino_custom.zsh-theme .oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
-symlink_dotfile zsh_aliases .zsh_aliases
-symlink_dotfile zsh_path .zsh_path
-symlink_dotfile zshrc .zshrc
-symlink_dotfile mc_ini .config/mc/ini
-symlink_dotfile mc_panels.ini .config/mc/panels.ini
-symlink_dotfile emacs_init.el .emacs.d/init.el
+function install_dotfiles_to_home() {
+    if [ ! -d $dotfiles_dir/.git ]; then
+        echo "Dotfiles repository not found. Have you installed it? Try running [2]"
+        return
+    fi
+    echo "Creating symlinks in home directory poiting to the dotfiles repository."
+    symlink_dotfile gitconfig .gitconfig
+    symlink_dotfile gitignore_global .gitignore_global
+    symlink_dotfile hgrc .hgrc
+    symlink_dotfile screenrc .screenrc
+    symlink_dotfile wgetrc .wgetrc
+    mkdir -p $HOME/.oh-my-zsh/custom/themes/  # it does not exist by default
+    symlink_dotfile zsh_fino_custom.zsh-theme .oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
+    symlink_dotfile zsh_aliases .zsh_aliases
+    symlink_dotfile zsh_path .zsh_path
+    symlink_dotfile zshrc .zshrc
+    symlink_dotfile mc_ini .config/mc/ini
+    symlink_dotfile mc_panels.ini .config/mc/panels.ini
+    symlink_dotfile emacs_init.el .emacs.d/init.el
 
-# Symlink the htop configuration file as well, but place it in ~/.htoprc on Macs
-# and in ~/.config/htop/htoprc on Linux.
-case $(uname) in
-    'Darwin')
-        symlink_dotfile htoprc .htoprc
-        ;;
-    'Linux')
-        symlink_dotfile htoprc .config/htop/htoprc
-        ;;
-    *)
-        echo "Cannot symlink htoprc on proper position on this operative system.
-Please update this script $(basename $0) or perform the symlink manually."
-        ;;
-esac
+    # Symlink the htop configuration file as well, but place it in ~/.htoprc on
+    # OS X and in ~/.config/htop/htoprc on Linux.
+    case $(uname) in
+        'Darwin')
+            symlink_dotfile htoprc .htoprc
+            ;;
+        'Linux')
+            symlink_dotfile htoprc .config/htop/htoprc
+            ;;
+        *)
+            echo "Cannot symlink htoprc on proper position on this operative system. Please update this script $0 or perform the symlink manually."
+            ;;
+    esac
 
-# Move backup made by Oh My ZSH installer to $backup_dir
-if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
-    echo "Moved old zshrc backupped by Oh My ZSH to $backup_dir"
-    mkdir -p $backup_dir
-    mv $HOME/.zshrc.pre-oh-my-zsh $backup_dir
-fi
+    # Move backup made by Oh My ZSH installer to $backup_dir
+    if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
+        echo "Move old .zshrc backupped by Oh My ZSH to $backup_dir"
+        mkdir -p $backup_dir  # since it may have not been created previously
+                              # if no backup were done before
+        mv $HOME/.zshrc.pre-oh-my-zsh $backup_dir
+    fi
+}
 
-echo "Dotfiles installation completed."
-read -p "Do you want to perform an update+upgrade of all package managers? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
+function run_full_system_update() {
     bash $dotfiles_dir/full_system_updater.sh
-else
-    echo "You can peform it manually by launching
-    bash $dotfiles_dir/full_system_updater.sh"
-fi
+}
 
-# Clean some variables
-unset backup_dir
-unset dotfiles_dir
-rm $dotfiles_dir/1
+function start_emacs() {
+    which emacs 2&>1 > /dev/null
+    if [ $? = 0 ]; then  # if emacs exists
+        echo "Making emacs evaluate the init.el file so it can download all required packages and set the correct configuration."
+        emacsclient -t -a'' --eval ~/.emacs.d/init.el
+    else
+        echo "Emacs not installed. Try running [3]"
+    fi
+}
 
-echo "Switching to zsh"
-cd
-env zsh
+# Clean some variables, files and return to home directory
+function finalize() {
+    unset backup_dir
+    unset dotfiles_dir
+    rm -rf $dotfiles_dir/1  # sometimes this strange directory appears
+    cd
+}
+
+function exit_installer() {
+    echo "Have an awesome day!"
+    finalize
+    exit 0
+}
+
+function run_all_tasks() {
+    run_all_tasks
+    pick_installation_directory
+    install_dotfiles_repo
+    install_packages_for_dotfiles
+    install_dotfiles_to_home
+    run_full_system_update
+    start_emacs
+    exit_installer
+}
+
+
 
 # STARTING EXECUTION HERE
 # =======================
