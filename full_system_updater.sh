@@ -21,8 +21,8 @@
 # Find the current operating system as seen: http://stackoverflow.com/a/3792848
 case $(uname) in
     'Darwin')
-        echo "Updating Apple App Store software."
-        softwareupdate -i -a
+        echo "Updating OS X software from App Store."
+        softwareupdate --install --all
         # If HomeBrew is installed, run its updates
         which brew 2>&1 > /dev/null
         if [ $? = 0 ]; then
@@ -45,21 +45,19 @@ case $(uname) in
     'Linux')
         if [ -f /etc/debian_version ] ; then
             # based on Debian, so has apt-get
-            echo "Updating apt-get"
+            echo "Updating apt-get."
             sudo apt-get update
             sudo apt-get -y dist-upgrade
             sudo apt-get autoremove
             sudo apt-get clean
             sudo apt-get autoclean
         else
-            echo 'Not implemented for this Linux.
-Please update this script $(basename $0)'
+            echo "Not implemented for this Linux. Please update this script $0"
             exit 100
         fi
         ;;
     *)
-        echo 'Not implemented for this operative system.
-Please update this script $(basename $0)'
+        echo "Not implemented for this operative system. Please update this script $0"
         exit 100
         ;;
 esac
@@ -77,7 +75,7 @@ if [ $? = 0 ]; then  # if pip exists
             | xargs -n1 pip3 install --upgrade
     fi
     pip3 install --upgrade pip || {
-        echo "Running pip3 upgrade again with sudo"
+        echo "Running pip3 upgrade again with sudo. Root password is needed."
         sudo pip3 install --upgrade pip
     }
 else
@@ -85,9 +83,9 @@ else
 fi
 
 # Ruby gems
-    echo "Updating gem."
 which gem 2&>1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
+    echo "Updating gem. Root password is needed."
     sudo gem update --system
     sudo gem update
 else
