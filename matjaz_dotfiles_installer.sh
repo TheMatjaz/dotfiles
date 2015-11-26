@@ -37,9 +37,8 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Well, another time. See ya!"
     exit 2
 fi
-
-# Create dotfiles directory and clone repository into it
-dotfiles_dir="$HOME/Development/Dotfiles"
+# Default installation directory if not passed as first parameter.
+dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
 mkdir -p $dotfiles_dir
 echo "Dotfiles are stored in $dotfiles_dir"
