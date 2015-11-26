@@ -65,19 +65,8 @@ esac
 # Python3 update all pip3 packages
 which pip3 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if pip exists
-    echo "Updating pip3 itself."
-    case $(uname) in
-        'Darwin')
-            pip3 install --upgrade pip
-            ;;
-        'Linux')
-            echo "Root password may be asked to upgrade pip itself."
-            sudo pip3 install --upgrade pip
-            ;;
-        *)
-            echo "Unable to upgrade pip for this operating system."
-            ;;
-    esac 
+    echo "Updating pip3 itself. May ask for root password."
+    sudo -H pip3 install --upgrade pip
     if [[ -z $(pip3 freeze --local) ]]; then
         echo "No pip packages installed so far."
     else
@@ -85,7 +74,7 @@ if [ $? = 0 ]; then  # if pip exists
         pip3 freeze --local \
             | grep -v '^\-e' \
             | cut -d = -f 1  \
-            | xargs -n1 pip3 install --upgrade
+            | xargs -n1 sudo -H pip3 install --upgrade
     fi
 else
     echo "Missing pip3, skipping."
@@ -94,7 +83,7 @@ fi
 # Ruby gems
 which gem 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
-    echo "Updating gem. Root password is needed."
+    echo "Updating gem. May ask for root password."
     sudo gem update --system
     sudo gem update
 else
