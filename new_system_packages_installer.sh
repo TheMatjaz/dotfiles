@@ -44,7 +44,7 @@ case $(uname) in
     'Linux')
         if [ -f /etc/debian_version ] ; then
             echo "Debian/Ubuntu detected."
-            echo "Updating apt-get."
+            echo "Updating apt-get. It may ask you for the root password."
             sudo apt-get update
             echo "Installing the packages."
             sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen
