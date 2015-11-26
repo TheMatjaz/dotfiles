@@ -28,18 +28,6 @@
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
-mkdir -p $dotfiles_dir
-echo "Dotfiles are stored in $dotfiles_dir"
-if [ -d $dotfiles_dir/.git ]; then
-    echo "Updating existing dotfiles repository."
-    cd $dotfiles_dir
-    git pull
-else
-    echo "Cloning the dotfiles repository."
-    git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
-        echo "An error occurred during the cloning of the dotfiles repository.
-Please try running this script again."
-        exit 1
     }
 fi
 
@@ -58,6 +46,8 @@ function symlink_dotfile() {
         echo "Backing up existing $file_in_home into $backup_dir"
         mv $file_in_home $backup_dir
     fi
+    mkdir -p $(dirname $file_in_home)   # if there is no directory for emacs.d
+                                        # and .config for mc and htop
     ln -s -v -f -F $file_in_repo $file_in_home
 }
 
