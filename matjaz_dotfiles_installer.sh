@@ -74,7 +74,9 @@ Try running [1]"
     if [ -d $dotfiles_dir/.git ]; then
         echo "Found existing dotfiles repository. Updating it."
         cd $dotfiles_dir
+        git checkout master
         git pull
+        git checkout - # return to previous branch
     else
         echo "Cloning the dotfiles repository from GitHub."
         git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
