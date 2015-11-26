@@ -215,8 +215,8 @@ function repl() {
 [7] get more information about this installer and the dotfiles\n
 [8] exit installer\n"
     i=0
-    while [ $i -e 100 ]; do  # prevent any misfortunate infinite loops
-        i=$i+1
+    while [ $i -le 100 ]; do  # prevent any misfortunate infinite loops
+        ((i++))
         echo -e $choise_menu
         case $(ask_user "What do you want to do? [0/1/.../8]") in
             0) run_all_tasks ;;
