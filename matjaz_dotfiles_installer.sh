@@ -33,13 +33,13 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # Create dotfiles directory and clone repository into it
-dotfiles_dir="~/Development/Dotfiles/"
-backup_dir="$dotfiles_dir.original_dotfiles/"
+dotfiles_dir="$HOME/Development/Dotfiles/"
+backup_dir="$dotfiles_dir"".original_dotfiles/"
 mkdir -p $dotfiles_dir
-cd $dotfiles_dir
-echo "A folder $dotfiles_dir has been created to store all the dotfiles in it."
-if [ -d .git ]; then
+echo "Dotfiles are stored in $dotfiles_dir"
+if [ -d "$dotfiles_dir"".git" ]; then
     echo "Updating existing dotfiles repository."
+    cd $dotfiles_dir
     git pull
 else
     echo "Cloning the dotfiles repository."
@@ -51,7 +51,7 @@ Please try running this script again."
 fi
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
-bash $dotfiles_dir"new_system_packages_installer.sh"
+bash "$dotfiles_dir""new_system_packages_installer.sh"
 cd $dotfiles_dir
 
 # Creates a symbolic link to the file specified in the first argument $1
@@ -111,7 +111,7 @@ echo "Dotfiles installation completed."
 read -p "Do you want to perform an update+upgrade of all package managers? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    bash $dotfiles_dir"full_system_updater.sh"
+    bash "$dotfiles_dir""full_system_updater.sh"
 else
     printf "You can peform it manually by launching
     bash %sfull_system_updater.sh\n" $dotfiles_dir

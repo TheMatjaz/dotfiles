@@ -66,7 +66,7 @@ Please update this script $(basename $0)"
 esac
 
 # Install Oh My ZSH if not already installed
-if [ -d ~/.oh-my-zsh ]; then
+if [ -d $HOME/.oh-my-zsh ]; then
     echo "Oh My ZSH installation found, skipping install."
 else
     # Download and run Oh My ZSH installer without letting them enter the zsh
@@ -77,7 +77,7 @@ else
 fi
 
 # Install the live syntax highlighting for Oh My ZSH
-zshsyntax_dir="~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+zshsyntax_dir="$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 if [ -d $zshsyntax_dir/.git ]; then
     echo "Updating existing zsh-syntax-highlighting repository."
     cd $zshsyntax_dir
