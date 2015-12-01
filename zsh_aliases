@@ -115,3 +115,20 @@ case $(uname) in
         alias mc=". /usr/share/mc/bin/mc-wrapper.sh"
         ;;
 esac
+
+# Call pdftk, if installed, to compress a PDF file passing through postscript
+function pdfcompress() {
+    which pdf2ps 2>&1 > /dev/null
+    if [ $? = 0 ]; then
+        filename=$1
+        filename=${filename%.*}
+        echo -n "pdf -> ps"
+        pdf2ps "$filename.pdf" "/tmp/$filename.ps"
+        echo -n " -> pdf compressed"
+        ps2pdf /tmp/$filename.ps $filename\ compressed.pdf
+        echo "   Done!"
+        rm "/tmp/$filename.ps"
+    else
+        echo "PdfTK not installed. Cannot use pdf2ps and ps2pdf."
+    fi
+}
