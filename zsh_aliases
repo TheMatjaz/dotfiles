@@ -104,3 +104,14 @@ function cdfinder() {
         echo 'No Finder window found' >&2
     fi
 }
+
+
+# Operative system dependant shortcuts
+case $(uname) in
+    'Darwin')
+        alias mc=". /usr/local/Cellar/midnight-commander/*/libexec/mc/mc-wrapper.sh"
+        ;;
+    'Linux')
+        alias mc=". /usr/share/mc/bin/mc-wrapper.sh"
+        ;;
+esac
