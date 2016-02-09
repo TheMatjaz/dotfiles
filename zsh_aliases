@@ -136,3 +136,12 @@ function pdfcompress() {
 # Wget download until completed (for slow/unstable connections)
 alias wget-infinite="wget --tries=0 --retry-connrefused --continue --timeout=30 --random-wait --background --append-output=/tmp/wget_background"
 alias wget-infinite-status="tail -2 /tmp/wget_background | head -1"
+
+# Add something to gitignore
+function gitignore() {
+    if [ -d ".git" ]; then
+        echo "$@" >> .gitignore
+    else
+        echo "This is not a git repository. Nothing done."
+    fi
+}
