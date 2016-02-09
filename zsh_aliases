@@ -2,7 +2,7 @@
 alias markdown="perl /Applications/scripts/Markdown.pl --html4tags"
 alias countcode="bash /Applications/scripts/count_lines_of_java_code.sh"
 alias gh-pages="bash /Applications/scripts/javadoc_after_build_run.sh"
-alias numerus="java -jar ~/Development/NetBeansProjects/Numerus/target/Numerus-*-jar-with-dependencies.jar"
+alias numerus="~/Development/C/Numerus/bin/numerus"
 
 # Directories
 alias db="cd ~/Dropbox"
