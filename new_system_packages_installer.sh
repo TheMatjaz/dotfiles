@@ -47,7 +47,7 @@ case $(uname) in
             echo "Updating apt-get. It may ask you for the root password."
             sudo apt-get update
             echo "Installing the packages."
-            sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen
+            sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen gpg
             echo "Performing some cleaning."
             sudo apt-get autoremove
             sudo apt-get clean
@@ -91,3 +91,4 @@ else
         exit 1
     }
 fi
+

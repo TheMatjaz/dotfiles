@@ -139,6 +139,7 @@ function install_dotfiles_to_home() {
     symlink_dotfile mc_ini .config/mc/ini
     symlink_dotfile mc_panels.ini .config/mc/panels.ini
     symlink_dotfile emacs_init.el .emacs.d/init.el
+    symlink_dotfile gpg_conf .gnupg/gpg.conf
 
     # Symlink the htop configuration file as well, but place it in ~/.htoprc on
     # OS X and in ~/.config/htop/htoprc on Linux.
@@ -248,3 +249,4 @@ function repl() {
 }
 
 repl
+
