@@ -8,6 +8,7 @@ Added
 - `wget-infinite` and `wget-infinite-status` aliases to start a background
   `wget` download that retries from where it stopped until completion
 - `gpg` configuration dotfile
+- `gpg` signing key choise to global _git_ configuration
 - `gitignore` command to easily add files to local `.gitignore` file of a _git_
   repository
 - pdf files compression alias `pdfcompress`: transforms a `.pdf` to `.ps` and
