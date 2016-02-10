@@ -1,6 +1,7 @@
 [user]
 	name = Matjaž
 	email = dev@matjaz.it
+	signingkey = CE32DC1E
 
 [core]
 	excludesfile = ~/.gitignore_global
