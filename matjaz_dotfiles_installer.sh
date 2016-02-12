@@ -1,18 +1,20 @@
 #!/bin/bash
 # ------------------------------------------------------------------------------
-# Matjaž's dotfiles installer script
+# Matjaž's dotfiles installer script for Debian or Ubuntu.
 #
 # >> LICENSE
-# Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 # This Source Code Form is subject to the terms of the BSD 3-clause license. 
 # If a copy of the license was not distributed with this file, You can obtain
 # one at http://directory.fsf.org/wiki/License:BSD_3Clause
 #
 # >> USAGE
-# Execute this script anywhere on the system. There are no parameters.
+# Execute this script anywhere on a Debian or Ubuntu operative system to start
+# the setup of Matjaž's dotfiles. There are no parameters.
 #
 # >> WHAT IT DOES
-# It's an interactive installer of the Matjaž's dotfiles.
+# It's an interactive installer of the Matjaž's dotfiles for a Debian or Ubuntu
+# operative system.
 #
 # - It downloads the git repository (which may be found on Github:
 #   https://github.com/TheMatjaz/dotfiles) to an installation directory
@@ -25,18 +27,33 @@
 #   full_system_update.sh
 # ------------------------------------------------------------------------------
 
+prompt="[ DOTFILES ]>"
+
+
+# Terminates the script if the current operative system is not Debian or Ubuntu
+function verify_operative_system() {
+    if [ -f /etc/debian_version ] ; then
+        echo "$prompt The current operative system is not a Debian or Ubuntu; terminating."
+        exit 100
+    fi
+}
+
+
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
 initial_dir=$PWD
 
+
 # Prompts a confirmation question to get the user's choice and returns it.
 # Call it with a string as prompt string, otherwise it uses the default one.
 function ask_user() {
-    read -r -p "${1:-Are you sure? [y/N]} " response
+    read -r -p "${1:-$prompt Are you sure? [y/N]} " response
     echo $response
 }
 
+
+# Prompty the credits, license and a explanation of what this script is.
 function get_info() {
     echo "
 Matjaž's dotfiles
@@ -44,30 +61,35 @@ Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> http://matjaz.it
 Project page with more info: https://github.com/TheMatjaz/dotfiles
 BSD 3-clause license
 
-This is an installer for the dotfiles (configuration files for many programs
-and shells found in *nix systems) for my usage. The installer works on OS X
-or Linux. It also installs the necessary packages that are beeing configured
-by the dotfiles themselves."
+This is an installer for the dotfiles (configuration files for many 
+programs and shells found in *nix systems) for my usage. This installer 
+works only on Debian or Ubuntu. It also installs the necessary packages 
+that are beeing configured by the dotfiles themselves."
 }
 
+
+# Prompts the currently set installation directory of the dotfiles and asks
+# the user to eventually change it.
 function pick_installation_directory() {
-    echo "The installation directory is set to:
+    echo "$prompt The installation directory is set to:
     $dotfiles_dir"
-    case $(ask_user "Is it ok for you? [Y/n]") in
+    case $(ask_user "$prompt Is it ok for you? [Y/n]") in
         [nN]|[nN][oO])
-            dotfiles_dir=$(ask_user "Type a correctly formatted path for the installation directory, even if it does not exist yet:
+            dotfiles_dir=$(ask_user "$prompt Type a CORRECTLY formatted path for the installation directory, even if it does not exist yet:
     ") ;;
         *)
-            echo "Installation directory unchanged." ;;
+            echo "$prompt Installation directory unchanged." ;;
     esac
 }
 
-# Create dotfiles directory and clone repository into it or update it, if it
-# already exists
+
+# Create dotfiles directory, clone the GitHub repository into it or update it,
+# if it the directory already exists.
 function install_dotfiles_repo() {
     which git 2>&1 > /dev/null
-    if [ $? != 0 ]; then  # no git installed
-        echo "Git not found. Please install it first, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] - just without Git)
+    if [ $? != 0 ]; then
+        # no git installed
+        echo "$prompt Git not found. Please install it first, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] - just without Git)
     bash -c '$(wget https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh -O -)'
 or use curl, if you don't have wget:
     bash -c '$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh)'
@@ -75,32 +97,33 @@ or use curl, if you don't have wget:
         exit 1
     fi
     mkdir -p $dotfiles_dir || {
-        echo "An error occured during the creation of the repository directory. Is the path correctly formatted?
+        echo "$prompt An error occured during the creation of the repository directory. Is the path correctly formatted?
     $dotfiles_dir
 Try running [1]"
         return
     }
-    echo "Dotfiles will be stored in $dotfiles_dir"
+    echo "$prompt Dotfiles will be stored in $dotfiles_dir"
     if [ -d $dotfiles_dir/.git ]; then
-        echo "Found existing dotfiles repository. Updating it."
+        echo "$prompt Found existing dotfiles repository. Updating the debian-ubuntu branch."
         cd $dotfiles_dir
-        git checkout master
-        git pull
-        git checkout - # return to previous branch
+        git checkout debian-ubuntu
+        git pull GitHub debian-ubuntu
     else
-        echo "Cloning the dotfiles repository from GitHub."
+        echo "$prompt Cloning the dotfiles repository from GitHub."
         git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
-            echo "An error occurred during the cloning of the dotfiles repository. Please try running this script again."
+            echo "$prompt An error occurred during the cloning of the dotfiles repository. Please try running this script again."
             return
         }
     fi
 }
+
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
 function install_packages_for_dotfiles() {
     bash $dotfiles_dir/new_system_packages_installer.sh
     cd $dotfiles_dir
 }
+
 
 # Creates a symbolic link to the file specified in the first argument $1
 # pointing to the file specified in the second argument $2. Backups any existing
@@ -110,7 +133,7 @@ function symlink_dotfile() {
     local file_in_home=$HOME/$2
     if [[ -e $file_in_home && ! -L $file_in_home ]]; then
         mkdir -p $backup_dir   # prepare backup directory if not exists
-        echo "Backing up existing $file_in_home into $backup_dir"
+        echo "$prompt Backing up existing $file_in_home into $backup_dir"
         mv $file_in_home $backup_dir
     fi
     mkdir -p $(dirname $file_in_home)   # if there is no directory for emacs.d
@@ -122,10 +145,10 @@ function symlink_dotfile() {
 # dotfiles repository. Any existing dotfiles get backupped.
 function install_dotfiles_to_home() {
     if [ ! -d $dotfiles_dir/.git ]; then
-        echo "Dotfiles repository not found. Have you installed it? Try running [2]"
+        echo "$prompt Dotfiles repository not found. Have you installed it? Try running [2]"
         return
     fi
-    echo "Creating symlinks in home directory poiting to the dotfiles repository."
+    echo "$prompt Creating symlinks in home directory poiting to the dotfiles repository."
     symlink_dotfile gitconfig .gitconfig
     symlink_dotfile gitignore_global .gitignore_global
     symlink_dotfile hgrc .hgrc
@@ -140,47 +163,40 @@ function install_dotfiles_to_home() {
     symlink_dotfile mc_panels.ini .config/mc/panels.ini
     symlink_dotfile emacs_init.el .emacs.d/init.el
     symlink_dotfile gpg_conf .gnupg/gpg.conf
-
-    # Symlink the htop configuration file as well, but place it in ~/.htoprc on
-    # OS X and in ~/.config/htop/htoprc on Linux.
-    case $(uname) in
-        'Darwin')
-            symlink_dotfile htoprc .htoprc
-            ;;
-        'Linux')
-            symlink_dotfile htoprc .config/htop/htoprc
-            ;;
-        *)
-            echo "Cannot symlink htoprc on proper position on this operative system. Please update this script $0 or perform the symlink manually."
-            ;;
-    esac
+    symlink_dotfile htoprc .config/htop/htoprc
 
     # Move backup made by Oh My ZSH installer to $backup_dir
     if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
-        echo "Move old .zshrc backupped by Oh My ZSH to $backup_dir"
+        echo "$prompt Move old .zshrc backupped by Oh My ZSH to $backup_dir"
         mkdir -p $backup_dir  # since it may have not been created previously
                               # if no backup were done before
         mv $HOME/.zshrc.pre-oh-my-zsh $backup_dir
     fi
 }
 
+
+# Starts a complete update and upgrade of all packages in the system.
 function run_full_system_update() {
     bash $dotfiles_dir/full_system_updater.sh
 }
 
+
+# Starts Emacs to let the it apply the Emacs init settings and download
+# any Emacs packages from its repository.
 function start_emacs() {
     which emacs 2>&1 > /dev/null
     if [ $? == 0 ]; then  # if emacs exists
-        echo "Making emacs start so it can evaluate the emacs_init.el file to download all required packages and set the correct configuration."
+        echo "$prompt Making emacs start so it can evaluate the emacs_init.el file to download all required packages and set the correct configuration."
         emacsclient --tty --alternate-editor="" $dotfiles_dir/emacs_init.el
     else
-        echo "Emacs not installed. Try running [3]"
+        echo "$prompt Emacs not installed. Try running [3]"
         return
     fi
 }
 
+
 # Clean some variables, files and return to initial directory where the script
-# was called
+# was called.
 function finalize() {
     unset backup_dir
     unset dotfiles_dir
@@ -188,12 +204,16 @@ function finalize() {
     unset initial_dir
 }
 
+
+# Terminates this script gracefully.
 function exit_installer() {
-    echo "Have an awesome day!"
+    echo "$prompt Have an awesome day!"
     finalize
     exit 0
 }
 
+
+# Runs all options of the repl in sequence.
 function run_all_tasks() {
     pick_installation_directory
     install_dotfiles_repo
@@ -205,17 +225,19 @@ function run_all_tasks() {
 }
 
 
-
-# STARTING EXECUTION HERE
-# =======================
-
-echo "
-Matjaž's dotfiles installer script
-==================================
+# Prints an explanation at the beginning of the script
+function welcome_message() {
+    echo "
+Matjaž's dotfiles installer script for Debian or Ubuntu
+=======================================================
 
 This script may perform various tasks. For freshly set systems it's raccomended
 to run them all [0]. Choose your option:"
+}
 
+
+# Main menu of the script.
+# Starts a Read-Evaluate-Print-Loop that offers various options.
 function repl() {
     local choise_menu="
 -------------
@@ -233,7 +255,7 @@ function repl() {
     while [ $i -le 100 ]; do  # prevent any misfortunate infinite loops
         ((i++))
         echo "$choise_menu"
-        case $(ask_user "What do you want to do? [0/1/.../8]") in
+        case $(ask_user "$prompt What do you want to do? [0/1/.../8]") in
             0) run_all_tasks ;;
             1) pick_installation_directory ;;
             2) install_dotfiles_repo ;;
@@ -243,10 +265,14 @@ function repl() {
             6) start_emacs ;;
             7) get_info ;;
             8) exit_installer ;;
-            *) echo "Illegal command, try again.";;
+            *) echo "$prompt Illegal command, try again.";;
         esac
     done
 }
 
+
+# ACTUAL EXECUTION
+verify_operative_system
+welcome_message
 repl
 
