@@ -27,12 +27,15 @@
 #   full_system_update.sh
 # ------------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]>"
+prompt="[ DOTFILES ]"
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
 function verify_operative_system() {
-    if [ -f /etc/debian_version ] ; then
+    if [ $(uname) != "Linux" ] ; then
+        echo "$prompt The current operative system is not Linux; terminating."
+        exit 101
+    elif [ -f /etc/debian_version ] ; then
         echo "$prompt The current operative system is not a Debian or Ubuntu; terminating."
         exit 100
     fi

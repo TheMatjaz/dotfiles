@@ -18,7 +18,7 @@
 # configuration files. It calls the system's package manager apt-get.
 # ------------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]>"
+prompt="[ DOTFILES ]"
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
@@ -33,7 +33,7 @@ function verify_operative_system() {
 }
 
 
-# Performs an initial OS check
+# Performs an initial OS check as above
 verify_operative_system
 
 
