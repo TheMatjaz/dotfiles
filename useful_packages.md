@@ -34,25 +34,7 @@ apt-get
 - frotz (Z-machine emulator for retro games)
 - postgresql (latest)
 - gpg
-
-
-HomeBrew
---------
-
-_Just the differences compared to apt-get._
-
-- brew-cask
-- htop-osx
-- midnight-commander
-- python3
-- sqlite
-- diff-pdf
 - doxygen
-- hugo
-- speedtest_cli
-- gnu-sed
-- gcc
-- gpg
 
 
 Python3 pip
