@@ -60,11 +60,6 @@ plugins=(
 	python
 	pip
     # virtualenv
-    ### OS X
-	osx
-    # sublime
-	brew
-    brew-cask
     ### DEV TOOLS
     # jsontools
     # postgres
@@ -73,7 +68,6 @@ plugins=(
 	sudo
 	screen
     nyan
-    # battery
 	colorize
     # colored-man
 	cp
