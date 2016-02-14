@@ -1,8 +1,9 @@
 My list of useful pakcages
 ==========================
 
-The title says it all: just a list of tha packages I found useful up to now
-organized by 
+The title says it all: just a list of that packages I found useful and think
+most of the systems should have
+
 
 apt-get
 -------
@@ -32,6 +33,8 @@ apt-get
 - pdftk (pdf toolkit, including conversion tools)
 - frotz (Z-machine emulator for retro games)
 - postgresql (latest)
+- gpg
+
 
 HomeBrew
 --------
@@ -49,6 +52,7 @@ _Just the differences compared to apt-get._
 - speedtest_cli
 - gnu-sed
 - gcc
+- gpg
 
 
 Python3 pip
@@ -56,3 +60,4 @@ Python3 pip
 
 - grip
 - numpy
+
