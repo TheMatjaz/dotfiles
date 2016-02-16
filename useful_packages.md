@@ -1,17 +1,16 @@
 My list of useful pakcages
 ==========================
 
-The title says it all: just a list of tha packages I found useful up to now
-organized by 
+The title says it all: just a list of that packages I found useful and think
+most of the systems should have
 
-apt-get
--------
+
+HomeBrew
+--------
 
 - build-essential
 - git
 - git-flow
-- htop
-- mc
 - emacs
 - zsh
 - sqlite3
@@ -22,7 +21,6 @@ apt-get
 - lighttpd
 - figlet
 - gnuplot
-- hugo
 - maven
 - nmap
 - tree
@@ -32,12 +30,6 @@ apt-get
 - pdftk (pdf toolkit, including conversion tools)
 - frotz (Z-machine emulator for retro games)
 - postgresql (latest)
-
-HomeBrew
---------
-
-_Just the differences compared to apt-get._
-
 - brew-cask
 - htop-osx
 - midnight-commander
@@ -49,6 +41,7 @@ _Just the differences compared to apt-get._
 - speedtest_cli
 - gnu-sed
 - gcc
+- gpgtools
 
 
 Python3 pip
