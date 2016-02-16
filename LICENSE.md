@@ -1,12 +1,15 @@
 Matjaž's dotfiles license
 -------------------------
 
+The _Matjaž's dotfiles_ repository and all it's files are released under the
 _BSD 3-clause License_, also known as _Revised BSD License_, _New BSD License_
-or _Modified BSD License_.
+or _Modified BSD License_. The full text of the license follows.
 
-********************************************************************************
 
-_Copyright © 2015, Matjaž Guštin <dev@matjaz.it> <http://matjaz.it>_  
+*******************************************************************************
+
+
+_Copyright © 2015-2016, Matjaž Guštin <dev@matjaz.it> <http://matjaz.it>_  
 _All rights reserved._
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -17,9 +20,9 @@ are permitted provided that the following conditions are met:
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-3. Neither the name of nor the names of its contributors may be used to endorse
-   or promote products derived from this software without specific prior written
-   permission.
+3. Neither the name of the copyright holder nor the names of its contributors 
+   may be used to endorse or promote products derived from this software without
+   specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND CONTRIBUTORS “AS IS” AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
