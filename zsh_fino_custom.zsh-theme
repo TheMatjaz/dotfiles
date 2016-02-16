@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# Matjaž's dotfiles ZSH custom theme configuration file
+#
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
+# -----------------------------------------------------------------------------
+
 # fino-mat.zsh-theme
 # Variation of the Fino theme by Matjaž <dev@matjaz.it> matjaz.it
 # v1.0 2015-09-11
@@ -6,7 +16,7 @@
 # Suggested theme: * base16 atelierforest dark *
 # Meant for people with git, mercurial, nvm. Tested only on OS X 10.10.
 #
-# Example propmt (obviously missing colours):
+# Example prompt (obviously missing colours):
 # ╭──unser on hostname in ~/some/directory/here on master ✘ ● ●
 # ╰± git status                                             [01:53:05]
 #
