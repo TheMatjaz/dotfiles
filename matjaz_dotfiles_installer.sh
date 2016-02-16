@@ -95,12 +95,9 @@ function install_dotfiles_repo() {
     which git 2>&1 > /dev/null
     if [ $? != 0 ]; then
         # no git installed
-        echo "$prompt Git not found. Please install it first manually, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] which installs some basic packages for your system - just without Git)
-    bash -c '$(wget https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/new_system_packages_installer.sh -O -)'
-or use curl, if you don't have wget:
-    bash -c '$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/new_system_packages_installer.sh)'
-"
-        exit 1
+        echo "$prompt Git not installed. Installing. It may ask you for the root password."
+        sudo apt-get update
+        sudo apt-get install git
     fi
     mkdir -p $dotfiles_dir || {
         echo "$prompt An error occured during the creation of the repository directory. Is the path correctly formatted?
