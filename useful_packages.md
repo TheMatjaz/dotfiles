@@ -42,6 +42,8 @@ HomeBrew
 - gnu-sed
 - gcc
 - gpgtools
+- zsh-completions
+- homebrew/completions/brew-cask-completion
 
 
 Python3 pip

@@ -4,15 +4,18 @@ alias countcode="bash /Applications/scripts/count_lines_of_java_code.sh"
 alias gh-pages="bash /Applications/scripts/javadoc_after_build_run.sh"
 alias numerus="~/Development/C/Numerus/bin/numerus"
 
+
 # Directories
 alias db="cd ~/Dropbox"
 alias dev="cd ~/Development"
 alias tmp="cd /tmp"
 
+
 # Create and enter the directory
 function mkcd() {
     mkdir -p $@ && cd $_
 }
+
 
 # Get size of a directory or file
 function size() {
@@ -27,34 +30,45 @@ function size() {
         }
         {gsub(/^[0-9]+/, human($1)); print}'
     }
-    
+
+
 # Pretty print json
 alias json='python -m json.tool'
 
+
 # Top sordted by CPU usage on OS X   
 alias top="top -o cpu"
+
 
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
+
 # Start Emacsclient and eventually also the daemon server, if down
 alias e="emacsclient -t -a ''"
+
 
 # Android debugger
 alias adb="/Users/matjaz/Library/Android/sdk/platform-tools/adb"
 
+
 # Others
-alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
 alias pip='pip3'
 alias psql="'/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432"
+alias sqlite="sqlite3"
+
 
 # IP addresses
 alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias lanip="ipconfig getifaddr en0"
+alias ipwan="wanip"
+alias iplan="lanip"
+
 
 # Recursively delete `.DS_Store` files from current directory
 alias dscleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
 
 # Empty the Trash on all mounted volumes and the main HDD.
 # Also, clear Apple’s System Logs to improve shell startup speed.
@@ -62,10 +76,12 @@ alias dscleanup="find . -type f -name '*.DS_Store' -ls -delete"
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash"
 alias emptylogsquarantine="sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'; sqlite3 ~/Library/Mail/V2/MailData/Envelope\ Index vacuum" 
 
+
 # Open man page as PDF
 function manpdf() {
     man -t "${1}" | open -f -a /Applications/Preview.app/
 }
+
 
 # Extra many types of compressed packages
 # Credit: http://nparikh.org/notes/zshrc.txt
@@ -92,8 +108,10 @@ extract() {
     fi
 }
 
+
 # apply zshrc, zsh_aliases and zsh_path changes
 alias zshrc="source ~/.zshrc"
+
 
 # Change directory to the current Finder directory
 function cdfinder() {
@@ -106,15 +124,9 @@ function cdfinder() {
 }
 
 
-# Operative system dependant shortcuts
-case $(uname) in
-    'Darwin')
-        alias mc=". /usr/local/Cellar/midnight-commander/*/libexec/mc/mc-wrapper.sh"
-        ;;
-    'Linux')
-        alias mc=". /usr/share/mc/bin/mc-wrapper.sh"
-        ;;
-esac
+# Midnight commander wrapper to make it exit in its current directory
+alias mc=". /usr/local/Cellar/midnight-commander/*/libexec/mc/mc-wrapper.sh"
+
 
 # Call pdftk, if installed, to compress a PDF file passing through postscript
 function pdfcompress() {
@@ -133,9 +145,11 @@ function pdfcompress() {
     fi
 }
 
+
 # Wget download until completed (for slow/unstable connections)
 alias wget-infinite="wget --tries=0 --retry-connrefused --continue --timeout=30 --random-wait --background --append-output=/tmp/wget_background"
 alias wget-infinite-status="tail -2 /tmp/wget_background | head -1"
+
 
 # Add something to gitignore
 function gitignore() {
