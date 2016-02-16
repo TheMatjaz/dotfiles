@@ -1,12 +1,14 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # System packages updater
 #
 # >> LICENSE
 # Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
-# This Source Code Form is subject to the terms of the BSD 3-clause license. 
-# If a copy of the license was not distributed with this file, You can obtain
-# one at http://directory.fsf.org/wiki/License:BSD_3Clause
+#
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
 #
 # >> USAGE
 # Execute this script anywhere on the system. There are no parameters. It may
@@ -14,7 +16,7 @@
 #
 # >> WHAT IT DOES
 # It runs all possible upgrades for a Debian or Ubuntu operative system.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 prompt="[ DOTFILES ]"
 
