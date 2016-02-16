@@ -6,7 +6,7 @@ or _Modified BSD License_.
 
 ********************************************************************************
 
-_Copyright © 2015, Matjaž Guštin <dev@matjaz.it> <http://matjaz.it>_  
+_Copyright © 2015-2016, Matjaž Guštin <dev@matjaz.it> <http://matjaz.it>_  
 _All rights reserved._
 
 Redistribution and use in source and binary forms, with or without modification,
