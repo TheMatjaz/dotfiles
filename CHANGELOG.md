@@ -17,15 +17,16 @@ Added
 Changed
 ----------------------------------------
 
-- Typo in LICENSE.md (missing "the copyright holder")
-- README.md to adapt it to the new branches
+- Typo in `LICENSE.md` (missing "the copyright holder")
+- Adapted `README.md` to the new branches
 
 
 Removed
 ----------------------------------------
 
 - Portability of operative-system specific scripts
-- Anything except README.md, LICENSE.md and CHANGELOG.md from `master` branch
+- Anything except `README.md`, `LICENSE.md` and `CHANGELOG.md` from `master` 
+  branch
 
 
 v1.2.0
