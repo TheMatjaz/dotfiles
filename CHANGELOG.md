@@ -1,3 +1,33 @@
+v2.0.0
+===============================================================================
+
+
+Added
+----------------------------------------
+
+- One `git` branch per operative system:
+    - currently `debian-ubuntu` and `mac-osx`
+    - removes portability issues of any configuration file or script
+    - allows scalability to more operative systems
+    - one operative system simply stays on its branch all the time without 
+      caring for others
+- Explicit license header in every file, except Markdown files
+
+
+Changed
+----------------------------------------
+
+- Typo in LICENSE.md (missing "the copyright holder")
+- README.md to adapt it to the new branches
+
+
+Removed
+----------------------------------------
+
+- Portability of operative-system specific scripts
+- Anything except README.md, LICENSE.md and CHANGELOG.md from `master` branch
+
+
 v1.2.0
 ===============================================================================
 
