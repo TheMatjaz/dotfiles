@@ -1,12 +1,13 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Matjaž's dotfiles required packages installer script
 #
 # >> LICENSE
-# Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> matjaz.it
-# This Source Code Form is subject to the terms of the BSD 3-clause license. 
-# If a copy of the license was not distributed with this file, You can obtain
-# one at http://directory.fsf.org/wiki/License:BSD_3Clause
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
 #
 # >> USAGE
 # This script gets executed when running matjaz_dotfiles_installer.sh.
@@ -17,7 +18,7 @@
 # Install packages (programs) for which the Matjaž's dotfiles are the
 # configuration files. It calls the system's package manager: currently for
 # OS X and Debian/Ubuntu only.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 # Find the current operating system

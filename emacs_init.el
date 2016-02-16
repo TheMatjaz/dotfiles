@@ -1,3 +1,12 @@
+; -----------------------------------------------------------------------------
+; Matjaž's dotfiles Emacs configuration file
+;
+; Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+; This source code form is part of the "Matjaž's dotfiles" project and is 
+; subject to the terms of the BSD 3-clause license as expressed in the 
+; LICENSE.md file found in the top-level directory of this distribution and at
+; http://directory.fsf.org/wiki/License:BSD_3Clause
+; -----------------------------------------------------------------------------
 
 ;;; ====================================================================
 ;;; INTERNAL SETTINGS

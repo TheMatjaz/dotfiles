@@ -1,12 +1,13 @@
 #!/bin/bash
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # System packages updater
 #
 # >> LICENSE
-# Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> matjaz.it
-# This Source Code Form is subject to the terms of the BSD 3-clause license. 
-# If a copy of the license was not distributed with this file, You can obtain
-# one at http://directory.fsf.org/wiki/License:BSD_3Clause
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
 #
 # >> USAGE
 # Execute this script anywhere on the system. There are no parameters. It will
@@ -16,7 +17,7 @@
 # >> WHAT IT DOES
 # It runs all possible upgrades of any package manager it can find. Currently
 # for OS X and Debian/Ubuntu.
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 # Find the current operating system as seen: http://stackoverflow.com/a/3792848
 case $(uname) in
