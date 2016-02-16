@@ -36,7 +36,8 @@ function verify_operative_system() {
     if [ $(uname) != "Linux" ] ; then
         echo "$prompt The current operative system is not Linux; terminating."
         exit 101
-    elif [ -f /etc/debian_version ] ; then
+    fi
+    if [ ! -f /etc/debian_version ] ; then
         echo "$prompt The current operative system is not a Debian or Ubuntu; terminating."
         exit 100
     fi
