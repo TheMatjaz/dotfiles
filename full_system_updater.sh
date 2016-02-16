@@ -9,9 +9,9 @@
 # one at http://directory.fsf.org/wiki/License:BSD_3Clause
 #
 # >> USAGE
-# Execute this script anywhere on the system. There are no parameters. It will
-# ask you for root password about at the end of the execution to update
-# Ruby gems.
+# Execute this script anywhere on an OS X system system. There are no 
+# parameters. It may ask you for root password about at the end of the 
+# execution to update Ruby gems.
 #
 # >> WHAT IT DOES
 # It runs all possible upgrades of any package manager it can find on OS X.
