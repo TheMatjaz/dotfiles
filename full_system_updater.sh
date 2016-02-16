@@ -1,9 +1,9 @@
 #!/bin/bash
 # ------------------------------------------------------------------------------
-# System packages updater
+# System packages updater for Apple OS X
 #
 # >> LICENSE
-# Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
 # This Source Code Form is subject to the terms of the BSD 3-clause license. 
 # If a copy of the license was not distributed with this file, You can obtain
 # one at http://directory.fsf.org/wiki/License:BSD_3Clause
@@ -14,79 +14,69 @@
 # Ruby gems.
 #
 # >> WHAT IT DOES
-# It runs all possible upgrades of any package manager it can find. Currently
-# for OS X and Debian/Ubuntu.
+# It runs all possible upgrades of any package manager it can find on OS X.
 # ------------------------------------------------------------------------------
 
-# Find the current operating system as seen: http://stackoverflow.com/a/3792848
-case $(uname) in
-    'Darwin')
-        echo "Updating OS X software from App Store."
-        softwareupdate --install --all
-        # If HomeBrew is installed, run its updates
-        which brew 2>&1 > /dev/null
-        if [ $? = 0 ]; then
-            echo "Updating Homebrew."
-            brew update
-            brew missing
-            brew upgrade --all
-            brew cleanup --force -s # '-s'= remove even the latest version cache
-        else
-            echo "Missing Homebrew, skipping."
-        fi
-        which brew-cask 2>&1 > /dev/null
-        if [ $? = 0 ]; then
-            echo "Cleaning up Homebrew Cask."
-            brew cask cleanup
-        else
-            echo "Missing Homebrew Cask, skipping."
-        fi
-        ;;
-    'Linux')
-        if [ -f /etc/debian_version ] ; then
-            # based on Debian, so has apt-get
-            echo "Updating apt-get."
-            sudo apt-get update
-            sudo apt-get -y dist-upgrade
-            sudo apt-get autoremove
-            sudo apt-get clean
-            sudo apt-get autoclean
-        else
-            echo "Not implemented for this Linux. Please update this script $0"
-            exit 100
-        fi
-        ;;
-    *)
-        echo "Not implemented for this operative system. Please update this script $0"
-        exit 100
-        ;;
-esac
+prompt="[ DOTFILES ]"
+
+# Terminates the script if the current operative system is not OS X
+function verify_operative_system() {
+    if [ $(uname) != "Darwin" ] ; then
+        echo "$prompt The current operative system is not Apple OS X; terminating."
+        exit 101
+    fi    
+}
+
+
+# Performs the OS check as above
+verify_operative_system
+
+
+# App Store
+echo "$prompt Updating OS X system-software from App Store."
+softwareupdate --install --all
+
+
+# HomeBrew
+which brew 2>&1 > /dev/null
+if [ $? = 0 ]; then
+    echo "$prompt Updating Homebrew."
+    brew update
+    brew missing
+    brew upgrade --all
+    brew cleanup --force -s # '-s'= remove even the latest version cache
+    brew cask cleanup || echo "$prompt Homebrew Cask not installed; skipping cleanup."
+else
+    echo "$prompt Missing Homebrew; skipping."
+fi
+
 
 # Python3 update all pip3 packages
 which pip3 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if pip exists
-    echo "Updating pip3 itself. May ask for root password."
+    echo "$prompt Updating pip3 itself. May ask for root password."
     sudo -H pip3 install --upgrade pip
     if [[ -z $(pip3 freeze --local) ]]; then
-        echo "No pip packages installed so far."
+        echo "$prompt No pip packages installed so far."
     else
-        echo "Updating pip3 packages."
+        echo "$prompt Updating pip3 packages."
         pip3 freeze --local \
             | grep -v '^\-e' \
             | cut -d = -f 1  \
             | xargs -n1 sudo -H pip3 install --upgrade
     fi
 else
-    echo "Missing pip3, skipping."
+    echo "$prompt Missing pip3, skipping."
 fi
+
 
 # Ruby gems
 which gem 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
-    echo "Updating gem. May ask for root password."
+    echo "$prompt Updating gem. May ask for root password."
     sudo gem update --system
     sudo gem update
 else
-    echo "Missing gem, skipping."
+    echo "$prompt Missing gem, skipping."
 fi
 
