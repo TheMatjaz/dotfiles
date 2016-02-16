@@ -61,14 +61,15 @@ function ask_user() {
 function get_info() {
     echo "
 Matjaž's dotfiles
-Copyright (c) 2015, Matjaž Guštin <dev@matjaz.it> http://matjaz.it
+Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> http://matjaz.it
 Project page with more info: https://github.com/TheMatjaz/dotfiles
 BSD 3-clause license
 
-This is an installer for the dotfiles (configuration files for many 
-programs and shells found in *nix systems) for my usage. This installer 
-works only on Debian or Ubuntu. It also installs the necessary packages 
-that are beeing configured by the dotfiles themselves."
+This is an installer for the Matjaž's dotfiles. Dotfiles are configuration 
+files for many programs and shells found in Unix/Linux/BSD/OS X systems. 
+This installer works only on Debian or Ubuntu, for other installers read the 
+repository's README file. It also installs the necessary packages that are 
+beeing configured."
 }
 
 
@@ -93,10 +94,10 @@ function install_dotfiles_repo() {
     which git 2>&1 > /dev/null
     if [ $? != 0 ]; then
         # no git installed
-        echo "$prompt Git not found. Please install it first, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] - just without Git)
-    bash -c '$(wget https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh -O -)'
+        echo "$prompt Git not found. Please install it first manually, the repository cannot be cloned without it. The following command should do the trick (it's basically running the option [3] which installs some basic packages for your system - just without Git)
+    bash -c '$(wget https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/new_system_packages_installer.sh -O -)'
 or use curl, if you don't have wget:
-    bash -c '$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/master/new_system_packages_installer.sh)'
+    bash -c '$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/new_system_packages_installer.sh)'
 "
         exit 1
     fi
@@ -110,12 +111,19 @@ Try running [1]"
     if [ -d $dotfiles_dir/.git ]; then
         echo "$prompt Found existing dotfiles repository. Updating the debian-ubuntu branch."
         cd $dotfiles_dir
-        git checkout debian-ubuntu
-        git pull GitHub debian-ubuntu
+        git checkout debian-ubuntu || {
+            echo "$prompt An error occurred during the checkout of the debian-ubuntu branch. Please try running this operation again."
+            return
+        }
+
+        git pull origin debian-ubuntu || {
+            echo "$prompt An error occurred during the pulling of the debian-ubuntu branch. Please try running this operation again."
+            return
+        }
     else
         echo "$prompt Cloning the dotfiles repository from GitHub."
-        git clone https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
-            echo "$prompt An error occurred during the cloning of the dotfiles repository. Please try running this script again."
+        git clone -b debian-ubuntu https://github.com/TheMatjaz/dotfiles.git $dotfiles_dir || {
+            echo "$prompt An error occurred during the cloning of the debian-ubuntu branch of the Matjaž's dotfiles GitHub repository. Please try running this operation again."
             return
         }
     fi
