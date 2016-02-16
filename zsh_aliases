@@ -43,9 +43,10 @@ alias json='python -m json.tool'
 alias e="emacsclient -t -a ''"
 
 
-# Alias for correct pip and sqlite versions
+# Alias for correct pip, sqlite and gpg versions
 alias pip="pip3"
 alias sqlite="sqlite3"
+alias gpg=“gpg2”
 
 
 # IP addresses
