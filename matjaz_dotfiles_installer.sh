@@ -28,7 +28,7 @@
 #   full_system_update.sh
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ INSTALLER ]"
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
@@ -95,7 +95,7 @@ function install_dotfiles_repo() {
     which git 2>&1 > /dev/null
     if [ $? != 0 ]; then
         # no git installed
-        echo "$prompt Git not installed. Installing. It may ask you for the root password."
+        echo "$prompt Git not installed. Updating apt-get and installing. May ask for the root password."
         sudo apt-get update
         sudo apt-get install git
     fi

@@ -18,7 +18,7 @@
 # It runs all possible upgrades for a Debian or Ubuntu operative system.
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ UPDATER ]"
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
@@ -39,7 +39,7 @@ verify_operative_system
 
 
 # apt-get update and upgrade
-echo "$prompt Updating apt-get."
+echo "$prompt Updating apt-get. May ask for root password."
 sudo apt-get update
 sudo apt-get -y dist-upgrade
 sudo apt-get autoremove

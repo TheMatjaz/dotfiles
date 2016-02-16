@@ -19,7 +19,7 @@
 # configuration files. It calls the system's package manager apt-get.
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ DEPENDENCIES ]"
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
