@@ -176,3 +176,14 @@ function gitignore() {
         echo "This is not a git repository. Nothing done."
     fi
 }
+
+
+# Awesome terminal commands fot weather forecast
+# Parameter one ($1) = the city to lookup
+function weather() {
+    if [ -z $1 ] ; then
+        echo "Usage: weather <name-of-the-city>"
+    else
+        { curl -s http://wttr.in/$1 ; finger $1@graph.no } | less
+    fi
+}
