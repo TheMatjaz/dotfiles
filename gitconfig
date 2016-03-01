@@ -37,3 +37,16 @@
     
 [credential]
 	helper = osxkeychain
+
+[difftool]
+        prompt = false
+
+[diff]
+        tool = diffmerge
+
+[mergetool]
+        keepBackup = false
+
+[merge]
+        tool = diffmerge
+        conflictstyle = diff3
