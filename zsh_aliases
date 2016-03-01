@@ -161,10 +161,17 @@ alias wget-infinite="wget --tries=0 --retry-connrefused --continue --timeout=30 
 alias wget-infinite-status="tail -2 /tmp/wget_background | head -1"
 
 
-# Add something to gitignore
+# Add a list of files to gitignore if not already there
 function gitignore() {
     if [ -d ".git" ]; then
-        echo "$@" >> .gitignore
+        # Create file if not exists or update modification time
+        touch .gitignore
+        while [[ $# > 0 ]]; do
+            # If the file is not already in .gitignore, then append it
+            grep -q "$1" ".gitignore" || echo "$1" >> ".gitignore"
+            # Go to next command line parameter
+            shift
+        done
     else
         echo "This is not a git repository. Nothing done."
     fi
