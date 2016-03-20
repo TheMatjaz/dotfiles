@@ -107,10 +107,12 @@ function box_name {
   [ -f ~/.box-name ] && cat ~/.box-name || echo ${SHORT_HOST:-$HOST}
 }
 
-### Returns a lighting symbol, if user is root
-function root_char {
+### Customizes the root username, if the user is root (e.g. when `sudo -s`)
+function user_name {
   if [[ $UID -eq 0 ]]; then
-    echo '%{%fg_bold{yellow}%}⚡%{$reset_color%} '
+    echo 'r☢☢t'
+  else
+    echo '%n'
   fi
 }
 
