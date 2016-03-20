@@ -9,9 +9,9 @@
 # -----------------------------------------------------------------------------
 
 # Directories
-alias db="cd ~/Dropbox"
-alias dev="cd ~/Development"
+alias dev="cd ~/Development"    
 alias tmp="cd /tmp"
+alias dot="cd ~/Development/Dotfiles"
 
 
 # Create and enter the directory
@@ -47,6 +47,7 @@ alias e="emacsclient -t -a ''"
 alias pip="pip3"
 alias sqlite="sqlite3"
 alias gpg=“gpg2”
+alias py="python3"
 
 
 # IP addresses
