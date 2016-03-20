@@ -18,11 +18,11 @@
 	editor = emacsclient -t -a ''
 
 [difftool "sourcetree"]
-	cmd = "kdiff3 "
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
 	path = 
 
 [mergetool "sourcetree"]
-	cmd = "kdiff3 "
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 	trustExitCode = true
 
 [color]
