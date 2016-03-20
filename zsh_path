@@ -32,3 +32,7 @@ export PYTHONIOENCODING='UTF-8';
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}";
+# Deactivate the prompt for the Python virtual enviroment
+# The status get's prompted by the OhMyZSH! theme
+export VIRTUAL_ENV_DISABLE_PROMPT='1'
+
