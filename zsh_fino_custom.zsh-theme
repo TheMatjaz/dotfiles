@@ -116,6 +116,20 @@ function user_name {
   fi
 }
 
+### Returns the name of the current Python virtual enviroment, if any
+### https://github.com/tonyseek/oh-my-zsh-virtualenv-prompt
+function virtualenv_prompt_info() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        if [ -f "$VIRTUAL_ENV/__name__" ]; then
+            local name=$(<$VIRTUAL_ENV/__name__)
+        elif [ `basename $VIRTUAL_ENV` = "__" ]; then
+            local name=$(basename $(dirname $VIRTUAL_ENV))
+        else
+            local name=$(basename $VIRTUAL_ENV)
+        fi
+        echo " %{$FG[239]%}inside%{$reset_color%} $name"
+    fi
+}
 
 local current_dir='${PWD/#$HOME/~}'
 local time='$(date "+%H:%M:%S")'
@@ -126,8 +140,7 @@ local char='$(fun_prompt_char)'
 ### PROMPT shows:
 # root_char, username, hostname, path, git, hg, ruby, nvm
 # prompt char
-PROMPT="╭──$(root_char)%{$FG[040]%}%n%{$reset_color%} %{$FG[239]%}on%{$reset_color%} %{$FG[033]%}$(box_name)%{$reset_color%} %{$FG[239]%}in%{$reset_color%} %{$terminfo[bold]$FG[226]%}${current_dir}%{$reset_color%}${git_info}${hg_info}$(nvm_prompt_info)
+PROMPT="╭──%{$FG[040]%}$(user_name)%{$reset_color%} %{$FG[239]%}on%{$reset_color%} %{$FG[033]%}$(box_name)%{$reset_color%} %{$FG[239]%}in%{$reset_color%} %{$terminfo[bold]$FG[226]%}${current_dir}%{$reset_color%}${git_info}${hg_info}$(nvm_prompt_info)$(virtualenv_prompt_info)
 ╰${char}%{$reset_color%} "
-
 ### RPROMT shows '[time]'
 RPROMPT=" %{$FG[239]%}[${time}]%{$reset_color%}"
