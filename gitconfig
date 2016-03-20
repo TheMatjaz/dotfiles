@@ -50,3 +50,5 @@
 [merge]
         tool = diffmerge
         conflictstyle = diff3
+[push]
+	default = simple
