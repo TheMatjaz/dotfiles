@@ -187,3 +187,14 @@ function weather() {
         { curl -s http://wttr.in/$1 ; finger $1@graph.no } | less
     fi
 }
+
+# Thanks to: http://zanshin.net/2012/08/01/my-zsh-setup-for-python-virtualenv/
+# Activates a Python virtual enviroment and dectivates its automatic prompt
+# Once activated, run `deactivate` to put it off.
+function activate() {
+    if [ -z $1 ] ; then
+        echo "Usage: activate <name of the virtual enviroment>"
+    else
+        source ./$1/bin/activate
+    fi
+}
