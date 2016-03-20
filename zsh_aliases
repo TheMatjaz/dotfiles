@@ -65,7 +65,7 @@ alias adb="/Users/matjaz/Library/Android/sdk/platform-tools/adb"
 
 # Others
 alias pip='pip3'
-alias psql="'/Applications/Postgres.app/Contents/Versions/9.4/bin'/psql -p5432"
+alias psql="'/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432"
 alias sqlite="sqlite3"
 
 
