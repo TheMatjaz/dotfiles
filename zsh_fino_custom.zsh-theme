@@ -116,14 +116,6 @@ function user_name {
   fi
 }
 
-### Returns the prompt of the battery status
-#function battery_prompt {
-#  battery_status=''
-#  if [[ "$OSTYPE" = darwin* ]] ; then
-#    battery_status='with $(battery_pct)%% '
-#  fi
-#  echo $battery_status
-#}
 
 local current_dir='${PWD/#$HOME/~}'
 local time='$(date "+%H:%M:%S")'
