@@ -97,7 +97,7 @@ function fun_git_symbols {
 
 ### Returns the character indicating which CVS is in current use, if any.
 function fun_prompt_char {
-  git branch >/dev/null 2>/dev/null && echo '±' && return
+  git branch >/dev/null 2>/dev/null && echo '⋋' && return
   hg root >/dev/null 2>/dev/null && echo '☿' && return
   echo '○'
 }
