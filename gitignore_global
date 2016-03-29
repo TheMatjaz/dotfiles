@@ -33,8 +33,19 @@ __pycache__/
 
 # C extensions
 *.so
+*.o
 
-# PyCharm editor
+# Netbeans
+nbproject/private/
+bin/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+.nb-gradle/
+
+# Jetbrains editors
 .idea
 
 # Distribution / packaging
