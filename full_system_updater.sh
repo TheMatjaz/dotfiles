@@ -44,7 +44,9 @@ if [ $? = 0 ]; then
     echo "$prompt Updating Homebrew."
     brew update
     brew missing
+    echo "$prompt Upgrading Homebrew."
     brew upgrade --all
+    echo "$prompt Cleaning up Homebrew."
     brew cleanup --force -s # '-s'= remove even the latest version cache
     brew cask cleanup || echo "$prompt Homebrew Cask not installed; skipping cleanup."
 else
@@ -60,7 +62,7 @@ if [ $? = 0 ]; then  # if pip exists
     if [[ -z $(pip3 freeze --local) ]]; then
         echo "$prompt No pip packages installed so far."
     else
-        echo "$prompt Updating pip3 packages."
+        echo "$prompt Updating all pip3 packages."
         pip3 freeze --local \
             | grep -v '^\-e' \
             | cut -d = -f 1  \
@@ -74,8 +76,9 @@ fi
 # Ruby gems
 which gem 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
-    echo "$prompt Updating gem. May ask for root password."
+    echo "$prompt Updating gem itself. May ask for root password."
     sudo gem update --system
+    echo "$prompt Updating gems. May ask for root password."
     sudo gem update
 else
     echo "$prompt Missing gem, skipping."
