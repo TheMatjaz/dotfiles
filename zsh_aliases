@@ -167,12 +167,16 @@ function gitignore() {
     if [ -d ".git" ]; then
         # Create file if not exists or update modification time
         touch .gitignore
-        while [[ $# > 0 ]]; do
-            # If the file is not already in .gitignore, then append it
-            grep -q "$1" ".gitignore" || echo "$1" >> ".gitignore"
-            # Go to next command line parameter
-            shift
-        done
+        if [[ $# == 0 ]]; then
+            cat .gitignore
+        else 
+            while [[ $# > 0 ]]; do
+                # If the file is not already in .gitignore, then append it
+                grep -q "$1" ".gitignore" || echo "$1" >> ".gitignore"
+                # Go to next command line parameter
+                shift
+            done
+        fi
     else
         echo "This is not a git repository. Nothing done."
     fi
