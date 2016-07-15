@@ -227,3 +227,8 @@ function pipupdate() {
 # HTTP serve current directory as static content
 alias httpserve='open http://localhost:8000 && python -m SimpleHTTPServer'
 
+
+# ISO `date` format for BSD `date` - with the GNU one is `date -I`
+alias isodate="date +%Y-%m-%dT%H:%M:%S%z"
+
+
