@@ -223,3 +223,7 @@ function pipupdate() {
         echo "$prompt Missing pip3, skipping."
     fi
 }
+
+# HTTP serve current directory as static content
+alias httpserve='open http://localhost:8000 && python -m SimpleHTTPServer'
+
