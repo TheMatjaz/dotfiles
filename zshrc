@@ -80,7 +80,7 @@ plugins=(
 	copyfile
     # copydir
     # compleat
-    # autojump
+    autojump
     zsh-syntax-highlighting # must be the last one
 )
 
