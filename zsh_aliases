@@ -175,3 +175,13 @@ function pipupdate() {
         echo "$prompt Missing pip3, skipping."
     fi
 }
+
+# ISO `date` format for GNU `date`
+# 2016-07-26T18:48:28+0200 with optional colon in the timezone
+function isodate() {
+    if [[ $1 == "-:" ]] ; then
+        date --iso-8601=seconds | sed -E 's/:(..)$/\1/'
+    else
+        date --iso-8601=seconds
+    fi
+}
