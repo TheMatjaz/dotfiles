@@ -128,7 +128,7 @@ color_terminals=
 
 [Panels]
 show_mini_info=true
-kilobyte_si=false
+kilobyte_si=true
 mix_all_files=false
 show_backups=true
 show_dot_files=true
