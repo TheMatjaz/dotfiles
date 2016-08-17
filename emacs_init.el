@@ -168,7 +168,8 @@ yasnippet
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq indent-line-function 'insert-tab)
-(setq tab-stop-list (number-sequence 4 200 4))
+(setq tab-stop-list (number-sequence 0 200 4))
+(electric-indent-mode 0)
 
 ; Shift+Tab (Backtab) removes indentation
 ;; ;; (global-set-key (kbd "<S-tab>") 'un-indent-by-removing-4-spaces)
