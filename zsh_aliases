@@ -264,3 +264,6 @@ function unixtime() {
 }
 
 
+# Remaining traffic on LTE mobile internet
+alias traffic="curl -H 'Connection: close' 'http://matjaz.it/3ffic.php?cli'"
+
