@@ -1,0 +1,102 @@
+# -----------------------------------------------------------------------------
+# Matjaž's dotfiles Git global ignore configuration file
+#
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
+# -----------------------------------------------------------------------------
+
+# .gitignore_global
+# This gitignore is globally applied to any repository on this machine
+
+# This allows to use this same file also for hg
+syntax: glob
+    
+# The gitignore file of any repository
+.gitignore
+
+# Temporary backup files from text editors and Emacs
+*~
+.#*#
+
+# OS X files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+*.o
+
+# Netbeans
+nbproject/private/
+bin/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+.nb-gradle/
+
+# Jetbrains editors
+.idea
+
+# Distribution / packaging
+.Python
+target/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+*.pot
+
+# Logs
+*.log
+wget-log*
+
+# LaTeX logs and helper files
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.tex.bak
+*.sty.bak
+*.cls.bak
