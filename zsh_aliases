@@ -230,7 +230,14 @@ function pipupdate() {
 alias httpserve='open http://localhost:8000 && python -m SimpleHTTPServer'
 
 
-# ISO `date` format for BSD `date` - with the GNU one is `date -I`
-alias isodate="date +%Y-%m-%dT%H:%M:%S%z"
+# ISO `date` format for BSD `date`
+# 2016-07-26T18:48:28+0200
+function isodate() {
+    if [[ $1 == "-:" ]] ; then
+        date +%Y-%m-%dT%H:%M:%S%z
+    else
+        date +%Y-%m-%dT%H:%M:%S%z | sed -E 's/(..)$/:\1/'
+    fi
+}
 
 
