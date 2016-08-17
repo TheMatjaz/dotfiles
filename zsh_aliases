@@ -270,3 +270,10 @@ alias traffic="curl -H 'Connection: close' 'http://matjaz.it/3ffic.php?cli'"
 
 # List filetypes in this directory recursively
 alias filetypes="find . -type f -not -iwholename '*.git*' | sed -E 's/^.*\.([^\.]+)/\1/' | sort | uniq"
+# Get as much information about a file as possible
+function information() {
+    ls -l $1
+    file $1
+    stat $1
+    identify --verbose $1   
+}
