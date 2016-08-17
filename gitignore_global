@@ -91,3 +91,12 @@ coverage.xml
 # Logs
 *.log
 wget-log*
+
+# LaTeX logs and helper files
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.tex.bak
+*.sty.bak
+*.cls.bak
