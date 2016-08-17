@@ -40,7 +40,7 @@ verify_operative_system
 
 
 # Install the useful packages that are configured by the dotfiles
-echo "$prompt Updating apt-get. It may ask you for the root password."
+echo "$prompt Updating apt-get repositories. It may ask you for the root password."
 sudo apt-get update
 echo "$prompt Installing the packages required by the dotfiles."
 sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen gnupg2

@@ -39,9 +39,13 @@ verify_operative_system
 
 
 # apt-get update and upgrade
-echo "$prompt Updating apt-get. May ask for root password."
+echo "$prompt Updating apt-get repositories and packages. May ask for root password.
+
+This updater runs 'apt-get upgrade' instead of 'apt-get dist-upgrade'.
+If you know what you are upgrading and that it will not break your system, 
+run 'apt-get dist-ugprade' yourself."
 sudo apt-get update
-sudo apt-get -y dist-upgrade
+sudo apt-get -y upgrade
 sudo apt-get autoremove
 sudo apt-get clean
 sudo apt-get autoclean
@@ -69,8 +73,9 @@ fi
 # Ruby gems
 which gem 2>&1 > /dev/null
 if [ $? = 0 ]; then  # if gem exists
-    echo "$prompt Updating gem. May ask for root password."
+    echo "$prompt Updating gem itself. May ask for root password."
     sudo gem update --system
+    echo "$prompt Updating gems. May ask for root password."
     sudo gem update
 else
     echo "$prompt Missing gem; skipping."
