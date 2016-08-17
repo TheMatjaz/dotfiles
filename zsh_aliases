@@ -185,3 +185,23 @@ function isodate() {
         date --iso-8601=seconds
     fi
 }
+
+# Print current unix time when no args are passed or convert any passed args
+# from ISO date to unix time or the other way around, depending on the args'
+# format. Any other format of the arguments is rejected.
+function unixtime() {
+    if [[ $# == 0 ]]; then
+        date +%s
+    else
+        while [[ $# > 0 ]]; do
+            if [[ $1 =~ ^-?[0-9]+$ ]]; then
+                # is an integer, thus a Unix time. Let's convert it to ISO
+                date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
+            else
+                # Try to convert the passed date to unix time.
+                date --date="$1" +%s
+            fi
+            shift
+        done
+    fi
+}
