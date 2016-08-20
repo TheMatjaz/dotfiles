@@ -153,6 +153,8 @@ yasnippet
 ;;; Open new files in a new buffer, not in a new frame
 (setq ns-pop-up-frames nil)
 
+;;; Disable the alert bell sound $(echo -e "\a")
+(setq ring-bell-function 'ignore)
 
 ;;; ====================================================================
 ;;; EDITOR USAGE AND ACTIONS
