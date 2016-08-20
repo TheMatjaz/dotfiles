@@ -48,6 +48,7 @@ function verify_operative_system() {
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
 backup_dir="$dotfiles_dir/.original_dotfiles/"
 initial_dir=$PWD
+username="matjaz"
 
 
 # Prompts a confirmation question to get the user's choice and returns it.
@@ -231,6 +232,33 @@ function setup_locale() {
     sudo locale-gen "it_IT.UTF-8" "en_US.UTF-8"
     sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
 }
+
+
+# Add a non-root user if not exists
+function add_my_user() {
+    id -u $username &> /dev/null
+    if [ $? != 0 ]; then # No user exists
+        echo "$prompt Adding the user '$username'"
+        sudo useradd --create-home --shell=/bin/zsh --groups=sudo $username
+        passwd $username
+    else
+        echo "$prompt A user '$username' already exists."
+        case $(ask_user "Do you want to create a different user? [y/N]") in
+            [yY]|[yY][eE][sS])
+                username=$(ask_user "$prompt Type a CORRECTLY formatted username:
+            ") 
+                add_my_user # call this funcion recursively
+                ;;
+            *)
+                echo "$prompt No new user created."
+                echo "$prompt Setting ZSH as the default shell of '$username'"
+                sudo usermod -s /bin/zsh $username
+                ;;
+        esac
+    fi
+}
+
+
 # Runs all options of the repl in sequence.
 function run_all_tasks() {
     pick_installation_directory
