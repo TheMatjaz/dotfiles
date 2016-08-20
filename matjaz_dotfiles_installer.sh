@@ -29,6 +29,12 @@
 # -----------------------------------------------------------------------------
 
 prompt="[ DOTFILES ][ INSTALLER ]"
+# Default installation directory if not passed as first parameter.
+dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
+backup_dir="$dotfiles_dir/.original_dotfiles/"
+initial_dir=$PWD
+username="matjaz"
+can_sudo=0
 
 
 # Terminates the script if the current operative system is not Debian or Ubuntu
@@ -44,11 +50,19 @@ function verify_operative_system() {
 }
 
 
-# Default installation directory if not passed as first parameter.
-dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
-backup_dir="$dotfiles_dir/.original_dotfiles/"
-initial_dir=$PWD
-username="matjaz"
+# Check if the user executing this command has the privileges to run a sudo
+# command and store the result in the can_sudo global variable.
+function executer_has_root_privileges() {
+    echo "$prompt Checking your root privileges. May ask for password."
+    sudo -v
+    if [[ $? == 0 ]]; then
+        echo "$prompt You appear to have root privileges. Awesome!"
+        can_sudo=1
+    else
+        echo "$prompt You are NOT ABLE TO RUN SUDO COMMANDS. This script will be extremely limited in this case."
+        can_sudo=0
+    fi
+}
 
 
 # Prompts a confirmation question to get the user's choice and returns it.
