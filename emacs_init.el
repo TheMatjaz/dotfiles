@@ -141,7 +141,7 @@ yasnippet
 (scroll-bar-mode -1)))
 
 ;;; Start GUI frames maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(toggle-frame-maximized)
 
 ;;; Theme and colors
 (load-theme 'base16-atelierforest-dark t)
