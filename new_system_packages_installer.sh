@@ -43,7 +43,7 @@ verify_operative_system
 echo "$prompt Updating apt-get repositories. It may ask you for the root password."
 sudo apt-get update
 echo "$prompt Installing the packages required by the dotfiles."
-sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen gnupg2
+sudo apt-get -y install build-essential git git-flow htop mc emacs zsh sqlite3 python3-pip coreutils findutils moreutils screen gnupg2 mosh
 
 
 # Install Oh My ZSH if not already installed
