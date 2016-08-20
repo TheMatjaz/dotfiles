@@ -150,6 +150,9 @@ yasnippet
 ;(require 'ecb)
 ;(require 'ecb-autoloads)
 
+;;; Open new files in a new buffer, not in a new frame
+(setq ns-pop-up-frames nil)
+
 
 ;;; ====================================================================
 ;;; EDITOR USAGE AND ACTIONS
