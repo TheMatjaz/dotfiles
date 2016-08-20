@@ -84,3 +84,12 @@ else
     echo "$prompt Missing gem, skipping."
 fi
 
+
+# Node.js packages
+which npm 2>&1 > /dev/null
+if [ $? = 0 ]; then  # if Node exists
+    echo "$prompt Updating Node.js packages."
+    npm update -g
+else
+    echo "$prompt Missing Node.js, skipping."
+fi
