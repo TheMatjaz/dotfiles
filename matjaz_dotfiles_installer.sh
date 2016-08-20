@@ -110,15 +110,21 @@ function install_dotfiles_repo() {
     which git 2>&1 > /dev/null
     if [ $? != 0 ]; then
         # no git installed
-        echo "$prompt Git not installed. Updating apt-get and installing. May ask for the root password."
-        sudo apt-get update
-        sudo apt-get install git
+        echo "$prompt Git not installed."
+        if [ can_sudo == 0 ]; then
+            echo "$prompt You cannot clone the dotfiles without Git. Ask your sysadmin to install it."
+            return 1
+        else
+            echo "$prompt Updating apt-get and installing. May ask for the root password."
+            sudo apt-get update
+            sudo apt-get install git
+        fi
     fi
     mkdir -p $dotfiles_dir || {
         echo "$prompt An error occured during the creation of the repository directory. Is the path correctly formatted?
     $dotfiles_dir
-Try running [1]"
-        return
+Try running [d]"
+        return 1
     }
     echo "$prompt Dotfiles will be stored in $dotfiles_dir"
     if [ -d $dotfiles_dir/.git ]; then
@@ -145,8 +151,13 @@ Try running [1]"
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
 function install_packages_for_dotfiles() {
-    bash $dotfiles_dir/new_system_packages_installer.sh
-    cd $dotfiles_dir
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot install the packages for the dotfiles. Ask your sysadmin to do it."
+        return 1
+    else
+        bash $dotfiles_dir/new_system_packages_installer.sh
+        cd $dotfiles_dir
+    fi
 }
 
 
@@ -165,6 +176,7 @@ function symlink_dotfile() {
                                         # and .config for mc and htop
     ln -s -v -f -F $file_in_repo $file_in_home
 }
+
 
 # Create symlinks in the home directory that point to the files in the
 # dotfiles repository. Any existing dotfiles get backupped.
@@ -204,7 +216,12 @@ function install_dotfiles_to_home() {
 
 # Starts a complete update and upgrade of all packages in the system.
 function run_full_system_update() {
-    bash $dotfiles_dir/full_system_updater.sh
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot update the whole system. Ask your sysadmin to do it."
+        return 1
+    else
+        bash $dotfiles_dir/full_system_updater.sh
+    fi
 }
 
 
@@ -216,7 +233,7 @@ function start_emacs() {
         echo "$prompt Making emacs start so it can evaluate the emacs_init.el file to download all required packages and set the correct configuration."
         emacsclient --tty --alternate-editor="" $dotfiles_dir/emacs_init.el
     else
-        echo "$prompt Emacs not installed. Try running [3]"
+        echo "$prompt Emacs not installed. Try running [e]"
         return
     fi
 }
@@ -243,18 +260,27 @@ function exit_installer() {
 # (Re)Configures the system locales to avoid and collision
 function setup_locale() {
     echo "$prompt Installing and reconfiguring some locales. May ask for the root password."
-    sudo locale-gen "it_IT.UTF-8" "en_US.UTF-8"
-    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot update the system's locale. Ask your sysadmin to do it."
+        return 1
+    else
+        sudo locale-gen "it_IT.UTF-8" "en_US.UTF-8"
+        sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
+    fi
 }
 
 
 # Add a non-root user if not exists and set the shell to ZSH
 function add_my_user() {
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot add users of change their settings. Ask your sysadmin to do it."
+        return 1
+    fi
     id -u $username &> /dev/null
     if [ $? != 0 ]; then # No user exists
         echo "$prompt Adding the user '$username'. May ask for the root password."
         sudo useradd --create-home --shell=/bin/zsh --groups=sudo $username
-        passwd $username
+        sudo passwd $username
     else
         echo "$prompt A user '$username' already exists."
         case $(ask_user "Do you want to create a different user? [y/N]") in
@@ -275,21 +301,34 @@ function add_my_user() {
 
 # Change the hostname of this machine
 function change_hostname() {
-    new_hostname=$(ask_user "$prompt Type a CORRECTLY formatted hostname for this machine:
-    ")
-    # For the current session
-    echo "$prompt Setting the hostname. May ask for the root password."
-    sudo hostnamectl set-hostname $new_hostname
-    # Persistently
-    if [ -z $(grep "127.0.1.1" /etc/hosts) ]; then # add line or edit it if exists
-        sudo echo "127.0.1.1 $new_hostname" >> /etc/hosts
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot change the hostname of this machine. Ask your sysadmin to do it. I'll just add it to ~/.hostname"
+        new_hostname=$(ask_user "$prompt Type a CORRECTLY formatted hostname for this machine:
+        ")
+        echo $new_hostname >> ~/.hostname
     else
-        sudo sed -i original -e 's/127\.0\.1\.1.*/127.0.1.1 "$new_hostname"/g' /etc/hosts
+        new_hostname=$(ask_user "$prompt Type a CORRECTLY formatted hostname for this machine:
+        ")
+        echo $new_hostname >> ~/.hostname
+        echo "$prompt Setting the hostname. May ask for the root password."
+        # For the current session
+        sudo hostnamectl set-hostname $new_hostname
+        # Persistently
+        if [ -z $(grep "127.0.1.1" /etc/hosts) ]; then # add line or edit it if exists
+            sudo echo "127.0.1.1 $new_hostname" >> /etc/hosts
+        else
+            sudo sed -i original -e 's/127\.0\.1\.1.*/127.0.1.1 "$new_hostname"/g' /etc/hosts
+        fi
     fi
-    echo $new_hostname >> ~/.hostname
 }
 
+
+# If no swap exists, create a swapfile and use it as swap
 function create_swapfile() {
+    if [ can_sudo == 0 ]; then
+        echo "$prompt You cannot create a swap file. Ask your sysadmin to do it."
+        return 1
+    fi
     free | grep "Swap" > /dev/null
     if [ $? != 0 ]; then # No swap exists
         echo "$prompt Creating and setting up a 2 GB swap file. May ask for the root password."
@@ -301,13 +340,13 @@ function create_swapfile() {
         sudo swapon /swapfile
         # Make it persist after reboot
         sudo echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+        echo "$prompt Setting the swappiness to 10"
         # Set swappiness (0% = keeps all in memory, 100% frees the memory ASAP)
         sudo sysctl vm.swappiness=10
         # Make it persist after reboot
         sudo echo "vm.swappiness=10" >> /etc/sysctl.conf
     fi
 }
-
 
 
 # Runs all options of the repl in sequence.
@@ -342,16 +381,16 @@ to run them all [A]. Choose your option:"
 function repl() {
     local choise_menu="
 -------------
-[A] all tasks
-[b] setup the system's locale
-[c] add your user
+[A] all tasks (sudo)
+[b] setup the system's locale (sudo)
+[c] add your user (sudo)
 [d] pick installation directory different than default
 [e] install or update dotfiles repository
-[f] install packages that are beeing configured by the dotfiles
+[f] install packages that are beeing configured by the dotfiles (sudo)
 [g] create or refresh symlinks to the dotfiles in the home directory
-[h] perform a complete update&upgrade of all package managers found
-[i] change the hostname of this machine
-[j] add the swap if it does not exist yet
+[h] perform a complete update&upgrade of all package managers found (sudo)
+[i] change the hostname of this machine (partially sudo)
+[j] add the swap if it does not exist yet (sudo)
 [k] start emacs once to make it install all the packages. Exit it with 'C-x C-c'
 [l] get more information about this installer and the dotfiles
 [q] exit installer
@@ -382,6 +421,7 @@ function repl() {
 
 # ACTUAL EXECUTION
 verify_operative_system
+executer_has_root_privilege
 welcome_message
 repl
 
