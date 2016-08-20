@@ -45,7 +45,7 @@ fi
 echo "$prompt Updating Homebrew local repository."
 brew update
 echo "$prompt Installing the packages."
-brew install brew-cask emacs git git-flow htop-osx midnight-commander python3 sqlite wget
+brew install brew-cask emacs git git-flow htop midnight-commander python3 sqlite wget
 echo "$prompt Performing some cleaning."
 brew cleanup --force -s   
 brew cask cleanup
