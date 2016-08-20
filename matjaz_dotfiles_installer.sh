@@ -164,7 +164,6 @@ function install_dotfiles_to_home() {
     symlink_dotfile hgrc .hgrc
     symlink_dotfile screenrc .screenrc
     symlink_dotfile wgetrc .wgetrc
-    mkdir -p $HOME/.oh-my-zsh/custom/themes/  # it does not exist by default
     symlink_dotfile zsh_fino_custom.zsh-theme .oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
     symlink_dotfile zsh_aliases .zsh_aliases
     symlink_dotfile zsh_path .zsh_path
