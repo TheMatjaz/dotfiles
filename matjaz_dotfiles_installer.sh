@@ -225,6 +225,12 @@ function exit_installer() {
 }
 
 
+# (Re)Configures the system locales to avoid and collision
+function setup_locale() {
+    echo "$prompt Installing and reconfiguring some locales."
+    sudo locale-gen "it_IT.UTF-8" "en_US.UTF-8"
+    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
+}
 # Runs all options of the repl in sequence.
 function run_all_tasks() {
     pick_installation_directory
