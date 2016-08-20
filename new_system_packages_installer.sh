@@ -55,8 +55,6 @@ else
     # Download and run Oh My ZSH installer without letting it enter the zsh
     # so the script may continue. It's done by cutting off the "env zsh" line.
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed '/env zsh/d')"
-    echo "$prompt Setting zsh as default shell. It may ask you for the root password."
-    sudo chsh -s $(which zsh)
 fi
 
 
