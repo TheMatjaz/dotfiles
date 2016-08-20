@@ -161,8 +161,21 @@ yasnippet
 ;;; ====================================================================
 
 
+;;; Restore the previous Emacs session, with buffers, window size and mode
+(setq desktop-dirname             "~/.emacs.d/"
+      desktop-base-file-name      "restore-session"
+      desktop-base-lock-name      "restore-session-lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t  ; Automatically save the session when closing Emacs
+      desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-auto-save-timeout   30 ; Interval in seconds to perform the session save
+      desktop-restore-eager       10 ; Max number of buffers to restore immediately
+      desktop-load-locked-desktop nil)
+(desktop-save-mode 1)
+
+
 ;;; Keep  a list of recently opened files
-(recentf-mode 1) ;
+(recentf-mode 1)
     
 ;;; Automatically reload file in buffer, when file content changes
 (global-auto-revert-mode t)
