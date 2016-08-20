@@ -45,7 +45,69 @@ fi
 echo "$prompt Updating Homebrew local repository."
 brew update
 echo "$prompt Installing the packages."
-brew install brew-cask emacs git git-flow htop midnight-commander python3 sqlite wget
+## Brew cask itself
+brew tap caskroom/cask
+
+## Formulas to build from source with options
+brew install emacs --with-cocoa
+brew install aspell --with-lang-it --with-lang-sl --with-lang-en --with-lang-de
+brew install git --without-completions
+brew install wget --with-iri
+brew install htop --with-ncurses
+brew install midnight-commander --without-nls
+brew install sqlite --with-json1 --with-functions
+
+## Other formulas
+brew install \
+     autojump \
+     brew-cask-completion \
+     brew-rmtree \
+     gcc \
+     git-flow \
+     gnu-sed \
+     gnu-time \
+     gnuplot \
+     gnutls \
+     hugo \
+     imagemagick \
+     keybase \
+     libssh2 \
+     mobile-shell \
+     nmap \
+     openssl \
+     pandoc \
+     pyenv \
+     python3 \
+     safe-rm \
+     speedtest_cli \
+     task \
+     tig \
+     tmux \
+     trash \
+     tree \
+     w3m \
+     zsh-completions \
+     zsh-syntax-highlighting \
+
+## Brew casks
+brew cask install \ 
+    accessmenubarapps \
+    appcleaner \
+    avira-antivirus \
+    diffmerge \
+    evernote \
+    fluid \
+    firefox \
+    freedome \
+    jdownloader \
+    little-snitch \
+    macs-fan-control \
+    presentation \
+    skitch \
+    texmaker \
+    virtualbox \
+    xquartz \
+
 echo "$prompt Performing some cleaning."
 brew cleanup --force -s   
 brew cask cleanup
