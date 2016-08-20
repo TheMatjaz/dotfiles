@@ -28,6 +28,10 @@
 #   full_system_update.sh
 # -----------------------------------------------------------------------------
 
+
+# Catch a SIGINT (ctrl-c) and call finalize()
+trap finalize INT
+
 prompt="[ DOTFILES ][ INSTALLER ]"
 # Default installation directory if not passed as first parameter.
 dotfiles_dir="${1:-$HOME/Development/Dotfiles}"
