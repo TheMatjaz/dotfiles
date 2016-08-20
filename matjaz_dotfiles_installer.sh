@@ -298,11 +298,15 @@ function create_swapfile() {
 
 # Runs all options of the repl in sequence.
 function run_all_tasks() {
+    setup_locale
+    add_my_user
     pick_installation_directory
     install_dotfiles_repo
     install_packages_for_dotfiles
     install_dotfiles_to_home
     run_full_system_update
+    change_hostname
+    create_swapfile
     start_emacs
     exit_installer
 }
@@ -315,7 +319,7 @@ Matjaž's dotfiles installer script for Debian or Ubuntu
 =======================================================
 
 This script may perform various tasks. For freshly set systems it's raccomended
-to run them all [0]. Choose your option:"
+to run them all [A]. Choose your option:"
 }
 
 
@@ -324,31 +328,39 @@ to run them all [0]. Choose your option:"
 function repl() {
     local choise_menu="
 -------------
-[0] all tasks
-[1] pick installation directory different than default
-[2] install or update dotfiles repository
-[3] install packages that are beeing configured by the dotfiles
-[4] create or refresh symlinks to the dotfiles in the home directory
-[5] perform a complete update&upgrade of all package managers found
-[6] start emacs once to make it install all the packages. Exit it with 'C-x C-c'
-[7] get more information about this installer and the dotfiles
-[8] exit installer
+[A] all tasks
+[b] setup the system's locale
+[c] add your user
+[d] pick installation directory different than default
+[e] install or update dotfiles repository
+[f] install packages that are beeing configured by the dotfiles
+[g] create or refresh symlinks to the dotfiles in the home directory
+[h] perform a complete update&upgrade of all package managers found
+[i] change the hostname of this machine
+[j] add the swap if it does not exist yet
+[k] start emacs once to make it install all the packages. Exit it with 'C-x C-c'
+[l] get more information about this installer and the dotfiles
+[q] exit installer
 "
     local i=0
     while [ $i -le 100 ]; do  # prevent any misfortunate infinite loops
         ((i++))
         echo "$choise_menu"
         case $(ask_user "$prompt What do you want to do? [0/1/.../8]") in
-            0) run_all_tasks ;;
-            1) pick_installation_directory ;;
-            2) install_dotfiles_repo ;;
-            3) install_packages_for_dotfiles ;;
-            4) install_dotfiles_to_home ;;
-            5) run_full_system_update ;;
-            6) start_emacs ;;
-            7) get_info ;;
-            8) exit_installer ;;
-            *) echo "$prompt Illegal command, try again.";;
+            A) run_all_tasks ;;
+            b) setup_locale ;;
+            c) add_my_user ;;
+            d) pick_installation_directory ;;
+            e) install_dotfiles_repo ;;
+            f) install_packages_for_dotfiles ;;
+            g) install_dotfiles_to_home ;;
+            h) run_full_system_update ;;
+            i) change_hostname ;;
+            j) create_swapfile ;;
+            k) start_emacs ;;
+            l) get_info ;;
+            q) exit_installer ;;
+            *) echo "$prompt Illegal command, try again." ;;
         esac
     done
 }
