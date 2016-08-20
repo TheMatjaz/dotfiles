@@ -170,6 +170,10 @@ function install_dotfiles_to_home() {
     symlink_dotfile emacs_init.el .emacs.d/init.el
     symlink_dotfile gpg_conf .gnupg/gpg.conf
     symlink_dotfile htoprc .config/htop/htoprc
+    symlink_dotfile ssh_conf .ssh/config
+    symlink_dotfile sqliterc .sqliterc
+    symlink_dotfile psqlrc .psqlrc
+    
     
     # Move backup made by Oh My ZSH installer to $backup_dir
     if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
