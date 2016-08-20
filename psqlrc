@@ -1,0 +1,41 @@
+-- Taken from: https://robots.thoughtbot.com/an-explained-psqlrc
+-- and         https://github.com/thoughtbot/dotfiles/blob/master/psqlrc
+
+-- Don't display the "helpful" message on startup.
+\set QUIET 1
+
+-- http://www.postgresql.org/docs/9.3/static/app-psql.html#APP-PSQL-PROMPTING
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+-- PROMPT2 is printed when the prompt expects more input, like when you type
+-- SELECT * FROM<enter>. %R shows what type of input it expects.
+\set PROMPT2 '[more] %R > '
+
+    
+-- When typing transactions in the PSQL prompt by hand, in case of error it
+-- allows you to fix the query on the fly without starting the whole transaction
+-- all over.
+\set ON_ERROR_ROLLBACK interactive
+
+-- Sets the autocompleter to upcase all SQL keywords, so "sel<tab><tab>" becomes
+-- "SELECT" instead of "select"
+\set COMP_KEYWORD_CASE upper
+
+-- Creates distinct history files for each database
+\set HISTFILE ~/.psql_history- :DBNAME
+
+-- If a command is run more than once in a row, only store it once in the
+-- history.
+\set HISTCONTROL ignoredups
+
+-- Automatically find out if an expanded view (multiple lines per table row)
+-- is needed when selecting a table
+\x auto
+
+-- Write "<NULL>" instead of a blank space to show NULL fields
+\pset null '<NULL>'
+
+-- Show how long each query takes to execute
+\timing
+
+-- Verbose error reports.
+\set VERBOSITY verbose

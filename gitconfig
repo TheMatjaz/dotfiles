@@ -18,8 +18,12 @@
 	editor = emacsclient -t -a ''
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
 	path = 
+
+[mergetool "sourcetree"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = true
 
 [color]
 	ui = true
@@ -30,6 +34,22 @@
 
 [log]
     abbrevCommit = true
+    
+[credential]
+	helper = osxkeychain
+
+[difftool]
+    prompt = false
+
+[diff]
+    tool = diffmerge
+
+[mergetool]
+    keepBackup = false
+
+[merge]
+    tool = diffmerge
+    conflictstyle = diff3
 
 [push]
 	default = simple
