@@ -12,22 +12,21 @@
 ;;; INTERNAL SETTINGS
 ;;; ====================================================================
 
-;;; Make "#backups#" to a designated directory ~/.emacs.d/emacs-backups/
-;;; mirroring the full path instead of putting them in the same
-;;; directory of the backuped file
-(defun my-backup-file-name (fpath)
-"Return a new file path of a given file path.
-If the new path's directories does not exist, create them."
-(let* (
-(backupRootDir "~/.emacs.d/emacs-backups/")
-(filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ;; remove Windows driver letter in path, ⁖ “C:”
-(backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") ))
-)
-(make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
-backupFilePath
-)
-)
-(setq make-backup-file-name-function 'my-backup-file-name)
+
+;;; Backup files settings
+;; Create all backup files "FILENAME~" in the same directory
+(setq backup-directory-alist `(("." . "~/.emacs.d/emacs-backups/")))
+;; Create all auto-save files "#FILENAME#" in the same directory
+(setq auto-save-file-name-transforms `((".*" ,"~/.emacs.d/emacs-auto-saves/" t)))
+;; Always make backups by copying. Slow but keeps the file intergrity
+;; if that's too slow for some reason you might also have a look at 
+;; `backup-by-copying-when-linked`
+(setq backup-by-copying t    ; Don't delink hardlinks                           
+      delete-old-versions t  ; Clean up the backups                             
+      version-control t      ; Use version numbers on backups,                  
+      kept-new-versions 6    ; keep some new versions                           
+      kept-old-versions 2)   ; and some old ones, too  
+
 
 ;;; Package manager settings
 ;;; Set repositories to pick packages from for correct versions of Emacs
@@ -142,7 +141,7 @@ yasnippet
 (scroll-bar-mode -1)))
 
 ;;; Start GUI frames maximized
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(toggle-frame-maximized)
 
 ;;; Theme and colors
 (load-theme 'base16-atelierforest-dark t)
@@ -151,14 +150,32 @@ yasnippet
 ;(require 'ecb)
 ;(require 'ecb-autoloads)
 
+;;; Open new files in a new buffer, not in a new frame
+(setq ns-pop-up-frames nil)
+
+;;; Disable the alert bell sound $(echo -e "\a")
+(setq ring-bell-function 'ignore)
 
 ;;; ====================================================================
 ;;; EDITOR USAGE AND ACTIONS
 ;;; ====================================================================
 
 
+;;; Restore the previous Emacs session, with buffers, window size and mode
+(setq desktop-dirname             "~/.emacs.d/"
+      desktop-base-file-name      "restore-session"
+      desktop-base-lock-name      "restore-session-lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t  ; Automatically save the session when closing Emacs
+      desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-auto-save-timeout   30 ; Interval in seconds to perform the session save
+      desktop-restore-eager       10 ; Max number of buffers to restore immediately
+      desktop-load-locked-desktop nil)
+(desktop-save-mode 1)
+
+
 ;;; Keep  a list of recently opened files
-(recentf-mode 1) ;
+(recentf-mode 1)
     
 ;;; Automatically reload file in buffer, when file content changes
 (global-auto-revert-mode t)

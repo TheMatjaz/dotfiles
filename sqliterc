@@ -1,0 +1,40 @@
+-- Deactivate output of PRAGMA commands
+.output /dev/null
+
+-- PRAGMA commands for ALL used databases with this .sqliterc to increase the
+-- insert-per-second rate of massive insertions. Taken from:
+-- https://stackoverflow.com/questions/1711631/improve-insert-per-second-performance-of-sqlite
+-- https://stackoverflow.com/questions/27391557/how-to-make-sqliterc-commands-be-quiet
+
+-- Avoid pausing after issuing a OS-level write command to wait for the data
+-- being written. Simply hand-off the data to the OS for writing and then
+-- continue. There's a chance that the database file may become corrupted if the
+-- computer suffers a catastrophic crash.
+PRAGMA synchronous = OFF;
+
+-- Store the rollback journal in memory for a faster transaction. If you lose
+-- power or your program crashes during a transaction, your database could be
+-- left in a corrupt state with a partially-completed transaction.
+PRAGMA journal_mode = MEMORY;
+
+-- Maximum number of database disk pages that SQLite will hold in memory at once
+-- per open database file. A positive value indicates the number of pages, a
+-- negative one the number of kibibytes (kiB, not kB).
+PRAGMA cache_size = -100000; -- 100000 kiB = 102.4 MB
+
+-- Enable foreign keys, since the default is OFF.
+PRAGMA foreign_keys = ON;
+
+-- Display table headers i.e. column names when performing a SELECT
+.headers on
+-- Display values in columns separated with tabs in a pretty format
+.mode tabs
+-- Instead of showing nothing, print "NULL" for NULL fields
+.nullvalue NULL
+-- Show execution timer for each query
+.timer on
+-- Try opening locked tables for 30 seconds before giving up
+.timeout 30000
+
+-- Reactivate normal output of all other commands
+.output stdout

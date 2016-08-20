@@ -1,0 +1,89 @@
+# -----------------------------------------------------------------------------
+# Matjaž's dotfiles SSH client configuration file
+#
+# Copyright (c) 2015-2016, Matjaž Guštin <dev@matjaz.it> matjaz.it
+# This source code form is part of the "Matjaž's dotfiles" project and is 
+# subject to the terms of the BSD 3-clause license as expressed in the 
+# LICENSE.md file found in the top-level directory of this distribution and at
+# http://directory.fsf.org/wiki/License:BSD_3Clause
+# -----------------------------------------------------------------------------
+
+# Default configuration that any host inherits. Override if needed.
+Host *
+    # Use protocol v2, fallback to v1 if v2 is not available.
+    Protocol 2,1
+
+    ### Security ###
+    # Protocol v2 ciphers
+    # The latest ones are really weak and are kept for compatibility with
+    # all hosts that may not have the stronger ones. No spaces after commas!
+    Ciphers aes256-ctr,aes256-gcm@openssh.com,aes256-cbc,aes192-ctr,aes192-cbc,aes128-ctr,aes128-gcm@openssh.com,aes128-cbc,blowfish-cbc,arcfour256,arcfour128,arcfour,3des-cbc
+    # Protocol v1 cipher
+    Cipher blowfish
+    # Try public key first
+    PreferredAuthentications publickey,gssapi-with-mic,hostbased,keyboard-interactive,password
+
+    ### Connection ###
+    # After <value> seconds of inativity, sends an echo request to the server.
+    ServerAliveInterval 30
+    # After <value> echo consecutive requests sent, disconnects the session.
+    ServerAliveCountMax 20
+    # TCP timeout when estabilishing the first connection to the server.
+    ConnectTimeout 10
+    # Number of times to try the connection if timeouts.
+    ConnectionAttempts 3
+    Compression no
+
+    ### Local logging ###
+    # A command run on the local machine after a succesful login to a server.
+    # %u = local user name
+    # %l = local host name
+    # %r = remote user name
+    # %n = host name as provided on the command line
+    # %h = remote host name
+    # %p = remote port
+    # %d = local user's home directory
+    PermitLocalCommand yes
+    LocalCommand echo "$(date +%%s) %u@%l --> %r@%h:%p" >> %d/.ssh/logins.log
+
+Host nashira
+    HostName nashira.matjaz.it
+    User ubuntu
+    IdentityFile ~/.ssh/Nashira.pem
+    Port 62800
+    
+Host raspi
+    HostName noctis.zapto.org
+    User pi
+    IdentityFile ~/.ssh/Raspi
+    Port 62800
+
+Host raspi-lan
+    HostName 192.168.0.86
+    User pi
+    IdentityFile ~/.ssh/Raspi
+    Port 62800
+
+Host eltanin
+    HostName 192.168.0.88
+    User root
+    PreferredAuthentications password,publickey,gssapi-with-mic,hostbased,keyboard-interactive
+    Port 22
+
+Host vbox-ubuntu
+    HostName localhost
+    User mat
+    PreferredAuthentications password,publickey,gssapi-with-mic,hostbased,keyboard-interactive
+    Port 3022
+
+Host vbox-bsd
+    HostName localhost
+    User mat
+    PreferredAuthentications password,publickey,gssapi-with-mic,hostbased,keyboard-interactive
+    Port 3122
+
+Host proxy
+    Hostname localhost
+    User mat
+    PreferredAuthentications password,publickey,gssapi-with-mic,hostbased,keyboard-interactive
+    Port 4022

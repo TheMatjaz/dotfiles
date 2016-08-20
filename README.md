@@ -22,13 +22,13 @@ by `ssh`.
 Installation of _Matjaž's dotfiles_
 ----------------------------------------
 
-This repository has no dotfiles on the master branch but there is **one _Git_ 
-branch for each operative system**. This helps using the OS-specific packager 
-managers (`apt-get`, `brew`, ...) and make OS-specific changes (for instance 
-`mc` and `htop` have different configuration files on Linux and OS X).
+This repository has no installers and other scripts on the `common` branch but
+there is **one _Git_ branch for each operative system**. This helps using the
+OS-specific packager managers (`apt-get`, `brew`, ...) and make OS-specific
+changes (for instance `htop` has different configurations on Linux and OS X).
 
 **To install _Matjaž's dotfiles_, run one of the following commands**. It 
-downloads and run the installer for your specific OS found in that OS's branch.
+downloads and runs the installer for your specific OS found in that OS's branch.
 
 The installer should handle all the rest with an **interactive command line 
 interface**. It installs the dotfiles repository (by default in 
@@ -43,20 +43,29 @@ _Git_ is required by the installer to clone the branch of your OS.
 Basically Linuxes with `apt-get`.
 
 ```bash
+# Using wget
+bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/matjaz_dotfiles_installer.sh -O -)"
+
 # Using curl
 bash -c "$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/matjaz_dotfiles_installer.sh)"
-
-# Or using wget
-bash -c "$(wget https://raw.github.com/TheMatjaz/dotfiles/debian-ubuntu/matjaz_dotfiles_installer.sh -O -)"
 ```
 
 
 ### Apple OS X (Mac)
 
+> **CAUTION!**  
+> This installer has NEVER BEEN TESTED because I have not yet installed another
+> OS X system. Use it at your own risk.
+
 ```bash
 # Using curl
 bash -c "$(curl -fsSL https://raw.github.com/TheMatjaz/dotfiles/mac-osx/matjaz_dotfiles_installer.sh)"
 ```
+
+
+### Other OSs
+
+No other OSs yet, but any contribution is welcome!
 
 
 What is each dotfile for?
@@ -71,17 +80,13 @@ What is each dotfile for?
 - [`zsh_aliases`](zsh_aliases): custom aliases and functions for the zsh
 - [`zsh_fino_custom.zsh-theme`](zsh_fino_custom.zsh-theme): a customized `fino`
   theme for _Oh My ZSH!_
-- [`gitconfig`](gitconfig): general _Git_ settings
 - [`gitignore_global`](gitignore_global): a list of files _Git_ should ignore in
   any repository. Those are used also by Mercurial
-- [`hgrc`](hgrc): general _Mercurial_ settings
 - [`emacs_init.el`](emacs_init.el): _Emacs_ configuration that also installs 
   some ELPA packages, if not already installed, to completely clone an existing
   configuration
-- [`htoprc`](htoprc): looks and columns for `htop` process viewer
-- [`screenrc`](screenrc): basic settings of `screen` terminal multiplexer
-- [`wgetrc`](wgetrc): global configurations of the `wget` command line
-  downloader
+
+The others are pretty obvious from the filenames alone.
 
 
 #### Installers/automation scripts
@@ -94,7 +99,7 @@ What is each dotfile for?
       _Oh My ZSH!_
     - placing the proper symlinks to activate the dotfiles
     - performing system updates
-    - and a few more small things
+    - and a few more small things such as locale setting, hostname, swapfile
 - [`new_system_packages_installer.sh`](new_system_packages_installer.sh)
   installs some packages which the Matjaž's dotfiles are for. It calls the
   system's package manager. **Can be run stand-alone**. The 
@@ -105,7 +110,7 @@ What is each dotfile for?
   The `matjaz_dotfiles_installer.sh` calls it optionally during the install.
 - [`useful_packages.md`](useful_packages.md) is a simple list containing
   packages generally worth installing on any system (it's not an executable,
-  just a memo).
+  just a memo). It is not available on the `common` branch.
 
 
 License
