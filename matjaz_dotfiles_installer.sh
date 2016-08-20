@@ -156,7 +156,7 @@ function symlink_dotfile() {
 # dotfiles repository. Any existing dotfiles get backupped.
 function install_dotfiles_to_home() {
     if [ ! -d $dotfiles_dir/.git ]; then
-        echo "$prompt Dotfiles repository not found. Have you installed it? Try running [2]"
+        echo "$prompt Dotfiles repository not found. Have you installed it? Try running [e]"
         return
     fi
     echo "$prompt Creating symlinks in home directory poiting to the dotfiles repository."
@@ -228,17 +228,17 @@ function exit_installer() {
 
 # (Re)Configures the system locales to avoid and collision
 function setup_locale() {
-    echo "$prompt Installing and reconfiguring some locales."
+    echo "$prompt Installing and reconfiguring some locales. May ask for the root password."
     sudo locale-gen "it_IT.UTF-8" "en_US.UTF-8"
     sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
 }
 
 
-# Add a non-root user if not exists
+# Add a non-root user if not exists and set the shell to ZSH
 function add_my_user() {
     id -u $username &> /dev/null
     if [ $? != 0 ]; then # No user exists
-        echo "$prompt Adding the user '$username'"
+        echo "$prompt Adding the user '$username'. May ask for the root password."
         sudo useradd --create-home --shell=/bin/zsh --groups=sudo $username
         passwd $username
     else
@@ -251,12 +251,49 @@ function add_my_user() {
                 ;;
             *)
                 echo "$prompt No new user created."
-                echo "$prompt Setting ZSH as the default shell of '$username'"
+                echo "$prompt Setting ZSH as the default shell of '$username'. May ask for the root password."
                 sudo usermod -s /bin/zsh $username
                 ;;
         esac
     fi
 }
+
+
+# Change the hostname of this machine
+function change_hostname() {
+    new_hostname=$(ask_user "$prompt Type a CORRECTLY formatted hostname for this machine:
+    ")
+    # For the current session
+    echo "$prompt Setting the hostname. May ask for the root password."
+    sudo hostnamectl set-hostname $new_hostname
+    # Persistently
+    if [ -z $(grep "127.0.1.1" /etc/hosts) ]; then # add line or edit it if exists
+        sudo echo "127.0.1.1 $new_hostname" >> /etc/hosts
+    else
+        sudo sed -i original -e 's/127\.0\.1\.1.*/127.0.1.1 "$new_hostname"/g' /etc/hosts
+    fi
+    echo $new_hostname >> ~/.hostname
+}
+
+function create_swapfile() {
+    free | grep "Swap" > /dev/null
+    if [ $? != 0 ]; then # No swap exists
+        echo "$prompt Creating and setting up a 2 GB swap file. May ask for the root password."
+        # Create an empty file /swapfile with correct permissions
+        sudo dd if=/dev/zero of=/swapfile bs=128M count=16
+        sudo chmod 600 /swapfile
+        # Make it a swap file and enable it
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        # Make it persist after reboot
+        sudo echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+        # Set swappiness (0% = keeps all in memory, 100% frees the memory ASAP)
+        sudo sysctl vm.swappiness=10
+        # Make it persist after reboot
+        sudo echo "vm.swappiness=10" >> /etc/sysctl.conf
+    fi
+}
+
 
 
 # Runs all options of the repl in sequence.
