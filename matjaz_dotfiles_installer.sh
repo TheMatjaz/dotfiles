@@ -115,7 +115,7 @@ function install_dotfiles_repo() {
     if [ $? != 0 ]; then
         # no git installed
         echo "$prompt Git not installed."
-        if [ can_sudo == 0 ]; then
+        if [ $can_sudo == 0 ]; then
             echo "$prompt You cannot clone the dotfiles without Git. Ask your sysadmin to install it."
             return 1
         else
@@ -155,7 +155,7 @@ Try running [d]"
 
 # Install a set of basic packages on newly set systems, along with Oh My ZSH!
 function install_packages_for_dotfiles() {
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot install the packages for the dotfiles. Ask your sysadmin to do it."
         return 1
     else
@@ -220,7 +220,7 @@ function install_dotfiles_to_home() {
 
 # Starts a complete update and upgrade of all packages in the system.
 function run_full_system_update() {
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot update the whole system. Ask your sysadmin to do it."
         return 1
     else
@@ -264,7 +264,7 @@ function exit_installer() {
 # (Re)Configures the system locales to avoid and collision
 function setup_locale() {
     echo "$prompt Installing and reconfiguring some locales. May ask for the root password."
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot update the system's locale. Ask your sysadmin to do it."
         return 1
     else
@@ -276,7 +276,7 @@ function setup_locale() {
 
 # Add a non-root user if not exists and set the shell to ZSH
 function add_my_user() {
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot add users of change their settings. Ask your sysadmin to do it."
         return 1
     fi
@@ -305,7 +305,7 @@ function add_my_user() {
 
 # Change the hostname of this machine
 function change_hostname() {
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot change the hostname of this machine. Ask your sysadmin to do it. I'll just add it to ~/.hostname"
         new_hostname=$(ask_user "$prompt Type a CORRECTLY formatted hostname for this machine:
         ")
@@ -329,7 +329,7 @@ function change_hostname() {
 
 # If no swap exists, create a swapfile and use it as swap
 function create_swapfile() {
-    if [ can_sudo == 0 ]; then
+    if [ $can_sudo == 0 ]; then
         echo "$prompt You cannot create a swap file. Ask your sysadmin to do it."
         return 1
     fi
@@ -403,7 +403,7 @@ function repl() {
     while [ $i -le 100 ]; do  # prevent any misfortunate infinite loops
         ((i++))
         echo "$choise_menu"
-        case $(ask_user "$prompt What do you want to do? [0/1/.../8]") in
+        case $(ask_user "$prompt What do you want to do? [A/b/c/...]") in
             A) run_all_tasks ;;
             b) setup_locale ;;
             c) add_my_user ;;
@@ -425,7 +425,7 @@ function repl() {
 
 # ACTUAL EXECUTION
 verify_operative_system
-executer_has_root_privilege
+executer_has_root_privileges
 welcome_message
 repl
 
