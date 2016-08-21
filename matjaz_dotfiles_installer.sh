@@ -319,9 +319,9 @@ function change_hostname() {
         # For the current session
         sudo hostnamectl set-hostname $new_hostname
         # Persistently
-        if [ -z $(grep "127.0.1.1" /etc/hosts) ]; then # add line or edit it if exists
+        if [[ -z $(grep "127.0.1.1" /etc/hosts) ]]; then # add line
             sudo echo "127.0.1.1 $new_hostname" >> /etc/hosts
-        else
+        else # edit line because it exists
             sudo sed -i original -e 's/127\.0\.1\.1.*/127.0.1.1 "$new_hostname"/g' /etc/hosts
         fi
     fi
