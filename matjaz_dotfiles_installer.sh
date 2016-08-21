@@ -27,7 +27,7 @@
 #   full_system_update.sh
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ INSTALLER ]"
 
 # Terminates the script if the current operative system is not OS X
 function verify_operative_system() {

@@ -19,7 +19,7 @@
 # configuration files. It calls the system's package manager Homebrew for OS X.
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ DEPENDENCIES ]"
 
 # Terminates the script if the current operative system is not OS X
 function verify_operative_system() {

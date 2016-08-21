@@ -18,7 +18,7 @@
 # It runs all possible upgrades of any package manager it can find on OS X.
 # -----------------------------------------------------------------------------
 
-prompt="[ DOTFILES ]"
+prompt="[ DOTFILES ][ UPDATER ]"
 
 # Terminates the script if the current operative system is not OS X
 function verify_operative_system() {
