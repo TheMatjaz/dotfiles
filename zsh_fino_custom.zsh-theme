@@ -16,13 +16,16 @@
 #    - Added Python Virtualenv prompt
 #    - Added root name customization
 #    - Some fixes
+# v1.2 2016-08-23
+#    - Re-added clocks on the right prompt
+#    - Current system load on the right prompt
 #
 # Use with a dark background and 256-color terminal!
 # Suggested theme: `base16 atelierforest dark`
 #
 # Example prompt (obviously missing colours):
 # ╭──user on hostname in ~/some/directory on branch ✘ ● inside venv
-# ╰○ echo "Hello, World!"
+# ╰○ echo "Hello, World!"              [ 2.56/4 ][ 20:15:43 +0700, 1471958143 ]
 #
 # Borrowing shamelessly from these oh-my-zsh themes:
 # bira, robbyrussel, bureau, amuse
@@ -119,6 +122,7 @@ function root_or_user_name_prompt {
     fi
 }
 
+
 function current_virtualenv_prompt {
     if [ -n "$VIRTUAL_ENV" ]; then
         if [ -f "$VIRTUAL_ENV/__name__" ]; then
@@ -132,6 +136,19 @@ function current_virtualenv_prompt {
     fi
 }
 
+
+function current_time {
+    color_in_gray "[ $(date '+%H:%M:%S %z, %s') ]%{$reset_color%}"
+}
+
+
+function current_system_load {
+    # Avoiding index-based cuts so it works with BSD uptime and GNU uptime
+    local load=$(uptime | sed -E 's/.* ([0-9]+.[0-9]+),? [0-9]+.[0-9]+,? [0-9]+.[0-9]+$/\1/')
+    color_in_gray " [ $load/$(getconf _NPROCESSORS_ONLN) ]"
+}
+
+
 local current_dir='%{$terminfo[bold]$FG[226]%}${PWD/#$HOME/~}%{$reset_color%}'
 local git_info='$(git_prompt_info)$(git_status_symbols)'
 local hg_info='$(hg_branch_name_and_status_symbol)'
@@ -140,4 +157,4 @@ local venv='$(current_virtualenv_prompt)'
 
 PROMPT="╭──$(root_or_user_name_prompt) $(color_in_gray 'on') $(host_name_prompt) $(color_in_gray 'in') ${current_dir}${git_info}${hg_info}${venv}
 ╰$char"
-RPROMPT=""
+RPROMPT="$(current_system_load)$(current_time)"
