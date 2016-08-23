@@ -38,7 +38,7 @@ verify_operative_system
 type brew 2>&1 > /dev/null
 if [ $? != 0 ]; then
     echo "$prompt Installing Homebrew, will be used to install the packages."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
     echo "$prompt Found Homebrew, skipping installation."
 fi
