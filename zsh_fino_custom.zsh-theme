@@ -144,8 +144,7 @@ function current_time {
 
 function current_system_load {
     # Avoiding index-based cuts so it works with BSD uptime and GNU uptime
-    local load=$(uptime | sed -E 's/.* ([0-9]+.[0-9]+),? [0-9]+.[0-9]+,? [0-9]+.[0-9]+$/\1/')
-    color_in_gray " [ $load/$(getconf _NPROCESSORS_ONLN) ]"
+    color_in_gray " [ $(uptime | sed -E 's/.* ([0-9]+.[0-9]+),? [0-9]+.[0-9]+,? [0-9]+.[0-9]+$/\1/')/$(getconf _NPROCESSORS_ONLN) ]"
 }
 
 
@@ -154,7 +153,8 @@ local git_info='$(git_prompt_info)$(git_status_symbols)'
 local hg_info='$(hg_branch_name_and_status_symbol)'
 local char='$(versioning_system_char_symbol) '
 local venv='$(current_virtualenv_prompt)'
+local load_and_time='$(current_system_load)$(current_time)'
 
 PROMPT="╭──$(root_or_user_name_prompt) $(color_in_gray 'on') $(host_name_prompt) $(color_in_gray 'in') ${current_dir}${git_info}${hg_info}${venv}
 ╰$char"
-RPROMPT="$(current_system_load)$(current_time)"
+RPROMPT="${load_and_time}"
