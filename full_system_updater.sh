@@ -38,9 +38,16 @@ function verify_operative_system() {
 verify_operative_system
 
 
+# Oh My ZSH!
+which upgrade_oh_my_zsh 2>&1 > /dev/null
+if [ $? = 0 ]; then
+    echo "$prompt Updating Oh My ZSH!"
+    upgrade_oh_my_zsh
+fi
+
+
 # apt-get update and upgrade
 echo "$prompt Updating apt-get repositories and packages. May ask for root password.
-
 This updater runs 'apt-get upgrade' instead of 'apt-get dist-upgrade'.
 If you know what you are upgrading and that it will not break your system, 
 run 'apt-get dist-ugprade' yourself."
