@@ -35,7 +35,12 @@ verify_operative_system
 
 # App Store
 echo "$prompt Updating OS X system-software from App Store."
-softwareupdate --install --all
+which mas 2>&1 > /dev/null
+if [ $? = 0 ]; then
+    mas upgrade
+else
+    softwareupdate --install --all
+fi
 
 
 # HomeBrew
