@@ -329,3 +329,6 @@ function myhugo() {
     dscleanup
 }
 
+
+# Flush local DNS cache
+alias dnsflushcache='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder; echo "DNS cache flushed"'
