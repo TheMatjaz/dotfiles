@@ -76,12 +76,25 @@ alias py="python3"
 alias copy="pbcopy"
 alias cmdc="pbcopy"
 alias cmdv="pbpaste"
+alias digs="dig +short"
 
 # IP addresses
-alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
+function wanip() {
+    public_ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+    if [ -z $public_ip ]; then
+        public_ip=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | sed 's/"//g')
+    fi
+    echo $public_ip
+}
 alias lanip="ipconfig getifaddr en0"
 alias ipwan="wanip"
 alias iplan="lanip"
+function dnsserver() {
+    echo "Configured DNS servers:"
+    cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2
+    echo "Used DNS server:"
+    dig whoami.akamai.net +short
+}
 
 
 # Recursively delete `.DS_Store` files from current directory
@@ -270,7 +283,14 @@ function unixtime() {
 
 
 # Remaining traffic on LTE mobile internet
-alias traffic="curl -H 'Connection: close' 'http://matjaz.it/3ffic.php?cli'"
+function traffic() {
+    if [[ $1 == '--integer' ]]; then
+        output=$(curl -s -H 'Connection: close' 'https://matjaz.it/3ffic.php?cli&int')
+    else
+        output=$(curl -s -H 'Connection: close' 'https://matjaz.it/3ffic.php?cli')
+    fi
+    echo $output
+}
 
 
 # List filetypes in this directory recursively
@@ -286,3 +306,26 @@ function information() {
     stat $1
     identify --verbose $1   
 }
+
+# Custom run of Hugo with some fixes and cleanups
+function myhugo() {
+    # Check if the directory is right
+    if [[ ! -d "content" || ! -d "static" ]]; then
+        echo "This is not a Hugo root directory. Nothing done."
+        return 1
+    fi
+
+    # Fix lastmod date of the human sitemap page
+    cd content/page
+    sed -i'.sedbackup' -E 's/"[0-9]{4}-[0-9]{2}-[0-9]{2}T.*"/"'$(isodate)'"/' sitemap.md
+    rm sitemap.md.sedbackup
+    cd ../..
+
+    # Cleanup previous build and rebuild
+    rm -rf public
+    hugo
+    
+    # Remove any .DS_store files
+    dscleanup
+}
+
