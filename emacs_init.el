@@ -101,7 +101,7 @@ yasnippet
 ;;; Highlight current line
 (global-hl-line-mode 1)
 (set-face-foreground 'highlight nil) ; To keep syntax highlighting in the current line
-(set-face-background 'hl-line "#292929")
+(set-face-background 'hl-line "#DDDDDD")
 
 ;;; "Bend" current line to when is longer than screen
 ;(setq toggle-truncate-lines nil)
@@ -144,7 +144,7 @@ yasnippet
 (toggle-frame-maximized)
 
 ;;; Theme and colors
-(load-theme 'base16-atelierforest-dark t)
+(load-theme 'base16-atelierforest-light t)
 
 ;;; Emacs code browser: file viewer panels
 ;(require 'ecb)
@@ -162,15 +162,53 @@ yasnippet
 
 
 ;;; Restore the previous Emacs session, with buffers, window size and mode
-(setq desktop-dirname             "~/.emacs.d/"
-      desktop-base-file-name      "restore-session"
-      desktop-base-lock-name      "restore-session-lock"
+(setq desktop-dirname             "~/.emacs.d/desktop/"
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
       desktop-path                (list desktop-dirname)
       desktop-save                t  ; Automatically save the session when closing Emacs
       desktop-files-not-to-save   "^$" ;reload tramp paths
       desktop-auto-save-timeout   30 ; Interval in seconds to perform the session save
       desktop-restore-eager       10 ; Max number of buffers to restore immediately
       desktop-load-locked-desktop nil)
+
+;; remove desktop after it's been read
+(add-hook 'desktop-after-read-hook
+	  '(lambda ()
+	     ;; desktop-remove clears desktop-dirname
+	     (setq desktop-dirname-tmp desktop-dirname)
+	     (desktop-remove)
+	     (setq desktop-dirname desktop-dirname-tmp)))
+
+;; Checks if a saved session exists
+(defun saved-session ()
+  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
+
+;; use session-restore to restore the desktop manually
+(defun session-restore ()
+  "Restore a saved emacs session."
+  (interactive)
+  (if (saved-session)
+      (desktop-read)
+    (message "No desktop found.")))
+
+;; use session-save to save the desktop manually
+(defun session-save ()
+  "Save an emacs session."
+  (interactive)
+  (if (saved-session)
+      (if (y-or-n-p "Overwrite existing desktop? ")
+	  (desktop-save-in-desktop-dir)
+	(message "Session not saved."))
+  (desktop-save-in-desktop-dir)))
+
+;; ask user whether to restore desktop at start-up
+(add-hook 'after-init-hook
+	  '(lambda ()
+	     (if (saved-session)
+		 (if (y-or-n-p "Restore desktop? ")
+		     (session-restore)))))
+
 (desktop-save-mode 1)
 
 
@@ -281,10 +319,17 @@ yasnippet
 
 
 ;;; Scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 3))) ;; one line at a time or 3 if SHIFT is pressed while scrolling
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 (setq scroll-step 1) ;; keyboard scroll one line at a time
+
+;(setq scroll-margin 1
+;      scroll-conservatively 0
+;      scroll-up-aggressively 0.01
+;      scroll-down-aggressively 0.01)
+;(setq-default scroll-up-aggressively 0.01
+;      scroll-down-aggressively 0.01)
 
 
 ;===============
@@ -355,15 +400,17 @@ yasnippet
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-	("54a8c782a7a66e9aeb542af758f7f9f1a5702b956f425ffe15fccf5339f01f1e" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "234976f82b2d64c6d2da3bca061d9f09b46e1496f02451fe02a4c707fab32321" "86847534b000a2e7f2b77c24faf3a94283329073bd4687807a4b6a52cae752dd" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "cda6cb17953b3780294fa6688b3fe0d3d12c1ef019456333e3d5af01d4d6c054" default)))
- '(ecb-options-version "2.40"))
+    ("5cc9df26a180d14a6c5fc47df24d05305636c80030a85cf65e31f420d7836688" "7e346cf2cb6a8324930c9f07ce050e9b7dfae5a315cd8ed3af6bcc94343f8402" "7c1e99f9d46c397b3fd08c7fdd44fe47c4778ab69cc22c344f404204eb471baa" "232f715279fc131ed4facf6a517b84d23dca145fcc0e09c5e0f90eb534e1680f" "b2028956188cf668e27a130c027e7f240c24c705c1517108b98a9645644711d9" "5424f18165ed7fd9c3ec8ea43d801dc9c71ab9da2b044000162a47c102ef09ea" "2c73253d050a229d56ce25b7e5360aa2f7566dfd80174da8e53bd9d3e612a310" "3fb38c0c32f0b8ea93170be4d33631c607c60c709a546cb6199659e6308aedf7" "90b1aeef48eb5498b58f7085a54b5d2c9efef2bb98d71d85e77427ce37aec223" "bcd39b639704f6f28ab61ad1ac8eb4625be77d027b4494059e8ada22ce281252" "43aeadb0c8634a9b2f981ed096b3c7823c511d507a51c604e4667becb5ef6e35" "1b4243872807cfad4804d7781c51d051dfcc143b244da56827071a9c2e10ab7f" "8704829d51ea058227662e33f84313d268b330364f6e1f31dc67671712143caf" "744c95ef0117ca34c5d4261cb00aff6750fd60338240c28501adb5701621e076" "ee3b22b48b269b83aa385b3915d88a9bf4f18e82bb52e20211c7574381a4029a" "54a8c782a7a66e9aeb542af758f7f9f1a5702b956f425ffe15fccf5339f01f1e" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "234976f82b2d64c6d2da3bca061d9f09b46e1496f02451fe02a4c707fab32321" "86847534b000a2e7f2b77c24faf3a94283329073bd4687807a4b6a52cae752dd" "4cdea318a3efab7ff7c832daea05f6b2d5d0a18b9bfa79763b674e860ecbc6da" "cda6cb17953b3780294fa6688b3fe0d3d12c1ef019456333e3d5af01d4d6c054" default)))
+ '(ecb-options-version "2.40")
+ '(package-selected-packages
+   (quote
+    (yasnippet w3m theme-changer pomodoro org-pomodoro org markdown-mode+ hydra git flymake-shell flymake-python-pyflakes flymake-json flymake-cppcheck flymake fill-column-indicator ecb doctags diff-hl db-pg base16-theme autopair auto-complete-clang 2048-game))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(show-paren-match ((((class color) (background light)) (:background "#ffa54f"))))
-    )
+ '(show-paren-match ((((class color) (background light)) (:background "#ffa54f")))))
 
 
 
