@@ -69,8 +69,6 @@ plugins=(
     ### OS X
 	osx
     # sublime
-	brew
-    brew-cask
     ### DEV TOOLS
     # jsontools
     # postgres
