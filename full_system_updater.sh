@@ -42,6 +42,12 @@ else
     softwareupdate --install --all
 fi
 
+# Oh My ZSH!
+which upgrade_oh_my_zsh 2>&1 > /dev/null
+if [ $? = 0 ]; then
+    echo "$prompt Updating Oh My ZSH!"
+    upgrade_oh_my_zsh
+fi
 
 # HomeBrew
 which brew 2>&1 > /dev/null
