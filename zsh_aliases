@@ -313,14 +313,23 @@ function myhugo() {
 
     # Fix lastmod date of the human sitemap page
     cd content/page
-    sed -i'.sedbackup' -E 's/"[0-9]{4}-[0-9]{2}-[0-9]{2}T.*"/"'$(isodate)'"/' sitemap.md
-    rm sitemap.md.sedbackup
+    sed -i '' -E 's/"[0-9]{4}-[0-9]{2}-[0-9]{2}T.*"/"'$(isodate)'"/' sitemap.md
     cd ../..
 
     # Cleanup previous build and rebuild
     rm -rf public
     hugo
-    
+
+    # Compress all HTML files
+    #htmlcompressor \
+    #  --remove-intertag-spaces \
+    #  --remove-quotes \
+    #  --simple-bool-attr \
+    #  --remove-surrounding-spaces all \
+    #  --recursive \
+    #  --output public/ \
+    #  public/
+
     # Remove any .DS_store files
     dscleanup
 }
