@@ -16,28 +16,35 @@
 " in the list is tried and so on.
 " The same order is also used for writing files, i.e. it uses '\n'
 " when saving a file.
-set fileformats=unix,dos,mac
+set fileformats =unix,dos,mac
 
 " Encoding of the characters for the current buffer. Only display and
 " and manipulation, not saving of the file.
-set encoding=UTF-8
+set encoding =UTF-8
 
 " Encoding of the characters used for Vimscripts, including vimrc and gvimrc.
 " Has to be places after 'set encoding='.
 scriptencoding UTF-8
 
 " Encoding of the file when saved.
-set fileencoding=UTF-8
+set fileencoding =UTF-8
 
 " List of encodings considered when opening an existing file.
 " They are tried in sequence. If an error is detected, the next encoding is
 " tried.
 " Starting with the most standard options, then some used but not smart ones.
-set fileencodings=UTF-8,UTF-16le,UTF-16be,UTF-32le,UTF-32be,ISO-8859-1,Windows-1252
+set fileencodings =
+set fileencodings +=UTF-8
+set fileencodings +=UTF-16le
+set fileencodings +=UTF-16be
+set fileencodings +=UTF-32le
+set fileencodings +=UTF-32be
+set fileencodings +=ISO-8859-1
+set fileencodings +=Windows-1252
 
 
 
-" Working directory -----------------------------------------------------------
+" Opening files ---------------------------------------------------------------
 
 " On startup, set the home directory as the working one. With this setting,
 " when opening a file or saving a file right after Vim starts, the search
@@ -46,6 +53,17 @@ cd ~
 
 " Set working directory to the same directory the currently edited file is in.
 set autochdir
+
+" Ignore files matching these patterns when opening files based on a 
+" glob pattern.
+set wildignore +=*.pyc  " Python bytecode
+set wildignore +=*.swp  " Vim swap files
+set wildignore +=*.bak  " Generic backup files
+set wildignore +=*.class  " Java bytecode
+set wildignore +=.DS_Store  " macOS folder metadata
+
+" Maximum number of tab pages that can be opened from the command line.
+set tabpagemax =50
 
 
 
@@ -72,14 +90,14 @@ set expandtab
 let tabsize = 4
 
 " Number of visual spaces per tab.
-execute "set tabstop=" . tabsize
+execute "set tabstop =" . tabsize
 
 "Insert tabstop number of spaces when the tab key is pressed.
 set smarttab 
 
 " Number of spaces in tab when shifting text by a tab.
-execute "set shiftwidth=" . tabsize
-execute "set softtabstop=" . tabsize
+execute "set shiftwidth =" . tabsize
+execute "set softtabstop =" . tabsize
 
 " When shifting lines, round the indentation to the nearest multiple of 
 " shiftwidth.
@@ -92,11 +110,17 @@ set shiftround
 " Show soft wraping of the line with this string to indicate
 " a visual continuation on the next line.
 " Note: a space is the last character in the string.
-set showbreak=↪\ 
+set showbreak =↪\ 
 
 " Show whitespace characters with the following characters instead.
 set list
-set listchars=tab:⇥\ ,extends:›,precedes:‹,nbsp:␣,trail:•,eol:↲
+set listchars =
+set listchars +=tab:⇥\ 
+set listchars +=extends:›
+set listchars +=precedes:‹
+set listchars +=nbsp:␣
+set listchars +=trail:•
+set listchars +=eol:↲
 
 " Set the color the whitespace characters are shown.
 " NonText is used for "eol", "extends" and "precedes".
@@ -115,14 +139,15 @@ highlight SpecialKey term=bold ctermfg=lightgray gui=bold guifg=lightgray
 autocmd BufWritePre * %s/(?<!\\)\s+$//e
 
 " Remove lines with only whitespace at end of file on save.
-autocmd BufWritePre * %s/\($\r?\n\s*\)\+\%$//
+autocmd BufWritePre * %s/\($\r?\n\s*\)\+\%$//e
 
 " Autosave files when no operation is done for some time.
-" When the cursor does not do anything for 'updatetime' seconds (defaults
-" to 4 s), an 'update' command is issued, which saves the buffers only
+" When the cursor does not do anything for 'updatetime' milliseconds,
+" an 'update' command is issued, which saves the buffers only
 " if they have been modified. The CursorHoldI makes the same operation happen
 " also in insert mode.
-autocmd CursorHold,CursorHoldI * update
+set updatetime =5000
+autocmd CursorHold,CursorHoldI * silent write
 
 " Automatically reload files when modified by an external source (not by Vim).
 set autoread
@@ -132,15 +157,15 @@ set confirm
 
 
 
-" Autosave and autorestore session --------------------------------------------
+" Autorestore session ---------------------------------------------------------
 
 " Return the path of the session file based on the OS.
 " Used in the SaveSession and RestoreSession functions.
 function! SessionFilePath()
     if has("win32")
-        return "$HOME/vim/session.vim"
+        return "$HOME/_vim/session.vim"
     elseif has("unix")
-        return "~/.vim/session.vim"
+        return "$HOME/.vim/session.vim"
     else
         echoerr "Unknown operating system. Could not set backup location."
     endif
@@ -180,22 +205,40 @@ autocmd BufEnter,VimLeavePre * call RestoreSession()
 " folder as the original file as 'filename~'.
 " Taken from https://superuser.com/a/193638
 if has("win32")
-    set backup
-    set backupdir=C:/Temp/vim/backups
-    set backupskip=C:/Temp/*
-    set directory=C:/Temp/vim/swaps
+    if isdirectory("$HOME/_vim/swap") == 0
+      :silent !md "$HOME/_vim/swap"
+    endif
+    if isdirectory("$HOME/_vim/undo") == 0
+      :silent !md "$HOME/_vim/undo"
+    endif
+    if isdirectory("$HOME/_vim/backup") == 0
+      :silent !md "$HOME/_vim/backup"
+    endif
+    set directory ="$HOME/_vim/swap//"
+    set undodir ="$HOME/_vim/undo//"
+    set backupdir ="$HOME/_vim/backup//"
+    " Make a backup before overwriting a file. 
+    " The backup is removed after the file was successfully written.
     set writebackup
 elseif has("unix")
     " Generic Unix settings
-    set backup
-    set backupdir=~/.tmp/vim/backups,~/tmp/vim/backups,/var/tmp/vim/backups,/tmp/vim/backups
-    set backupskip=/tmp/*,/private/tmp/*
-    set directory=~/.tmp/vim/swaps,~/tmp/vim/swaps,/var/tmp/vim/swaps,/tmp/vim/swaps
+    :silent !mkdir -p "$HOME/.vim/swap" > /dev/null 2>&1
+    :silent !mkdir -p "$HOME/.vim/undo" > /dev/null 2>&1
+    :silent !mkdir -p "$HOME/.vim/backup" > /dev/null 2>&1
+    set directory ="$HOME/.vim/swap//"
+    set undodir ="$HOME/.vim/undo//"
+    set backupdir ="$HOME/.vim/backup//"
+    " Make a backup before overwriting a file. 
+    " The backup is removed after the file was successfully written.
     set writebackup
 else
     echoerr "Unknown operating system. Could not set backup location."
 endif
 
+" Alternatively, to fully deactivate backup and swap files, use the
+" following commands.
+"set nobackup
+"set noswap
 
 
 " Interactivity ---------------------------------------------------------------
@@ -207,45 +250,48 @@ noremap j gj
 noremap k gk
 
 " Moar commands and search history remembered.
-set history=500
+set history =500
 
 " Moar chances to call an undo when required.
-set undolevels=500
+set undolevels =500
 
 " Leave Insert mode after 15 seconds of inactivity.
-autocmd CursorHoldI * stopinsert autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=15000 autocmd InsertLeave * let &updatetime=updaterestore
+"autocmd CursorHoldI * stopinsert autocmd InsertEnter * let updaterestore=&updatetime | set updatetime =15000 autocmd InsertLeave * let &updatetime=updaterestore
 
 " Enable mouse support for scrolling and resizing.
-set mouse=a
+set mouse =a
 
 " Context menu when right-clicking.
-set mousemodel=popup
+set mousemodel =popup
 
 " Middle-click paste.
 noremap! <s-insert> <middlemouse>
 
 " The shell used to execute commands.
-set shell=/bin/bash
+set shell =/bin/bash
+
+" Allow backspacing over indention, line breaks and insertion start.
+set backspace =indent,eol,start
 
 
 
 " Text rendering --------------------------------------------------------------
 
 " Always try to show a paragraph’s last line.
-set display+=lastline
+set display +=lastline
 
 " Avoid breaking/wrapping lines in the middle of the words.
 set linebreak
 
 " Number of screen lines to keep above and below the cursor.
-set scrolloff=3
+set scrolloff =3
 
 " Number of screen columns to keep to the left and right of the cursor.
-set sidescrolloff=5
+set sidescrolloff =5
 
 " Number of columns per line.
 " Used in automatic line breaking rules and in the ruler generation.
-set textwidth=80
+set textwidth =80
 
 " Enable soft line wrapping.
 " It does not change the text, only displays long lines in multiple lines.
@@ -254,16 +300,16 @@ set wrap linebreak nolist
 " Indicators for too long lines (vertical ruler and highlighting).
 " Draw a vertical rule in the column textwidth+1 (81) and one in the column
 " textwidth+21 (101).
-let &colorcolumn="+1,+21" " .join(range(21, 500), ",+")
+let &colorcolumn ="+1,+21"  "Potentially: .join(range(21, 500), ",+")
 
 " Define the color of the rulers.
 highlight ColorColumn ctermbg=0 guibg=lightgray
 
-" Define characters exceeding the second ruler length to be highlighted.
-match OverLength /\%>100v.\+/
-
 " Color used for highlighting the characters exceeding the second ruler.
 highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
+
+" Define characters exceeding the second ruler length to be highlighted.
+match OverLength /%>100v.+/
 
 
 
@@ -277,7 +323,7 @@ set title
 
 
 
-" Look and feel ---------------------------------------------------------------
+" Cursor ----------------------------------------------------------------------
 
 " Allows cursor change in tmux mode.
 " These lines change the cursor from block cursor mode to vertical bar cursor 
@@ -291,6 +337,42 @@ else
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+" Highlight cursorline ONLY in the active window
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+
+" Always show cursor's position.
+set ruler
+
+
+
+" Code folding ----------------------------------------------------------------
+
+" Enable code folding
+set foldenable
+
+" How much is folded by default when opening a buffer.
+" 0 = all folds will be closed, 99 = folds are always open.
+" 10 = only very nested blocks of code are folded.
+set foldlevelstart =10
+
+" Max number of nested folds.
+" This simplifies life when opening the folds, as not more than foldnestmax
+" will be one in another.
+set foldnestmax =10
+
+" Space opens/closes folds.
+nnoremap <space> za
+
+" Folding is based on indentation level.
+" Other acceptable values are marker, manual, expr, syntax, diff.
+" Run :help foldmethod to find out what each of those do.
+set foldmethod =indent
+
+
+
+" Look and feel ---------------------------------------------------------------
+
 " Color theme
 "Plugin 'chriskempson/base16-vim'
 "colorscheme base16-default-dark
@@ -300,10 +382,6 @@ set number
 
 " Shows the last command entered in the very bottom right of Vim.
 set showcmd
-
-" Highlight cursorline ONLY in the active window
-autocmd WinEnter * setlocal cursorline
-autocmd WinLeave * setlocal nocursorline
 
 " Highlight matching parenthesis
 set showmatch
@@ -316,6 +394,15 @@ set wildmenu
 
 " Enable spellchecking.
 set spell
+
+" Redraw only when we need to and not at standard too-frequent rate.
+"set lazyredraw
+
+" Always display the status bar.
+set laststatus =2
+
+" Switch on syntax highlighting.
+syntax enable
 
 
 
@@ -336,76 +423,83 @@ set ignorecase
 " For a faster removal of the highlighting, this shortcut is used instead.
 nnoremap <leader><space> :nohlsearch<CR>
 
-
-" HELL BELOW THIS LINE ==============
-
-set wildignore=*.swp,*.bak,*.pyc,*.class
-
-
-"source $VIMRUNTIME/vimrc_example.vim
-"source $VIMRUNTIME/mswin.vim
-"behave mswin
-
-"https://dougblack.io/words/a-good-vimrc.html
+" Limit the files searched for auto-completes.
+" complete =.,w,b,u,t,i. This breaks down to:
+"     .: Scan the current buffer
+"     w: Scan buffers from other windows
+"     b: Scan buffers from the buffer list
+"     u: Scan buffers that have been unloaded from the buffer list
+"     t: Tag completion
+"     i: Scan the current and included files
+"set complete -=i
 
 
 
+" Utility functions -----------------------------------------------------------
+
+function! Capitalize(string)
+    let result = substitute(a:string,'\(\<\w\+\>\)', '\u\1', 'g')
+    return result
+endfunction
+
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\r\n'")
+endfunction
+
+function! GitBranchName()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?' | '.l:branchname.':':' | '
+endfunction
 
 
 
+" Status line -----------------------------------------------------------------
+
+set statusline =
+
+" Buffer number.
+set statusline +=\ Buffer\ #%n
+" Current Git branch.
+set statusline +=%{GitBranchName()}
+" Path to the file in the buffer, as typed or relative to current directory.
+set statusline +=%f
+" Flag for modified file.
+set statusline +=%m
+
+" Padding, empty space in the middle.
+set statusline+=%=
+
+" File type, encoding and end of line format
+set statusline +=\ %Y
+set statusline +=\ \|\ %{toupper(&fileencoding?&fileencoding:&encoding)}
+set statusline +=\ \|\ %{Capitalize(&fileformat)}
+" Current line and column number.
+set statusline +=\ \|\ %l:%c
+" Total lines in file.
+set statusline +=\ \|\ Lines:\ %L
+" Time and date.
+set statusline +=\ \|\ %{strftime('%a\ %d\ %b,\ %H:%M:%S')}
+" Final space on the right side of the screen.
+set statusline +=\ 
 
 
 
+" Vim Plug --------------------------------------------------------------------
+
+" Specify a directory for plugins.
+" Avoid using standard Vim directory names like 'plugin'.
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+Plug 'https://github.com/plasticboy/vim-markdown.git'
+
+" Initialize plugin system
+call plug#end()
 
 
 
-" Check http://vim.wikia.com/wiki/VimTip1592 for automatic tab-to-space conversion
-
-set statusline=%F%m%r%h%w\ [FF=%{&ff}]\ [T=%Y]\ [A=\%03.3b]\ [H=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
-
-set statusline=
-"set statusline +=%1*\ %n\ %*            "buffer number
-"set statusline +=%5*%{&ff}%*            "file format
-"set statusline +=%3*%y%*                "file type
-"set statusline +=%4*\ %<%F%*            "full path
-"set statusline +=%2*%m%*                "modified flag
-"set statusline +=%1*%=%5l%*             "current line
-"set statusline +=%2*/%L%*               "total lines
-"set statusline +=%1*%4v\ %*             "virtual column number
-"set statusline +=%2*0x%04B\ %*          "character under cursor
-" Powerline may be a good option
-
-
-
-
-
-" Performance
-set lazyredraw          " redraw only when we need to and not at standard too-frequent rate.
-set complete-=i "Limit the files searched for auto-completes. complete=.,w,b,u,t,i. This breaks down to:
-"
-"    .: Scan the current buffer
-"    w: Scan buffers from other windows
-"    b: Scan buffers from the buffer list
-"    u: Scan buffers that have been unloaded from the buffer list
-"    t: Tag completion
-"    i: Scan the current and included files
-" -=i removes the 'i' flag
-
-
-
-
-
-
-" Folding
-set foldenable          " enable folding
-set foldlevelstart=10   " open most folds by default. foldlevelstart is the starting fold level for opening a new buffer. If it is set to 0, all folds will be closed. Setting it to 99 would guarantee folds are always open. So, setting it to 10 here ensures that only very nested blocks of code are folded when opening a buffer.
-set foldnestmax=10      " Folds can be nested. Setting a max on the number of folds guards against too many folds. If you need more than 10 fold levels you must be writing some Javascript burning in callback-hell and I feel very bad for you.
-" space open/closes folds
-nnoremap <space> za "I change the mapping of <space> pretty frequently, but this is its current command. za opens/closes the fold around the current block. As an interesting aside, I've heard the z character is used to represent folding in Vim because it looks like a folded piece of paper.
-set foldmethod=indent   " fold based on indent level. Other acceptable values are marker, manual, expr, syntax, diff. Run :help foldmethod to find out what each of those do.
-
-
-
+" HELL BELOW THIS LINE =======================
 
 " move to beginning/end of line
 "nnoremap B ^
@@ -417,54 +511,46 @@ set foldmethod=indent   " fold based on indent level. Other acceptable values ar
 
 " User Interface Options
 
-set laststatus=2  " Always display the status bar.
-set ruler  " Always show cursor position.
-set wildmenu  " Display command line’s tab complete options as a menu.
-set tabpagemax=50  " Maximum number of tab pages that can be opened from the command line.
+"set wildmenu  " Display command line’s tab complete options as a menu.
 "set colorscheme wombat256mod  " Change color scheme.
-set cursorline  " Highlight the line currently under cursor.
 
 
-" Miscellaneous
 
-set backspace=indent,eol,start  " Allow backspacing over indention, line breaks and insertion start.
-set formatoptions+=j  " Delete comment characters when joining lines.
-set hidden  " Hide files in the background instead of closing them.
-set nomodeline  " Ignore file’s mode lines; use vimrc configurations instead.
-
-set wildignore+=.pyc,.swp  " Ignore files matching these patterns when opening files based on a glob pattern.
+"set formatoptions +=j  " Delete comment characters when joining lines.
+"set hidden  " Hide files in the background instead of closing them.
+"set nomodeline  " Ignore file’s mode lines; use vimrc configurations instead.
 
 
-" Unknown
-syntax enable
 
-set diffexpr=MyDiff()
+
+
 function! MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      if empty(&shellxquote)
-        let l:shxq_sav = ''
-        set shellxquote&
-      endif
-      let cmd = '"' . $VIMRUNTIME . '\diff"'
+    let opt = '-a --binary '
+    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    let arg1 = v:fname_in
+    if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+    let arg2 = v:fname_new
+    if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+    let arg3 = v:fname_out
+    if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+    if $VIMRUNTIME =~ ' '
+        if &sh =~ '\<cmd'
+            if empty(&shellxquote)
+                let l:shxq_sav = ''
+                set shellxquote&
+            endif
+            let cmd = '"' . $VIMRUNTIME . '\diff"'
+        else
+            let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+        endif
     else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+        let cmd = $VIMRUNTIME . '\diff'
     endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-  if exists('l:shxq_sav')
-    let &shellxquote=l:shxq_sav
-  endif
+    silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+    if exists('l:shxq_sav')
+        let &shellxquote=l:shxq_sav
+    endif
 endfunction
 
+"set diffexpr=MyDiff()
