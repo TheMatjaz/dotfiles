@@ -13,7 +13,7 @@
 
 " Text font.
 " The fonts are tried in a sequence. The first one found will be used.
-set guifont=Source\ Code\ Pro:h10,Menlo:h10,Inconsolata:h10,Consolas:h10
+set guifont=Source\ Code\ Pro:h12,Menlo:h12,Inconsolata:h12,Consolas:h12
 
 " Font size quick change.
 if has("unix")
