@@ -52,14 +52,14 @@ separator=', '
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[255]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$FG[202]%}✘%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}✔%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="$separator%{$fg_bold[green]%}clean%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="$separator%{$fg[cyan]%}▴%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_BEHIND="$separator%{$fg[magenta]%}▾%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_STAGED="$separator%{$fg_bold[green]%}staged%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_STAGED="$separator%{$fg_bold[cyan]%}staged%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="$separator%{$fg_bold[yellow]%}modified%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="$separator%{$fg_bold[red]%}untracked%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIVERGED="$separator%{$fg_bold[orange]%}diverged%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_STASHED="$separator%{$fg_bold[blue]%}stashes%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIVERGED="$separator%{$fg_bold[red]%}diverged%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_STASHED="$separator%{$fg[gray]%}stashes%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNMERGED="$separator%{$fg_bold[red]%}unmerged%{$reset_color%}"
 
 # Mercurial prompt variables
