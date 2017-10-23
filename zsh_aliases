@@ -337,3 +337,42 @@ function myhugo() {
 
 # Flush local DNS cache
 alias dnsflushcache='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder; echo "DNS cache flushed"'
+
+
+
+# Text adventure videogames
+alias zork1="cd ~/Videogames/Zork/Zork_1/; frotz ZORKI"
+alias zork=zork1
+alias zork2="cd ~/Videogames/Zork/Zork_2/; frotz ZORKII"
+alias zork3="cd ~/Videogames/Zork/Zork_3/; frotz ZORKIII"
+
+
+# Notetaking
+# Inspired by https://dev.to/ricardomol/note-taking-from-the-command-line-156
+NOTES="$HOME/notes.md"
+function note()
+{
+    if [ ! -z "$1" ]; then
+        # If there is a note, append it to the note file.
+        echo "$@" >> $NOTES
+    else
+        # When no arguments are passed, take the notes from STDIN,
+        # which allows to do something like
+        # note <<EOF
+        # A very long
+        # long looong
+        # note here.
+        # EOF
+        cat - >> $NOTES
+    fi
+}
+
+function notes()
+{
+    less $NOTES
+}
+
+function clearnotes()
+{
+    echo > $NOTES
+}
