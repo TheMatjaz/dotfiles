@@ -331,6 +331,8 @@ yasnippet
 ;(setq-default scroll-up-aggressively 0.01
 ;      scroll-down-aggressively 0.01)
 
+;;; Replace the selected text when starting typing
+(delete-selection-mode 1)
 
 ;===============
 
