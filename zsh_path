@@ -12,7 +12,7 @@
 # ===================
 # Including: Homebrew Cellar, X11, MacGPG, TeX, PostgreSQL (psql), SQLite3
 # (from Homebrew), RVM, MacTeX commands
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/MacGPG2/bin:/usr/texbin:/Applications/Postgres.app/Contents/Versions/9.4/bin:/usr/local/opt/sqlite:~/.rvm/bin:/Library/TeX/Root/bin/x86_64-darwin:/Applications/platform-tools"
+export PATH="/usr/local/opt/sqlite/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/MacGPG2/bin:/usr/texbin:/Applications/Postgres.app/Contents/Versions/9.4/bin:~/.rvm/bin:/Library/TeX/Root/bin/x86_64-darwin:/Applications/platform-tools"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 
