@@ -85,3 +85,19 @@ Host proxy
     User mat
     PreferredAuthentications password,publickey,gssapi-with-mic,hostbased,keyboard-interactive
     Port 4022
+
+Host gitlab-iaik gitlab_iaik gitlabiaik
+    Hostname git.teaching.iaik.tugraz.at
+    User git
+    IdentityFile ~/.ssh/gitlab_iaik
+
+Host gitlab gitlab.com gitlab-com gitlab_com gitlabcom
+    Hostname gitlab.com
+    User git
+    IdentityFile ~/.ssh/gitlab.com
+
+Host github github.com github-com github_com githubcom
+    Hostname github.com
+    User git
+    IdentityFile ~/.ssh/github.com
+
