@@ -17,7 +17,7 @@ Host *
     # Protocol v2 ciphers
     # The latest ones are really weak and are kept for compatibility with
     # all hosts that may not have the stronger ones. No spaces after commas!
-    Ciphers aes256-ctr,aes256-gcm@openssh.com,aes256-cbc,aes192-ctr,aes192-cbc,aes128-ctr,aes128-gcm@openssh.com,aes128-cbc,blowfish-cbc,arcfour256,arcfour128,arcfour,3des-cbc
+    Ciphers aes256-ctr,aes256-gcm@openssh.com,aes256-cbc,aes192-ctr,aes192-cbc,aes128-ctr,aes128-gcm@openssh.com,aes128-cbc
     # Try public key first
     PreferredAuthentications publickey,gssapi-with-mic,hostbased,keyboard-interactive,password
 
