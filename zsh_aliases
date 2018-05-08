@@ -18,7 +18,7 @@ alias numerus="~/Development/C/Numerus/bin/numerus"
 # Directories
 alias dev="cd ~/Development"    
 alias tmp="cd /tmp"
-alias dot="cd ~/Development/Dotfiles"
+alias dotfiles="cd ~/Development/Dotfiles"
 
 
 # Create and enter the directory
