@@ -165,7 +165,7 @@ function current_virtualenv_prompt
         else
             local name=$(basename $VIRTUAL_ENV)
         fi
-        echo "$(color_in_gray 'within') $name"
+        echo "\n├──$(color_in_gray 'within environment') $name"
     fi
 }
 
