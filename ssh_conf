@@ -101,3 +101,12 @@ Host github github.com github-com github_com githubcom
     User git
     IdentityFile ~/.ssh/github.com
 
+Host gittugraz git_tugraz git_tugraz_at git.tugraz.at
+    Hostname git.tugraz.at
+    User thems
+    IdentityFile ~/.ssh/git_tugraz_at
+
+Host bitbucket bitbucket.org bitbucket_org
+    Hostname bitbucket.org
+    User git
+    IdentityFile ~/.ssh/bitbucket
