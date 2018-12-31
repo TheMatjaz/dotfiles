@@ -43,7 +43,7 @@ function size() {
 
 
 # Pretty print json
-alias json='python -m json.tool'
+alias prettyjson='python -m json.tool'
 
 
 # Top sordted by CPU usage on OS X   
