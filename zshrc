@@ -76,7 +76,7 @@ plugins=(
     ### COMMAND LINE UTILES
 	sudo
 	screen
-    nyan
+    # nyan
     # battery
 	colorize
     # colored-man
@@ -106,3 +106,6 @@ source ~/.zsh_path
 # ALIASES
 # =======
 source ~/.zsh_aliases
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
