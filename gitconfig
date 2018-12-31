@@ -51,7 +51,7 @@
         tool = diffmerge
         conflictstyle = diff3
 [push]
-	default = simple
+	default = current
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -59,3 +59,5 @@
 [alias]
 	unstage = reset HEAD --
 	discard = checkout --
+[commit]
+	template = /Users/matjaz/.stCommitMsg
