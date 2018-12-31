@@ -377,3 +377,24 @@ function clearnotes()
 {
     echo > $NOTES
 }
+
+# Conversion of m4a downloaded with Jdownloader to same-quality mp3
+function m4atomp3()
+{
+    ffmpeg -i $1 -codec:a libmp3lame -q:a 2 $2
+}
+
+alias brewup='upgrade_oh_my_zsh; brew update -v && brew upgrade && brew cleanup -s'
+
+alias less="less -M"
+
+function curlsize()
+{
+    curl -sLI $1 | grep content-length | cut -d' ' -f2
+}
+
+
+alias hh=hstr                    # hh to be alias for hstr
+export HISTFILE=~/.zsh_history  # ensure history file visibility
+export HSTR_CONFIG=hicolor        # get more colors
+bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
