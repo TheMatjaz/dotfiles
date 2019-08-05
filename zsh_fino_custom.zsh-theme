@@ -62,29 +62,6 @@ ZSH_THEME_GIT_PROMPT_DIVERGED="$separator%{$fg_bold[red]%}diverged%{$reset_color
 ZSH_THEME_GIT_PROMPT_STASHED="$separator%{$fg[gray]%}stashes%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNMERGED="$separator%{$fg_bold[red]%}unmerged%{$reset_color%}"
 
-# Mercurial prompt variables
-# --------------------------
-YS_VCS_PROMPT_PREFIX=ZSH_THEME_GIT_PROMPT_PREFIX
-YS_VCS_PROMPT_SUFFIX=ZSH_THEME_GIT_PROMPT_SUFFIX
-YS_VCS_PROMPT_DIRTY=ZSH_THEME_GIT_PROMPT_DIRTY
-YS_VCS_PROMPT_CLEAN=ZSH_THEME_GIT_PROMPT_CLEAN
-
-function hg_branch_name_and_status_symbol
-{
-    if [ -d '.hg' ]; then
-        local hg_prompt="$(hg branch 2>/dev/null) "
-        if [ -n "$(hg symbols 2>/dev/null)" ]
-        then
-            hg_prompt=$hg_prompt$ZSH_THEME_GIT_PROMPT_DIRTY
-        else
-            hg_prompt=$hg_prompt$ZSH_THEME_GIT_PROMPT_CLEAN
-        fi
-        hg_prompt=$hg_prompt$ZSH_THEME_GIT_PROMPT_SUFFIX
-        echo "\n├──$(color_in_gray 'on hg branch') $hg_prompt"
-    fi
-}
-
-
 function git_status_symbols {
     index=$(command git status --porcelain --branch 2> /dev/null)
     local symbols=""
@@ -180,16 +157,23 @@ function current_time
 function current_system_load
 {
     # Avoiding index-based cuts so it works with BSD uptime and GNU uptime
-    color_in_gray "[$(uptime | sed -E 's/.* ([0-9]+.[0-9]+),? [0-9]+.[0-9]+,? [0-9]+.[0-9]+$/\1/')/$(getconf _NPROCESSORS_ONLN)]"
+    color_in_gray "[$(uptime | sed -E 's/.* ([0-9]+.[0-9]+),? [0-9]+.[0-9]+,? [0-9]+.[0-9]+$/\1/')/$(getconf _NPROCESSORS_ONLN)] "
+}
+
+
+function exit_status_symbol
+{
+    [[ -z $? || $? == 0 ]] || echo "%{$fg_bold[red]%}$?%{$reset_color%} "
 }
 
 function current_dir
 {
-    echo "$(color_in_gray 'in') %{$terminfo[bold]$FG[226]%}${PWD/#$HOME/~}%{$reset_color%}"
+    echo "$(color_in_gray 'in') %{$terminfo[bold]$FG[214]%}${PWD/#$HOME/~}%{$reset_color%}"
 }
 
 PROMPT='
-╭──$(root_or_user_name_prompt) $(host_name_prompt) $(git_branch_name_and_status_symbol) $(hg_branch_name_and_status_symbol) $(current_virtualenv_prompt)
+╭──$(root_or_user_name_prompt) $(host_name_prompt)$(git_branch_name_and_status_symbol)$(current_virtualenv_prompt)
 ├──$(current_dir)
 ╰○ '
-RPROMPT='$(current_system_load) $(current_time)'
+RPROMPT='$(exit_status_symbol)$(current_system_load)$(current_time)'
+
