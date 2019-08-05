@@ -49,18 +49,12 @@ Host nashira
     User ubuntu
     IdentityFile ~/.ssh/Nashira.pem
     Port 62800
-    
-Host raspi
-    HostName noctis.zapto.org
-    User pi
-    IdentityFile ~/.ssh/Raspi
-    Port 62800
 
-Host raspi-lan
+Host raspi
     HostName 192.168.0.86
     User pi
     IdentityFile ~/.ssh/Raspi
-    Port 62800
+    Port 22
 
 Host eltanin
     HostName 192.168.0.88
