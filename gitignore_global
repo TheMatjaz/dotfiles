@@ -13,9 +13,6 @@
 
 # This allows to use this same file also for hg
 syntax: glob
-    
-# The gitignore file of any repository
-.gitignore
 
 # Temporary backup files from text editors and Emacs
 *~
