@@ -159,7 +159,7 @@ function install_dotfiles_to_home() {
     symlink_dotfile gitconfig .gitconfig
     symlink_dotfile gitignore_global .gitignore_global
     symlink_dotfile hgrc .hgrc
-    symlink_dotfile screenrc .screenrc
+    symlink_dotfile tmuxrc .tmux.conf
     symlink_dotfile wgetrc .wgetrc
     symlink_dotfile zsh_fino_custom.zsh-theme .oh-my-zsh/custom/themes/zsh_fino_custom.zsh-theme
     symlink_dotfile zsh_aliases .zsh_aliases

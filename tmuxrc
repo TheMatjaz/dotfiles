@@ -10,9 +10,9 @@
 
 
 # Use C-a for the prefix instead of C-b as it's easier to type
-unbind-key C-b
-set-option -g prefix C-a
-bind-key C-a send-prefix
+#unbind-key C-b
+#set-option -g prefix C-a
+#bind-key C-a send-prefix
 
 # Window index starts at 1 as it's easier to type (same side of keyboard)
 set -g base-index 1
@@ -20,15 +20,18 @@ set -g base-index 1
 # Encoding
 set-window-option -g utf8 on
 
+# Enable mouse and scrolling
+set -g mouse on
+
 # Statusbar colors
 set-option -g status-fg white
 set-option -g status-bg black
 
 # Mnemonic pane-splitting key bindings
-unbind-key '"'
-unbind-key %
-bind-key C-| split-window -h
-bind-key C-_ cplit-window -v
+#unbind-key '"'
+#unbind-key %
+#bind-key C-| split-window -h
+#bind-key C-_ cplit-window -v
 
 # Reload changes in this tmuxrc file
 bind-key r source-file ~/.tmuxrc
