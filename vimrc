@@ -1,7 +1,7 @@
 " -----------------------------------------------------------------------------
 " Matjaž's dotfiles Vim configuration file
 "
-" Copyright (c) 2015-2017, Matjaž Guštin <dev@matjaz.it> matjaz.it
+" Copyright (c) 2015-2019, Matjaž Guštin <dev@matjaz.it> matjaz.it
 " This source code form is part of the "Matjaž's dotfiles" project and is 
 " subject to the terms of the BSD 3-clause license as expressed in the 
 " LICENSE.md file found in the top-level directory of this distribution and at
@@ -23,7 +23,7 @@ set fileformats =unix,dos,mac
 set encoding =UTF-8
 
 " Encoding of the characters used for Vimscripts, including vimrc and gvimrc.
-" Has to be places after 'set encoding='.
+" Has to be placed after 'set encoding='.
 scriptencoding UTF-8
 
 " Encoding of the file when saved.
@@ -147,7 +147,7 @@ autocmd BufWritePre * %s/\($\r?\n\s*\)\+\%$//e
 " if they have been modified. The CursorHoldI makes the same operation happen
 " also in insert mode.
 set updatetime =5000
-autocmd CursorHold,CursorHoldI * silent write
+autocmd CursorHold,CursorHoldI * silent write!
 
 " Automatically reload files when modified by an external source (not by Vim).
 set autoread
@@ -237,8 +237,8 @@ endif
 
 " Alternatively, to fully deactivate backup and swap files, use the
 " following commands.
-"set nobackup
-"set noswap
+set nobackup
+set noswapfile
 
 
 " Interactivity ---------------------------------------------------------------
@@ -260,6 +260,12 @@ set undolevels =500
 
 " Enable mouse support for scrolling and resizing.
 set mouse =a
+if has("mouse_sgr")
+    " Support for the SGR protocol
+    set ttymouse=sgr
+else
+    set ttymouse=xterm2
+end
 
 " Context menu when right-clicking.
 set mousemodel =popup
@@ -377,8 +383,9 @@ set foldmethod =indent
 "Plugin 'chriskempson/base16-vim'
 "colorscheme base16-default-dark
 
-" Show line numbers.
-set number
+" Set pitch black text and slightly gray background
+highlight Normal ctermfg=0 ctermbg=254
+
 
 " Shows the last command entered in the very bottom right of Vim.
 set showcmd
@@ -403,6 +410,10 @@ set laststatus =2
 
 " Switch on syntax highlighting.
 syntax enable
+
+" Enable file-type-specific syntax highlighting
+filetype on
+filetype plugin on
 
 
 

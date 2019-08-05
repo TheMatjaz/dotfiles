@@ -169,6 +169,7 @@ function install_dotfiles_to_home() {
     symlink_dotfile mc_panels.ini .config/mc/panels.ini
     symlink_dotfile emacs_init.el .emacs.d/init.el
     symlink_dotfile vimrc .vim/vimrc
+    symlink_dotfile vimrc .config/nvim/init.vim
     symlink_dotfile gvimrc .vim/gvimrc
     symlink_dotfile gpg_conf .gnupg/gpg.conf
     symlink_dotfile htoprc .config/htop/htoprc

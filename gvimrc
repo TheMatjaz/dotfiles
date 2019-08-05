@@ -14,6 +14,7 @@
 " Text font.
 " The fonts are tried in a sequence. The first one found will be used.
 set guifont=Source\ Code\ Pro:h12,Menlo:h12,Inconsolata:h12,Consolas:h12
+set antialias
 
 " Font size quick change.
 if has("unix")
