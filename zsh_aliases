@@ -60,11 +60,15 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 
 
 # Start Emacsclient and eventually also the daemon server, if down
-alias e="emacsclient -t -a ''"
+#alias e="emacsclient -t -a ''"
 
 
 # Others
-alias pip='pip3'
+alias vim="nvim"
+alias vi="nvim"
+alias gvim="vimr"
+alias pip="pip3"
+alias pip3="python3 -m pip"
 alias psql="'/Applications/Postgres.app/Contents/Versions/9.5/bin'/psql -p5432"
 alias sqlite="sqlite3"
 alias gpg="gpg2"
@@ -398,3 +402,25 @@ alias hh=hstr                    # hh to be alias for hstr
 export HISTFILE=~/.zsh_history  # ensure history file visibility
 export HSTR_CONFIG=hicolor        # get more colors
 bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
+
+
+function wgetuntil200()
+{
+    if [[ $# != 2 ]]
+    then
+        echo "Usage: wgetuntil200 URL retry_every_minutes"
+    else
+        i=0
+        until wget -q $1
+        do
+            ((i++))
+            echo -n "\rTries: $i"
+            sleep $(($2 * 60))
+        done
+        echo "\n\a"
+    fi
+}
+
+function c() {
+    cd $@ && ls
+}
