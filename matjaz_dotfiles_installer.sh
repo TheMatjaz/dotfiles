@@ -176,7 +176,7 @@ function install_dotfiles_to_home() {
     symlink_dotfile ssh_conf .ssh/config
     symlink_dotfile sqliterc .sqliterc
     symlink_dotfile psqlrc .psqlrc
-    
+    symlink_dotfile bat .config/bat/config
     
     # Move backup made by Oh My ZSH installer to $backup_dir
     if [ -e $HOME/.zshrc.pre-oh-my-zsh ]; then
